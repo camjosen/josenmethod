@@ -3,3 +3,4 @@
 - [x] Setup project structure
 - [ ] Init detailed README.md files
 - [ ] Populate ROADMAP.md
+- [ ] Init frontend and backend
