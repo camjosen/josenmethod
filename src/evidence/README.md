@@ -12,7 +12,7 @@ From the project-level README:
 ### Teacher
 
 - **Classroom teacher**: “How are my students doing in Lesson 7?”
-- **MOOC**: “Describe the dropoff funnel for my course. I need to know where students are disengaging and what’s causing them to quit.”
+- **MOOC**: “Describe the dropoff funnel for my course. I need to know where learners are disengaging and what’s causing them to quit.”
 
 ### Employer
 
