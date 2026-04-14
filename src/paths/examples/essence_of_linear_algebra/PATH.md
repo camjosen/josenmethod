@@ -58,7 +58,8 @@ For each chapter:
 
 ### Preview — _Essence of Linear Algebra_
 
-**URL:** https://www.3blue1brown.com/lessons/eola-preview
+**URL:** https://www.3blue1brown.com/lessons/eola-preview  
+**Video:** https://www.youtube.com/watch?v=kjBOesZCoqc
 
 A brief motivating introduction to the series. Sanderson argues that understanding the visual and geometric meaning of linear algebra is not just a nice supplement to symbol manipulation — it's the prerequisite for any deep understanding of the subject. Sets expectations: the series will prioritize intuition over rigor, 2D over 3D where possible, and geometry over formula.
 
@@ -67,6 +68,7 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 ### Chapter 1 — _Vectors, What Even Are They?_
 
 **URL:** https://www.3blue1brown.com/lessons/vectors  
+**Video:** https://www.youtube.com/watch?v=fNk_zzaMoSs  
 **Published:** August 6, 2016
 
 **Core question:** What _is_ a vector — and why do three different fields define it differently?
@@ -86,6 +88,7 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 ### Chapter 2 — _Linear Combinations, Span, and Basis Vectors_
 
 **URL:** https://www.3blue1brown.com/lessons/span  
+**Video:** https://www.youtube.com/watch?v=k7RM-ot2NWY  
 **Published:** August 6, 2016
 
 **Core question:** What set of vectors can you _reach_ using only addition and scalar multiplication?
@@ -105,7 +108,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 3 — _Linear Transformations and Matrices_
 
-**URL:** https://www.3blue1brown.com/lessons/linear-transformations
+**URL:** https://www.3blue1brown.com/lessons/linear-transformations  
+**Video:** https://www.youtube.com/watch?v=kYB8IZa5AuE
 
 **Core question:** What does a matrix _do_ to space?
 
@@ -124,7 +128,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 4 — _Matrix Multiplication as Composition_
 
-**URL:** https://www.3blue1brown.com/lessons/matrix-multiplication
+**URL:** https://www.3blue1brown.com/lessons/matrix-multiplication  
+**Video:** https://www.youtube.com/watch?v=XkY2DOUCWMU
 
 **Core question:** Why do we multiply matrices the way we do?
 
@@ -143,6 +148,7 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 ### Chapter 5 — _Three-Dimensional Linear Transformations_
 
 **URL:** https://www.3blue1brown.com/lessons/3d-transformations  
+**Video:** https://www.youtube.com/watch?v=rHLEWRxRGiM  
 **Published:** August 9, 2016
 
 **Core question:** How do the ideas from 2D extend to 3D — and what's new?
@@ -161,7 +167,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 6 — _The Determinant_
 
-**URL:** https://www.3blue1brown.com/lessons/determinant
+**URL:** https://www.3blue1brown.com/lessons/determinant  
+**Video:** https://www.youtube.com/watch?v=Ip3X9LOh2dk
 
 **Core question:** What does a transformation do to _area_ (or volume)?
 
@@ -180,7 +187,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 7 — _Inverse Matrices, Column Space, and Null Space_
 
-**URL:** https://www.3blue1brown.com/lessons/inverse-matrices
+**URL:** https://www.3blue1brown.com/lessons/inverse-matrices  
+**Video:** https://www.youtube.com/watch?v=uQhTuRlWMxw
 
 **Core question:** When can you "undo" a transformation, and what does it mean when you can't?
 
@@ -200,7 +208,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 8 — _Nonsquare Matrices as Transformations Between Dimensions_
 
-**URL:** https://www.3blue1brown.com/lessons/nonsquare-matrices
+**URL:** https://www.3blue1brown.com/lessons/nonsquare-matrices  
+**Video:** https://www.youtube.com/watch?v=v8VSDg_WQlA
 
 **Core question:** What happens when the input and output spaces have different dimensions?
 
@@ -218,7 +227,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 9 — _Dot Products and Duality_
 
-**URL:** https://www.3blue1brown.com/lessons/dot-products
+**URL:** https://www.3blue1brown.com/lessons/dot-products  
+**Video:** https://www.youtube.com/watch?v=LyGKycYT2v0
 
 **Core question:** Why does the dot product formula give a meaningful geometric result?
 
@@ -237,7 +247,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 10 — _Cross Products_
 
-**URL:** https://www.3blue1brown.com/lessons/cross-products
+**URL:** https://www.3blue1brown.com/lessons/cross-products  
+**Video:** https://www.youtube.com/watch?v=eu6i7WJeinw
 
 **Core question:** What does the cross product measure, and how should you visualize it?
 
@@ -255,7 +266,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 11 — _Cross Products in the Light of Linear Transformations_
 
-**URL:** https://www.3blue1brown.com/lessons/cross-products-extended
+**URL:** https://www.3blue1brown.com/lessons/cross-products-extended  
+**Video:** https://www.youtube.com/watch?v=BaM7OCEm3G0
 
 **Core question:** Why does the cross product formula — which involves a weird matrix with unit vectors in it — actually work?
 
@@ -272,7 +284,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 12 — _Cramer's Rule, Explained Geometrically_
 
-**URL:** https://www.3blue1brown.com/lessons/cramers-rule
+**URL:** https://www.3blue1brown.com/lessons/cramers-rule  
+**Video:** https://www.youtube.com/watch?v=jBsC34PxzoM
 
 **Core question:** Is there a geometric reason that Cramer's rule works?
 
@@ -290,7 +303,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 13 — _Change of Basis_
 
-**URL:** https://www.3blue1brown.com/lessons/change-of-basis
+**URL:** https://www.3blue1brown.com/lessons/change-of-basis  
+**Video:** https://www.youtube.com/watch?v=P2LTAUO1TdA
 
 **Core question:** What happens when someone else uses different basis vectors — and how do you translate between coordinate systems?
 
@@ -310,6 +324,7 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 ### Chapter 14 — _Eigenvectors and Eigenvalues_
 
 **URL:** https://www.3blue1brown.com/lessons/eigenvalues  
+**Video:** https://www.youtube.com/watch?v=PFDu9oVAE-g  
 **Published:** September 15, 2016
 
 **Core question:** Are there any vectors that a transformation merely scales, rather than rotating or shearing?
@@ -330,7 +345,8 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 
 ### Chapter 15 — _A Quick Trick for Computing Eigenvalues_
 
-**URL:** https://www.3blue1brown.com/lessons/quick-eigen
+**URL:** https://www.3blue1brown.com/lessons/quick-eigen  
+**Video:** https://www.youtube.com/watch?v=e50Bj7jn9IQ
 
 **Core question:** Is there a faster way to find eigenvalues of 2×2 matrices by hand?
 
@@ -348,6 +364,7 @@ A brief motivating introduction to the series. Sanderson argues that understandi
 ### Chapter 16 — _Abstract Vector Spaces_
 
 **URL:** https://www.3blue1brown.com/lessons/abstract-vector-spaces  
+**Video:** https://www.youtube.com/watch?v=TgKwz5Ikpc8  
 **Published:** September 24, 2016
 
 **Core question:** What _really_ is a vector — beyond arrows and lists of numbers?
