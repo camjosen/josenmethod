@@ -1,36 +1,55 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: 0 0% 98%;
-    --foreground: 220 13% 13%;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 13% 13%;
+:root {
+  --background: hsl(0 0% 98%);
+  --foreground: hsl(220 13% 13%);
 
-    --primary: 220 13% 18%;
-    --primary-foreground: 0 0% 98%;
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 13% 13%);
 
-    --secondary: 220 9% 92%;
-    --secondary-foreground: 220 13% 18%;
+  --primary: hsl(220 13% 18%);
+  --primary-foreground: hsl(0 0% 98%);
 
-    --muted: 220 9% 94%;
-    --muted-foreground: 220 9% 46%;
+  --secondary: hsl(220 9% 92%);
+  --secondary-foreground: hsl(220 13% 18%);
 
-    --accent: 220 9% 92%;
-    --accent-foreground: 220 13% 18%;
+  --muted: hsl(220 9% 94%);
+  --muted-foreground: hsl(220 9% 46%);
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
+  --accent: hsl(220 9% 92%);
+  --accent-foreground: hsl(220 13% 18%);
 
-    --border: 220 13% 88%;
-    --input: 220 13% 88%;
-    --ring: 220 13% 40%;
+  --destructive: hsl(0 72% 51%);
+  --destructive-foreground: hsl(0 0% 98%);
 
-    --radius: 0.4rem;
-  }
+  --border: hsl(220 13% 88%);
+  --input: hsl(220 13% 88%);
+  --ring: hsl(220 13% 40%);
+
+  --radius: 0.4rem;
 }
 
 @layer base {
