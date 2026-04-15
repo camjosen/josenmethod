@@ -1,10 +1,14 @@
-import { zValidator } from '@hono/zod-validator';
+import { WorkOS } from '@workos-inc/node';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { SignJWT } from 'jose';
-import { z } from 'zod';
 import { db } from '../db';
 import { users } from '../db/schema';
+
+const workos = new WorkOS(process.env.WORKOS_API_KEY!);
+const clientId = process.env.WORKOS_CLIENT_ID!;
+const redirectUri = process.env.WORKOS_REDIRECT_URI ?? 'http://localhost:3001/auth/callback';
+const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:5173';
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET ?? 'dev-secret-change-me'
@@ -17,63 +21,54 @@ async function signToken(userId: number): Promise<string> {
     .sign(JWT_SECRET);
 }
 
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  name: z.string().min(1).optional(),
-});
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
 export const authRouter = new Hono()
-  .post('/register', zValidator('json', registerSchema), async (c) => {
-    const input = c.req.valid('json');
-
-    const existing = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.email, input.email))
-      .limit(1);
-
-    if (existing[0]) {
-      return c.json({ message: 'Email already in use' }, 409);
-    }
-
-    const passwordHash = await Bun.password.hash(input.password);
-    const [user] = await db
-      .insert(users)
-      .values({ email: input.email, passwordHash, name: input.name ?? null })
-      .returning({ id: users.id, email: users.email, name: users.name });
-
-    const token = await signToken(user.id);
-    return c.json({ token, user });
+  .get('/workos', (c) => {
+    const authorizationUrl = workos.userManagement.getAuthorizationUrl({
+      clientId,
+      redirectUri,
+      provider: 'authkit',
+    });
+    return c.redirect(authorizationUrl);
   })
-  .post('/login', zValidator('json', loginSchema), async (c) => {
-    const input = c.req.valid('json');
-
-    const [user] = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, input.email))
-      .limit(1);
-
-    if (!user) {
-      return c.json({ message: 'Invalid credentials' }, 401);
+  .get('/callback', async (c) => {
+    const code = c.req.query('code');
+    if (!code) {
+      return c.redirect(`${frontendUrl}/login?error=auth_failed`);
     }
 
-    const valid = await Bun.password.verify(input.password, user.passwordHash);
-    if (!valid) {
-      return c.json({ message: 'Invalid credentials' }, 401);
-    }
+    try {
+      const { user: workosUser } = await workos.userManagement.authenticateWithCode({
+        clientId,
+        code,
+      });
 
-    const token = await signToken(user.id);
-    return c.json({ token, user: { id: user.id, email: user.email, name: user.name } });
+      const existing = await db
+        .select()
+        .from(users)
+        .where(eq(users.workosUserId, workosUser.id))
+        .limit(1);
+
+      let localUser = existing[0];
+
+      if (!localUser) {
+        const [created] = await db
+          .insert(users)
+          .values({
+            email: workosUser.email,
+            workosUserId: workosUser.id,
+            name:
+              [workosUser.firstName, workosUser.lastName].filter(Boolean).join(' ') || null,
+          })
+          .returning();
+        localUser = created;
+      }
+
+      const token = await signToken(localUser.id);
+      return c.redirect(`${frontendUrl}/auth/callback?token=${token}`);
+    } catch {
+      return c.redirect(`${frontendUrl}/login?error=auth_failed`);
+    }
   })
   .post('/logout', async (c) => {
-    // Token invalidation is handled client-side (clear from localStorage).
-    // Add a token denylist here if you need server-side invalidation.
     return c.json({ success: true });
   });
