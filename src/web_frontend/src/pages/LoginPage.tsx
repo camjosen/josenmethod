@@ -1,7 +1,8 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../auth';
-import { trpc } from '../trpc';
+import { client } from '../api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,22 +18,38 @@ export default function LoginPage() {
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const login = trpc.auth.login.useMutation({
+  const login = useMutation({
+    mutationFn: async (data: { email: string; password: string }) => {
+      const res = await client.auth.login.$post({ json: data });
+      if (!res.ok) {
+        const err = await res.json() as { message: string };
+        throw new Error(err.message);
+      }
+      return res.json();
+    },
     onSuccess({ token, user }) {
       auth.setToken(token);
       navigate(`/user/${user.id}`);
     },
-    onError(err) {
+    onError(err: Error) {
       setError(err.message);
     },
   });
 
-  const register = trpc.auth.register.useMutation({
+  const register = useMutation({
+    mutationFn: async (data: { email: string; password: string; name?: string }) => {
+      const res = await client.auth.register.$post({ json: data });
+      if (!res.ok) {
+        const err = await res.json() as { message: string };
+        throw new Error(err.message);
+      }
+      return res.json();
+    },
     onSuccess({ token, user }) {
       auth.setToken(token);
       navigate(`/user/${user.id}`);
     },
-    onError(err) {
+    onError(err: Error) {
       setError(err.message);
     },
   });
