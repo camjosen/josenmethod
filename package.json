@@ -7,7 +7,7 @@
     "src/web_frontend"
   ],
   "scripts": {
-    "dev": "bun run --filter '*' dev --parallel",
+    "dev": "bun run --parallel --filter '*' dev",
     "dev:backend": "bun run --filter josenmethod-backend dev",
     "dev:web": "bun run --filter josenmethod-web dev",
     "build": "bun run --filter josenmethod-web build",

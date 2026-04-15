@@ -2,8 +2,6 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../auth';
 import { client } from '../api';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
@@ -64,19 +62,17 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-md">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-foreground">josenmethod</h1>
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={handleLogout}
             disabled={logout.isPending}
-            className="text-muted-foreground"
+            className="inline-flex items-center justify-center rounded-md px-3 h-8 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 text-muted-foreground"
           >
             {logout.isPending ? 'Signing out…' : 'Sign out'}
-          </Button>
+          </button>
         </div>
 
-        <Card>
-          <CardHeader className="pb-4">
+        <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+          <div className="flex flex-col space-y-1.5 p-6 pb-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
                 {profile?.name
@@ -84,14 +80,14 @@ export default function ProfilePage() {
                   : profile?.email.charAt(0).toUpperCase()}
               </div>
               <div>
-                <CardTitle className="text-base">
+                <h3 className="text-base font-semibold leading-none tracking-tight">
                   {profile?.name ?? 'Your profile'}
-                </CardTitle>
+                </h3>
               </div>
             </div>
-          </CardHeader>
+          </div>
 
-          <CardContent className="space-y-4">
+          <div className="p-6 pt-0 space-y-4">
             <Field label="Email" value={profile!.email} />
             {profile?.name && <Field label="Name" value={profile.name} />}
             <Field
@@ -102,8 +98,8 @@ export default function ProfilePage() {
                 day: 'numeric',
               })}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
