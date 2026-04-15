@@ -1,17 +1,25 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig({
-  plugins: [tailwindcss(), react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@backend': path.resolve(__dirname, '../backend/src'),
+export default defineConfig(({ mode }) => {
+  // Load env from repo root
+  const env = loadEnv(mode, path.resolve(__dirname, '../..'), '');
+
+  return {
+    plugins: [tailwindcss(), react()],
+    define: {
+      'import.meta.env.VITE_WORKOS_CLIENT_ID': JSON.stringify(env.WORKOS_CLIENT_ID),
     },
-  },
-  server: {
-    port: 5173,
-  },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@backend': path.resolve(__dirname, '../backend/src'),
+      },
+    },
+    server: {
+      port: 5173,
+    },
+  };
 });

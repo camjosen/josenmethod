@@ -2,26 +2,21 @@ import { useAuth } from '@workos-inc/authkit-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function LoginPage() {
-  const { isLoading, user, signIn } = useAuth();
+export default function CallbackPage() {
+  const { isLoading, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If already authenticated, redirect to profile
+    // AuthKitProvider handles the OAuth callback automatically.
+    // Once the user is loaded, redirect to the profile page.
     if (!isLoading && user) {
       navigate('/me', { replace: true });
-      return;
     }
-
-    // Auto-redirect to AuthKit sign-in
-    if (!isLoading && !user) {
-      signIn();
-    }
-  }, [isLoading, user, signIn, navigate]);
+  }, [isLoading, user, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">
-      Redirecting to sign in…
+      Signing you in…
     </div>
   );
 }
