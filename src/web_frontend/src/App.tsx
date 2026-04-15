@@ -1,13 +1,24 @@
+import { useAuth } from '@workos-inc/authkit-react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { auth } from './auth';
-import AuthCallbackPage from './pages/AuthCallbackPage';
+import CallbackPage from './pages/CallbackPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  if (!auth.isAuthenticated()) {
+  const { isLoading, user } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">
+        Loading…
+      </div>
+    );
+  }
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
+
   return <>{children}</>;
 }
 
@@ -16,7 +27,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        <Route path="/callback" element={<CallbackPage />} />
         <Route
           path="/me"
           element={
