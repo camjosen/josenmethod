@@ -1,6 +1,7 @@
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../auth';
-import { trpc } from '../trpc';
+import { client } from '../api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -15,17 +16,31 @@ function Field({ label, value }: { label: string; value: string }) {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const logout = trpc.auth.logout.useMutation();
 
-  const { data: profile, isLoading, error } = trpc.users.getProfile.useQuery();
+  const { data: profile, isLoading, error } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const res = await client.users.profile.$get();
+      if (!res.ok) {
+        const err = await res.json() as { message: string };
+        throw new Error(err.message);
+      }
+      return res.json();
+    },
+  });
+
+  const logout = useMutation({
+    mutationFn: async () => {
+      await client.auth.logout.$post({});
+    },
+    onSettled() {
+      auth.clearToken();
+      navigate('/login');
+    },
+  });
 
   function handleLogout() {
-    logout.mutate(undefined, {
-      onSettled() {
-        auth.clearToken();
-        navigate('/login');
-      },
-    });
+    logout.mutate();
   }
 
   if (isLoading) {

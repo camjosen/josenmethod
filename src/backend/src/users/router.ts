@@ -1,11 +1,13 @@
-import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
+import { Hono } from 'hono';
 import { db } from '../db';
 import { users } from '../db/schema';
-import { protectedProcedure, router } from '../trpc';
+import { authMiddleware } from '../middleware/auth';
 
-export const usersRouter = router({
-  getProfile: protectedProcedure.query(async ({ ctx }) => {
+export const usersRouter = new Hono()
+  .get('/profile', authMiddleware, async (c) => {
+    const userId = c.get('userId');
+
     const [user] = await db
       .select({
         id: users.id,
@@ -14,13 +16,12 @@ export const usersRouter = router({
         createdAt: users.createdAt,
       })
       .from(users)
-      .where(eq(users.id, ctx.user.userId))
+      .where(eq(users.id, userId))
       .limit(1);
 
     if (!user) {
-      throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      return c.json({ message: 'User not found' }, 404);
     }
 
-    return user;
-  }),
-});
+    return c.json(user);
+  });
