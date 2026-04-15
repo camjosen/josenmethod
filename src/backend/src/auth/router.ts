@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { SignJWT } from 'jose';
 import { db } from '../db';
-import { users } from '../db/schema';
+import { accounts, profiles } from '../db/schema';
 
 const workos = new WorkOS(process.env.WORKOS_API_KEY!);
 const clientId = process.env.WORKOS_CLIENT_ID!;
@@ -14,8 +14,8 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET ?? 'dev-secret-change-me'
 );
 
-async function signToken(userId: number): Promise<string> {
-  return new SignJWT({ userId })
+async function signToken(accountId: number): Promise<string> {
+  return new SignJWT({ accountId })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime('7d')
     .sign(JWT_SECRET);
@@ -44,26 +44,32 @@ export const authRouter = new Hono()
 
       const existing = await db
         .select()
-        .from(users)
-        .where(eq(users.workosUserId, workosUser.id))
+        .from(accounts)
+        .where(eq(accounts.workosUserId, workosUser.id))
         .limit(1);
 
-      let localUser = existing[0];
+      let account = existing[0];
 
-      if (!localUser) {
+      if (!account) {
         const [created] = await db
-          .insert(users)
+          .insert(accounts)
           .values({
             email: workosUser.email,
             workosUserId: workosUser.id,
-            name:
-              [workosUser.firstName, workosUser.lastName].filter(Boolean).join(' ') || null,
           })
           .returning();
-        localUser = created;
+        account = created;
+
+        const displayName =
+          [workosUser.firstName, workosUser.lastName].filter(Boolean).join(' ') || null;
+
+        await db.insert(profiles).values({
+          accountId: account.id,
+          displayName,
+        });
       }
 
-      const token = await signToken(localUser.id);
+      const token = await signToken(account.id);
       return c.redirect(`${frontendUrl}/auth/callback?token=${token}`);
     } catch {
       return c.redirect(`${frontendUrl}/login?error=auth_failed`);

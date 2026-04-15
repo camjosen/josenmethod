@@ -6,7 +6,7 @@ const JWT_SECRET = new TextEncoder().encode(
 );
 
 export const authMiddleware = createMiddleware<{
-  Variables: { userId: number };
+  Variables: { accountId: number };
 }>(async (c, next) => {
   const authHeader = c.req.header('authorization');
   if (!authHeader?.startsWith('Bearer ')) {
@@ -14,10 +14,10 @@ export const authMiddleware = createMiddleware<{
   }
   try {
     const { payload } = await jwtVerify(authHeader.slice(7), JWT_SECRET);
-    if (typeof payload.userId !== 'number') {
+    if (typeof payload.accountId !== 'number') {
       return c.json({ message: 'Unauthorized' }, 401);
     }
-    c.set('userId', payload.userId);
+    c.set('accountId', payload.accountId);
     await next();
   } catch {
     return c.json({ message: 'Unauthorized' }, 401);
