@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
+    "@workos-inc/node": "^8.13.0",
     "drizzle-orm": "^0.36.4",
     "hono": "^4.6.0",
     "jose": "^5.9.6",
