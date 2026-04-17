@@ -1,3 +1,13 @@
-// The interface all tools must implement
+import type { z } from "zod/v4";
 
-// TODO write the interface
+export type AnyDict = z.ZodType<{ [key: string]: unknown }>;
+
+export type ToolOutput<T> = {
+  data: T;
+};
+
+export type Tool<Input extends AnyDict = AnyDict, Output = unknown> = {
+  name: string;
+  call(Input: z.infer<Input>): Promise<ToolOutput<Output>>;
+  description(input: z.infer<Input>): Promise<string>;
+};
