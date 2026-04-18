@@ -1,6 +1,6 @@
 import { Word } from "./shared_schemas";
 
-export const dictionary: Record<string, Word> = {
+export const words = {
   a: {
     spelling: "a",
     sounds: ["a"],
@@ -1746,4 +1746,4 @@ export const dictionary: Record<string, Word> = {
     spelling: "zoom",
     sounds: ["z", "oo", "m"],
   },
-};
+} satisfies Record<string, Word>;
