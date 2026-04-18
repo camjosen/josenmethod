@@ -23,7 +23,7 @@ export type WritingTask = z.infer<typeof writingTaskSchema>;
 export type WritingToolInput = z.infer<typeof inputSchema>;
 
 export const WritingTool = {
-  name: "Writing",
+  name: "Writing" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };

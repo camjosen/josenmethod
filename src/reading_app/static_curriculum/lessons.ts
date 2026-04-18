@@ -6,12 +6,10 @@ import { z } from "zod/v4";
 
 const tools = [ReadSoundsTool, ReadWordsTool, WritingTool] as const;
 type AnyTool = (typeof tools)[number];
-type Activity = {
-  [T in AnyTool as T["name"]]: {
-    toolName: T["name"];
-    input: z.infer<T["inputSchema"]>;
-  };
-}[AnyTool["name"]];
+type ActivityFor<T> = T extends AnyTool
+  ? { toolName: T["name"]; input: z.infer<T["inputSchema"]> }
+  : never;
+type Activity = ActivityFor<AnyTool>;
 
 export const lessons: { title: string; activities: Activity[] }[] = [
   {
@@ -129,14 +127,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_sound_it_out",
+          variant: "no_visuals_sound_it_out", // Student says slowly, and then fast.
           words: [w.me, w.man, w.if, w.we],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
+          variant: "default", // NUX???
           words: [w.am, { spelling: "sa", sounds: ["s", "a"] }],
         },
       },
@@ -144,9 +142,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "Writing",
         input: {
           tasks: [
-            { type: "sound", sound: "m" },
-            { type: "sound", sound: "s" },
             { type: "sound", sound: "a" },
+            { type: "sound", sound: "m" },
           ],
         },
       },
@@ -166,7 +163,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           words: [
             w.at,
             w.eat,
-            { spelling: "mat", sounds: ["m", "a", "t"] },
+            { spelling: "mat", sounds: ["m", "a", "t"] }, // TODO add to dictionary
             w.this,
             w.run,
             w.not,
@@ -177,12 +174,16 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["s", "m", "a"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // Student should say the sounds slowly, then fast.
+          sounds: ["s", "m", "a"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_sound_it_out",
+          variant: "no_visuals_sound_it_out", // me slow -> you slow -> you fast
           words: [
             w.run,
             w.at,
@@ -195,7 +196,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
+          variant: "default", // me slow (student uses finger but doesn't say anything, NUX?)
           words: [
             { spelling: "ma", sounds: ["m", "a"] },
             { spelling: "sa", sounds: ["s", "a"] },
@@ -206,9 +207,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "Writing",
         input: {
           tasks: [
-            { type: "sound", sound: "m" },
-            { type: "sound", sound: "a" },
             { type: "sound", sound: "s" },
+            { type: "sound", sound: "a" },
           ],
         },
       },
@@ -228,36 +228,44 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_sound_it_out", // should rename to "say slowly" or something (no say it fast)
           words: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_sound_it_out",
+          variant: "no_visuals_say_it_fast", // me slow -> you slow -> you fast
           words: [w.see, w.that, w.if, w.at, w.am],
         },
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // Technically "slow then fast"
+          sounds: ["e_long", "s", "m", "a"],
+        },
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // TODO focus on NUX for moving finger
+          sounds: ["e_long", "s", "m", "a"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // Needs support for "visible start"
           words: [w.meat, { spelling: "mat", sounds: ["m", "a", "t"] }, w.me],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
+          variant: "default", // No "say if fast". Just say it slow.
           words: [
             { spelling: "em", sounds: ["e_long", "m"] },
             { spelling: "es", sounds: ["e_long", "s"] },
@@ -269,8 +277,6 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: {
           tasks: [
             { type: "sound", sound: "e_long" },
-            { type: "sound", sound: "s" },
-            { type: "sound", sound: "m" },
             { type: "sound", sound: "a" },
           ],
         },
@@ -282,12 +288,16 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "s", "a", "m"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // Student says it slowly then fast
+          sounds: ["e_long", "s", "a", "m"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_sound_it_out",
           words: [
             w.we,
             w.in,
@@ -300,14 +310,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
             w.see,
             w.sat,
             w.seen,
-            { spelling: "sin", sounds: ["s", "i", "n"] },
+            { spelling: "sin", sounds: ["s", "i", "n"] }, // TODO add this
           ],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // TODO frame as "rhyming"... maybe
           words: [
             w.me,
             w.meat,
@@ -321,12 +331,16 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "a", "m", "s"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // slow fast
+          sounds: ["e_long", "a", "m", "s"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_sound_it_out",
+          variant: "no_visuals_sound_it_out", // Student says slowly, then fast.
           words: [
             w.at,
             w.sat,
@@ -341,15 +355,15 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // Rhyming... student must read the first sound. Scaffolding for the whole word.
           words: [w.sat, w.seat, w.see, w.see, w.seat, w.sat],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
-          words: [w.me, w.see],
+          variant: "default", // Say slowly without pausing (no say it fast)
+          words: [w.me, w.see], // "See" is just "se" (not spelled correctly)
         },
       },
       {
@@ -357,8 +371,6 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: {
           tasks: [
             { type: "sound", sound: "e_long" },
-            { type: "sound", sound: "a" },
-            { type: "sound", sound: "m" },
             { type: "sound", sound: "s" },
           ],
         },
@@ -370,23 +382,27 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       {
         toolName: "ReadSounds",
-        input: { mode: "teach", sounds: ["t"] },
+        input: { mode: "teach", sounds: ["t"] }, // Nux for "quick sound" (I like that language)
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true,
+          sounds: ["e_long", "s", "m", "a"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // TODO frame as "rhyming"... maybe... student says it slow then fast (no different from other rhyming activities)
           words: [w.see, w.sat, w.seat, w.seen],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_sound_it_out",
           words: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen],
         },
       },
@@ -397,33 +413,30 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_say_it_fast", // Slow then fast
           words: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // TODO frame as "rhyming"... maybe... student says it slow then fast (no different from other rhyming activities)
           words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }, w.mean],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
-          words: [w.at, w.eat, w.meat],
+          variant: "default", // TODO no say it fast... focus on saying slowly without stopping between sounds.
+          words: [w.at, w.eat, w.meat], // TODO Meat is actually just "met" with the long e.
         },
       },
       {
         toolName: "Writing",
         input: {
           tasks: [
-            { type: "sound", sound: "m" },
-            { type: "sound", sound: "a" },
             { type: "sound", sound: "t" },
-            { type: "sound", sound: "s" },
-            { type: "sound", sound: "e_long" },
+            { type: "sound", sound: "m" },
           ],
         },
       },
@@ -434,26 +447,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["m", "e_long", "t", "s", "a"] },
+        input: { mode: "recall_check", sounds: ["m", "e_long", "t", "s", "a"] }, // "say it fast" is only for t
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
+          variant: "hide_end", // rhyming
           words: [w.seen, w.seat],
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "hide_end",
-          words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }, w.mean],
+          variant: "hide_end", // rhyming
+          words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }, w.mean], // Todo "mean" is just "men" with long e
         },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_sound_it_out",
           words: [
             w.sam,
             w.if,
@@ -472,12 +485,16 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       },
       {
         toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["t", "e_long", "m", "s", "a"] },
+        input: {
+          mode: "recall_check",
+          sayItFast: true, // slow and then fast (except for "t", which can only be said fast)
+          sounds: ["t", "e_long", "m", "s", "a"],
+        },
       },
       {
         toolName: "ReadWords",
         input: {
-          variant: "no_visuals_sound_it_out",
+          variant: "no_visuals_sound_it_out", // slow then fast
           words: [
             w.run,
             w.rat,
@@ -492,97 +509,94 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "ReadWords",
         input: {
-          variant: "default",
-          words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.seat, w.am],
+          variant: "default", // Nux. Focus on saying the sounds without pause. No say it fast.
+          words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.seat, w.am], // TODO "set" with long e (not an actual word, but good practice)
         },
       },
       {
         toolName: "Writing",
         input: {
           tasks: [
-            { type: "sound", sound: "m" },
-            { type: "sound", sound: "e_long" },
-            { type: "sound", sound: "t" },
             { type: "sound", sound: "s" },
-            { type: "sound", sound: "a" },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    title: "Lesson 9",
-    activities: [
-      {
-        toolName: "ReadSounds",
-        input: { mode: "teach", sounds: ["r"] },
-      },
-      {
-        toolName: "ReadSounds",
-        input: {
-          mode: "recall_check",
-          sounds: ["m", "a", "s", "e_long", "t", "r"],
-        },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat],
-        },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "default",
-          words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.sat, w.am],
-        },
-      },
-      {
-        toolName: "ReadSounds",
-        input: { mode: "recall_check", sounds: ["e_long", "a", "s", "m", "r"] },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.am, w.sat],
-        },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end",
-          words: [w.sat, w.sun, w.sam],
-        },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end",
-          words: [w.rat, w.run, w.ram],
-        },
-      },
-      {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end",
-          words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }],
-        },
-      },
-      {
-        toolName: "Writing",
-        input: {
-          tasks: [
-            { type: "sound", sound: "r" },
-            { type: "sound", sound: "m" },
-            { type: "sound", sound: "a" },
-            { type: "sound", sound: "s" },
-            { type: "sound", sound: "e_long" },
             { type: "sound", sound: "t" },
           ],
         },
       },
     ],
   },
+  // {
+  //   title: "Lesson 9",
+  //   activities: [
+  //     {
+  //       toolName: "ReadSounds",
+  //       input: { mode: "teach", sounds: ["r"] },
+  //     },
+  //     {
+  //       toolName: "ReadSounds",
+  //       input: {
+  //         mode: "recall_check",
+  //         sounds: ["m", "a", "s", "e_long", "t", "r"],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "no_visuals_sound_it_out",
+  //         words: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "default",
+  //         words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.sat, w.am],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadSounds",
+  //       input: { mode: "recall_check", sounds: ["e_long", "a", "s", "m", "r"] },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "no_visuals_sound_it_out",
+  //         words: [w.am, w.sat],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "hide_end",
+  //         words: [w.sat, w.sun, w.sam],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "hide_end",
+  //         words: [w.rat, w.run, w.ram],
+  //       },
+  //     },
+  //     {
+  //       toolName: "ReadWords",
+  //       input: {
+  //         variant: "hide_end",
+  //         words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }],
+  //       },
+  //     },
+  //     {
+  //       toolName: "Writing",
+  //       input: {
+  //         tasks: [
+  //           { type: "sound", sound: "r" },
+  //           { type: "sound", sound: "m" },
+  //           { type: "sound", sound: "a" },
+  //           { type: "sound", sound: "s" },
+  //           { type: "sound", sound: "e_long" },
+  //           { type: "sound", sound: "t" },
+  //         ],
+  //       },
+  //     },
+  //   ],
+  // },
 ];

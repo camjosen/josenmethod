@@ -35,7 +35,7 @@ export const inputSchema = z.discriminatedUnion("mode", [
 export type ReadSoundsToolInput = z.infer<typeof inputSchema>;
 
 export const ReadSoundsTool = {
-  name: "ReadSounds",
+  name: "ReadSounds" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };

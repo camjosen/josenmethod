@@ -27,7 +27,7 @@ export const inputSchema = z.object({
 export type ReadWordsToolInput = z.infer<typeof inputSchema>;
 
 export const ReadWordsTool = {
-  name: "ReadWords",
+  name: "ReadWords" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
