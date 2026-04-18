@@ -26,14 +26,13 @@ export const inputSchema = z.object({
 
 export type ReadWordsToolInput = z.infer<typeof inputSchema>;
 
-export const ReadWordsTool: Tool<typeof inputSchema, string[]> = {
+export const ReadWordsTool = {
   name: "ReadWords",
-  call: async (input) => {
-    // For demonstration purposes, we'll just return the sounds as they are.
-    // In a real implementation, you might want to do something more complex here.
+  inputSchema,
+  call: async (_input) => {
     return { data: [] };
   },
-  description: async (input) => {
+  description: async (_input) => {
     return "";
   },
-};
+} satisfies Tool<typeof inputSchema, string[]>;

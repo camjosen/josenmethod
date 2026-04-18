@@ -1,12 +1,17 @@
-import { ReadSoundsToolInput } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
-import { ReadWordsToolInput } from "../tools/ReadWordsTool/ReadWordsTool.ts";
+import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import { ReadWordsTool } from "../tools/ReadWordsTool/ReadWordsTool.ts";
+import { WritingTool } from "../tools/WritingTool/WritingTool.ts";
 import { words as w } from "../utils/words.ts";
-import { WritingToolInput } from "../tools/WritingTool/WritingTool.ts";
+import { z } from "zod/v4";
 
-type Activity =
-  | { toolName: "ReadSounds"; input: ReadSoundsToolInput }
-  | { toolName: "ReadWords"; input: ReadWordsToolInput }
-  | { toolName: "Writing"; input: WritingToolInput };
+const tools = [ReadSoundsTool, ReadWordsTool, WritingTool] as const;
+type AnyTool = (typeof tools)[number];
+type Activity = {
+  [T in AnyTool as T["name"]]: {
+    toolName: T["name"];
+    input: z.infer<T["inputSchema"]>;
+  };
+}[AnyTool["name"]];
 
 export const lessons: { title: string; activities: Activity[] }[] = [
   {

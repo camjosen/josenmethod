@@ -8,6 +8,7 @@ export type ToolOutput<T> = {
 
 export type Tool<Input extends AnyDict = AnyDict, Output = unknown> = {
   name: string;
-  call(Input: z.infer<Input>): Promise<ToolOutput<Output>>;
+  inputSchema: Input;
+  call(input: z.infer<Input>): Promise<ToolOutput<Output>>;
   description(input: z.infer<Input>): Promise<string>;
 };

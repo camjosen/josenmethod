@@ -22,12 +22,13 @@ export const inputSchema = z.object({
 export type WritingTask = z.infer<typeof writingTaskSchema>;
 export type WritingToolInput = z.infer<typeof inputSchema>;
 
-export const WritingTool: Tool<typeof inputSchema, string[]> = {
+export const WritingTool = {
   name: "Writing",
+  inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
     return "";
   },
-};
+} satisfies Tool<typeof inputSchema, string[]>;
