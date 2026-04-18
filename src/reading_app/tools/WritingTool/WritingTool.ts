@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
-import { soundSchema, wordSchema } from "../../utils/shared_schemas.ts";
+import { soundDefinitionSchema, wordSchema } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const writingTaskSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("sound"),
-    sound: soundSchema,
+    sound: soundDefinitionSchema,
   }),
   z.object({
     type: z.literal("word"),

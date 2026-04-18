@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { soundSchema } from "../../utils/shared_schemas.ts";
+import { soundDefinitionSchema } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const base = z.object({
@@ -13,13 +13,13 @@ export const inputSchema = z.discriminatedUnion("mode", [
   base.extend({
     mode: z.literal("teach"),
     sounds: z
-      .array(soundSchema)
+      .array(soundDefinitionSchema)
       .describe("The sounds being introduced for the first time."),
   }),
   base.extend({
     mode: z.literal("reteach"),
     sounds: z
-      .array(soundSchema)
+      .array(soundDefinitionSchema)
       .describe(
         "The sounds being re-introduced, possibly after a failed recall check.",
       ),
@@ -27,7 +27,7 @@ export const inputSchema = z.discriminatedUnion("mode", [
   base.extend({
     mode: z.literal("recall_check"),
     sounds: z
-      .array(soundSchema)
+      .array(soundDefinitionSchema)
       .describe("The sounds the student will read from memory."),
   }),
 ]);
