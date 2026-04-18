@@ -1,57 +1,48 @@
-import {
-  ReadWordsTool,
-  ReadWordsToolInput,
-} from "../tools/ReadWordsTool/ReadWordsTool.ts";
-import {
-  ReadSoundsTool,
-  ReadSoundsToolInput,
-} from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import { ReadSoundsToolInput } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import { ReadWordsToolInput } from "../tools/ReadWordsTool/ReadWordsTool.ts";
 import { words as w } from "../utils/words.ts";
-import {
-  WritingTool,
-  WritingToolInput,
-} from "../tools/WritingTool/WritingTool.ts";
+import { WritingToolInput } from "../tools/WritingTool/WritingTool.ts";
 
 type Activity =
-  | { tool: typeof ReadSoundsTool; input: ReadSoundsToolInput }
-  | { tool: typeof ReadWordsTool; input: ReadWordsToolInput }
-  | { tool: typeof WritingTool; input: WritingToolInput };
+  | { toolName: "ReadSounds"; input: ReadSoundsToolInput }
+  | { toolName: "ReadWords"; input: ReadWordsToolInput }
+  | { toolName: "Writing"; input: WritingToolInput };
 
 export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 1",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "teach", sounds: ["m", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.me, w.if], // Ideally prepend "motor boat", "ice cream", "sis ter", and "ham burger", but that would require custom "sounds", which is weirw.
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.am, w.if, w.in],
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.me, w.if, w.she], // Ideally prepend "motor cycle".
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "m" },
@@ -65,36 +56,36 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 2",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "reteach", sounds: ["m", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.if, w.me, w.am, w.in, w.she], // Ideally prepend "lawn mower → lawnmower" and "side walk → sidewalk" compound word blending.
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.she, w.on, w.if, w.ship],
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.man, w.will, w.she, w.sit],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "s" },
@@ -108,40 +99,44 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 3",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "teach", sounds: ["a"] },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "a", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
-          variant: "no_visuals_say_it_fast",
+          variant: "no_visuals_sound_it_out",
           words: [w.run, w.man, w.this, w.we],
         },
       },
       {
-        tool: ReadSoundsTool,
-        input: { mode: "recall_check", sounds: ["m", "a", "s"] },
+        toolName: "ReadSounds",
+        input: {
+          mode: "recall_check",
+          sayItFast: true,
+          sounds: ["m", "a", "s"],
+        },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.me, w.man, w.if, w.we],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [w.am, { spelling: "sa", sounds: ["s", "a"] }],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "m" },
@@ -156,11 +151,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 4",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "a", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [
@@ -176,11 +171,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["s", "m", "a"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [
@@ -193,7 +188,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [
@@ -203,7 +198,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "m" },
@@ -218,44 +213,44 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 5",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "teach", sounds: ["e_long"] },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["a", "s", "m", "e_long"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.see, w.that, w.if, w.at, w.am],
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.meat, { spelling: "mat", sounds: ["m", "a", "t"] }, w.me],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [
@@ -265,7 +260,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "e_long" },
@@ -281,11 +276,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 6",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "s", "a", "m"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [
@@ -305,7 +300,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [
@@ -320,11 +315,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "a", "m", "s"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [
@@ -339,21 +334,21 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.sat, w.seat, w.see, w.see, w.seat, w.sat],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [w.me, w.see],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "e_long" },
@@ -369,54 +364,54 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 7",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "teach", sounds: ["t"] },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "s", "m", "a"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.see, w.sat, w.seat, w.seen],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen],
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "a", "t", "s", "e_long"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }, w.mean],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [w.at, w.eat, w.meat],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "m" },
@@ -433,25 +428,25 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 8",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["m", "e_long", "t", "s", "a"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.seen, w.seat],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }, w.mean],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_say_it_fast",
           words: [
@@ -471,11 +466,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["t", "e_long", "m", "s", "a"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [
@@ -490,14 +485,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.seat, w.am],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "m" },
@@ -514,64 +509,64 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 9",
     activities: [
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "teach", sounds: ["r"] },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: {
           mode: "recall_check",
           sounds: ["m", "a", "s", "e_long", "t", "r"],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "default",
           words: [{ spelling: "mat", sounds: ["m", "a", "t"] }, w.sat, w.am],
         },
       },
       {
-        tool: ReadSoundsTool,
+        toolName: "ReadSounds",
         input: { mode: "recall_check", sounds: ["e_long", "a", "s", "m", "r"] },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "no_visuals_sound_it_out",
           words: [w.am, w.sat],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.sat, w.sun, w.sam],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.rat, w.run, w.ram],
         },
       },
       {
-        tool: ReadWordsTool,
+        toolName: "ReadWords",
         input: {
           variant: "hide_end",
           words: [w.me, { spelling: "mat", sounds: ["m", "a", "t"] }],
         },
       },
       {
-        tool: WritingTool,
+        toolName: "Writing",
         input: {
           tasks: [
             { type: "sound", sound: "r" },
