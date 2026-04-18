@@ -3,17 +3,15 @@ import { soundSchema } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 export const inputSchema = z.object({
-  sounds: z
-    .array(soundSchema)
-    .describe(
-      "The sounds that the student will practice reading during this activity.",
-    ),
+  sound: soundSchema.describe(
+    "The sound that the student will practice reading during this activity.",
+  ),
 });
 
-export type ReadSoundsToolInput = z.infer<typeof inputSchema>;
+export type IntroduceSoundToolInput = z.infer<typeof inputSchema>;
 
-export const ReadSoundsTool: Tool<typeof inputSchema, string[]> = {
-  name: "ReadSounds",
+export const IntroduceSoundTool: Tool<typeof inputSchema, string[]> = {
+  name: "IntroduceSound",
   call: async (input) => {
     // For demonstration purposes, we'll just return the sounds as they are.
     // In a real implementation, you might want to do something more complex here.

@@ -1,117 +1,20 @@
 import { z } from "zod/v4";
-import { describe } from "zod/v4/core";
+import { sounds } from "./sounds";
 
-const sounds = [
-  { symbol: "m", as_in: "man", voiced: true, hold: true },
-  { symbol: "s", as_in: "sat", voiced: false, hold: true },
-  { symbol: "a", as_in: "and", voiced: true, hold: true },
-  { symbol: "e_long", as_in: "eat", voiced: true, hold: true },
-  { symbol: "t", as_in: "cat", voiced: false, hold: false },
-  { symbol: "r", as_in: "run", voiced: true, hold: true },
-  { symbol: "d", as_in: "mad", voiced: true, hold: false },
-  { symbol: "i", as_in: "if", voiced: true, hold: true },
-  { symbol: "th", as_in: "this", voiced: true, hold: true },
-  { symbol: "c", as_in: "tack", voiced: false, hold: false },
-  { symbol: "o", as_in: "ox", voiced: true, hold: true },
-  { symbol: "n", as_in: "no", voiced: true, hold: true },
-  { symbol: "f", as_in: "fun", voiced: false, hold: true },
-  { symbol: "u", as_in: "under", voiced: true, hold: true },
-  { symbol: "l", as_in: "late", voiced: true, hold: true },
-  { symbol: "w", as_in: "we", voiced: true, hold: true },
-  { symbol: "g", as_in: "tag", voiced: true, hold: false },
-  { symbol: "I", as_in: "I", voiced: true, hold: true },
-  { symbol: "sh", as_in: "she", voiced: false, hold: true },
-  { symbol: "a_long", as_in: "ate", voiced: true, hold: true },
-  { symbol: "h", as_in: "hat", voiced: false, hold: false },
-  { symbol: "k", as_in: "tack", voiced: false, hold: false },
-  { symbol: "o_long", as_in: "over", voiced: true, hold: true },
-  { symbol: "v", as_in: "very", voiced: true, hold: true },
-  { symbol: "p", as_in: "tap", voiced: false, hold: false },
-  { symbol: "ar", as_in: "arm", voiced: true, hold: true },
-  { symbol: "ch", as_in: "touch", voiced: false, hold: false },
-  { symbol: "e", as_in: "end", voiced: true, hold: true },
-  { symbol: "b", as_in: "grab", voiced: true, hold: false },
-  { symbol: "ing", as_in: "sing", voiced: true, hold: true },
-  { symbol: "i_long", as_in: "ice", voiced: true, hold: true },
-  { symbol: "y", as_in: "yes", voiced: true, hold: true },
-  {
-    symbol: "er",
-    as_in: "brother",
-    voiced: true,
-    hold: true,
-  },
-  { symbol: "oo", as_in: "moon", voiced: true, hold: true },
-  { symbol: "j", as_in: "judge", voiced: true, hold: false },
-  { symbol: "wh", as_in: "why", voiced: true, hold: false },
-  { symbol: "y_long", as_in: "my", voiced: true, hold: true },
-  {
-    symbol: "u_long",
-    as_in: "use",
-    voiced: true,
-    hold: true,
-  },
-  { symbol: "qu", as_in: "quick", voiced: true, hold: true },
-  { symbol: "x", as_in: "ox", voiced: false, hold: false },
-  { symbol: "z", as_in: "buzz", voiced: true, hold: true },
-  { symbol: "ea", as_in: "eat", voiced: true, hold: true },
-  { symbol: "ai", as_in: "rain", voiced: true, hold: true },
-  { symbol: "ou", as_in: "loud", voiced: true, hold: true },
-];
+type SoundSymbol = (typeof sounds)[number]["symbol"];
+const soundSymbols = sounds.map((s) => s.symbol) as [SoundSymbol, ...SoundSymbol[]];
+export const soundSchema = z.enum(soundSymbols);
 
-export const soundSchema = z
-  .enum([
-    "m",
-    "s",
-    "a",
-    "e_long",
-    "t",
-    "r",
-    "d",
-    "i",
-    "th",
-    "c",
-    "o",
-    "n",
-    "f",
-    "u",
-    "l",
-    "w",
-    "g",
-    "I",
-    "sh",
-    "a_long",
-    "h",
-    "k",
-    "o_long",
-    "v",
-    "p",
-    "ar",
-    "ch",
-    "e",
-    "b",
-    "ing",
-    "i_long",
-    "y",
-    "er",
-    "oo",
-    "j",
-    "wh",
-    "y_long",
-    "u_long",
-    "qu",
-    "x",
-    "z",
-    "ea",
-    "ai",
-    "ou",
-  ])
-  .describe("English has 26 letters but 44 unique sounds.");
+export const wordSchema = z.object({
+  spelling: z.string().describe("The spelling of the word."),
+  sounds: z.array(soundSchema).describe("The sounds that make up the word."),
+  isFunny: z
+    .boolean()
+    .optional()
+    .describe(
+      "True if the word is not pronouced the same as the sounds would suggest, like 'was' or 'said'.",
+    ),
+});
 
-export const word = z
-  .object({
-    sounds: z.array(soundSchema),
-    letters: z.string(),
-  })
-  .describe("English has 26 letters but 44 unique sounds.");
-
-export const userTypeSchema = z.enum(["teacher", "student", "both"]);
+export type Sound = z.infer<typeof soundSchema>;
+export type Word = z.infer<typeof wordSchema>;

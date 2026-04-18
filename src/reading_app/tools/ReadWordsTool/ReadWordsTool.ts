@@ -1,9 +1,9 @@
 import { z } from "zod/v4";
-import { soundSchema, userTypeSchema } from "../../utils/shared_schemas.ts";
+import { wordSchema } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 export const inputSchema = z.object({
-  turns: z.array(userTypeSchema),
+  words: z.array(wordSchema),
 });
 
 export type ReadWordsToolInput = z.infer<typeof inputSchema>;
@@ -16,6 +16,6 @@ export const ReadWordsTool: Tool<typeof inputSchema, string[]> = {
     return { data: [] };
   },
   description: async (input) => {
-    return `This tool helps students practice reading sounds. The student will read the following sounds: ${input.turns.join(", ")}. The turns for this activity are: ${input.turns.join(", ")}.`;
+    return "";
   },
 };

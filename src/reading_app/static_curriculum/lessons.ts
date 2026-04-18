@@ -1,9 +1,12 @@
-import type { ReadSoundsToolInput } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import type { IntroduceSoundToolInput } from "../tools/IntroduceSoundTool/IntroduceSoundTool.ts";
 import type { ReadWordsToolInput } from "../tools/ReadWordsTool/ReadWordsTool.ts";
-import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import type { ReadSoundsToolInput } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import { IntroduceSoundTool } from "../tools/IntroduceSoundTool/IntroduceSoundTool.ts";
 import { ReadWordsTool } from "../tools/ReadWordsTool/ReadWordsTool.ts";
+import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
 
 type Activity =
+  | { tool: typeof IntroduceSoundTool; input: IntroduceSoundToolInput }
   | { tool: typeof ReadSoundsTool; input: ReadSoundsToolInput }
   | { tool: typeof ReadWordsTool; input: ReadWordsToolInput };
 
@@ -11,16 +14,33 @@ type Lesson = Activity[];
 
 export const exampleLesson: Lesson = [
   {
-    tool: ReadSoundsTool,
+    tool: IntroduceSoundTool,
     input: {
-      turns: ["teacher"],
-      sounds: ["m", "s", "a"],
+      sound: "m",
+    },
+  },
+  {
+    tool: IntroduceSoundTool,
+    input: {
+      sound: "s",
     },
   },
   {
     tool: ReadWordsTool,
     input: {
-      turns: ["student"],
+      words: [
+        {
+          spelling: "sam",
+          sounds: ["s", "a", "m"],
+          isFunny: false,
+        },
+      ],
+    },
+  },
+  {
+    tool: ReadSoundsTool,
+    input: {
+      sounds: ["m", "s"],
     },
   },
 ];
