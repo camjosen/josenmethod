@@ -901,6 +901,10 @@ export const words = {
     spelling: "man",
     sounds: [s.m, s.a, s.n],
   },
+  mat: {
+    spelling: "mat",
+    sounds: [s.m, s.a, s.t],
+  },
   me: {
     spelling: "me",
     sounds: [s.m, s.e_long],

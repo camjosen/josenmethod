@@ -6,7 +6,12 @@ import { sounds as s } from "../utils/sounds.ts";
 import { words as w } from "../utils/words.ts";
 import { z } from "zod/v4";
 
-const tools = [HearItSayItTool, ReadSoundsTool, ReadWordsTool, WritingTool] as const;
+const tools = [
+  HearItSayItTool,
+  ReadSoundsTool,
+  ReadWordsTool,
+  WritingTool,
+] as const;
 type AnyTool = (typeof tools)[number];
 type ActivityFor<T> = T extends AnyTool
   ? { toolName: T["name"]; input: z.infer<T["inputSchema"]> }
@@ -33,7 +38,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_fast",
-          items: [w.me, w.if], // Ideally prepend "motor boat", "ice cream", "sis ter", and "ham burger", but that would require custom "sounds", which is weird.
+          items: [
+            { parts: ["motor", "boat"] },
+            { parts: ["ice", "cream"] },
+            { parts: ["sis", "ter"] },
+            { parts: ["ham", "burger"] },
+            w.me,
+            w.if,
+          ],
         },
       },
       {
@@ -51,7 +63,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_fast",
-          items: [w.me, w.if, w.she], // Ideally prepend "motor cycle".
+          items: [{ parts: ["motor", "cycle"] }, w.me, w.if, w.she],
         },
       },
       {
@@ -76,7 +88,15 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_fast",
-          items: [w.if, w.me, w.am, w.in, w.she], // Ideally prepend "lawn mower → lawnmower" and "side walk → sidewalk" compound word blending.
+          items: [
+            { parts: ["lawn", "mower"] },
+            { parts: ["side", "walk"] },
+            w.if,
+            w.me,
+            w.am,
+            w.in,
+            w.she,
+          ],
         },
       },
       {
@@ -137,7 +157,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       {
         toolName: "HearItSayIt",
         input: {
-          mode: "say_it_slow_then_fast", // Student says slowly, and then fast.
+          mode: "say_it_slow_then_fast",
           items: [w.me, w.man, w.if, w.we],
         },
       },
@@ -173,7 +193,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           items: [
             w.at,
             w.eat,
-            { spelling: "mat", sounds: [s.m, s.a, s.t] }, // TODO add to dictionary
+            w.mat,
             w.this,
             w.run,
             w.not,
@@ -199,7 +219,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
             w.at,
             w.not,
             w.this,
-            { spelling: "mat", sounds: [s.m, s.a, s.t] },
+            w.mat,
           ],
         },
       },
@@ -269,7 +289,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "ReadWords",
         input: {
           variant: "hide_end", // Needs support for "visible start"
-          words: [w.meat, { spelling: "mat", sounds: [s.m, s.a, s.t] }, w.me],
+          words: [w.meat, w.mat, w.me],
         },
       },
       {
@@ -332,7 +352,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
             w.me,
             w.meat,
             w.mean,
-            { spelling: "mat", sounds: [s.m, s.a, s.t] },
+            w.mat,
             w.men,
             w.meat,
             w.me,
@@ -431,7 +451,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "ReadWords",
         input: {
           variant: "hide_end", // TODO frame as "rhyming"... maybe... student says it slow then fast (no different from other rhyming activities)
-          words: [w.me, { spelling: "mat", sounds: [s.m, s.a, s.t] }, w.mean],
+          words: [w.me, w.mat, w.mean],
         },
       },
       {
@@ -470,7 +490,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "ReadWords",
         input: {
           variant: "hide_end", // rhyming
-          words: [w.me, { spelling: "mat", sounds: [s.m, s.a, s.t] }, w.mean], // Todo "mean" is just "men" with long e
+          words: [w.me, w.mat, w.mean], // Todo "mean" is just "men" with long e
         },
       },
       {
@@ -512,7 +532,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
             w.that,
             w.sit,
             w.sat,
-            { spelling: "mat", sounds: [s.m, s.a, s.t] },
+            w.mat,
           ],
         },
       },
@@ -520,7 +540,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "ReadWords",
         input: {
           variant: "default", // Nux. Focus on saying the sounds without pause. No say it fast.
-          words: [{ spelling: "mat", sounds: [s.m, s.a, s.t] }, w.seat, w.am], // TODO "set" with long e (not an actual word, but good practice)
+          words: [w.mat, w.seat, w.am], // TODO "set" with long e (not an actual word, but good practice)
         },
       },
       {
@@ -559,7 +579,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   //       toolName: "ReadWords",
   //       input: {
   //         variant: "default",
-  //         words: [{ spelling: "mat", sounds: [s.m, s.a, s.t] }, w.sat, w.am],
+  //         words: [w.mat, w.sat, w.am],
   //       },
   //     },
   //     {
@@ -591,7 +611,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   //       toolName: "ReadWords",
   //       input: {
   //         variant: "hide_end",
-  //         words: [w.me, { spelling: "mat", sounds: [s.m, s.a, s.t] }],
+  //         words: [w.me, w.mat],
   //       },
   //     },
   //     {
