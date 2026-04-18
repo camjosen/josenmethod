@@ -6,7 +6,7 @@ export const inputSchema = z.object({
   variant: z
     .enum([
       "default",
-      "no_visuals",
+      "no_visuals_say_it_fast",
       "no_visuals_sound_it_out",
       "hide_end",
       "hide_beginning",
