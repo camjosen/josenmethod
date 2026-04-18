@@ -9,7 +9,6 @@ export const inputSchema = z.object({
       "no_visuals_say_it_fast",
       "no_visuals_sound_it_out",
       "hide_end",
-      "hide_beginning",
     ] as const)
     .optional()
     .describe(

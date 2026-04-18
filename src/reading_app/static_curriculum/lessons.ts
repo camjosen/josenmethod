@@ -1,3 +1,4 @@
+import { HearItSayItTool } from "../tools/HearItSayItTool/HearItSayItTool.ts";
 import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
 import { ReadWordsTool } from "../tools/ReadWordsTool/ReadWordsTool.ts";
 import { WritingTool } from "../tools/WritingTool/WritingTool.ts";
@@ -5,12 +6,20 @@ import { sounds as s } from "../utils/sounds.ts";
 import { words as w } from "../utils/words.ts";
 import { z } from "zod/v4";
 
-const tools = [ReadSoundsTool, ReadWordsTool, WritingTool] as const;
+const tools = [HearItSayItTool, ReadSoundsTool, ReadWordsTool, WritingTool] as const;
 type AnyTool = (typeof tools)[number];
 type ActivityFor<T> = T extends AnyTool
   ? { toolName: T["name"]; input: z.infer<T["inputSchema"]> }
   : never;
 type Activity = ActivityFor<AnyTool>;
+
+/**
+ * TODO
+ *
+ * [ ] The ReadWords tool has a "hide_end" variant. Delete it and create a new Rhyming tool allows you to
+ *     specify a starting character and then a list of words.
+ * [ ]
+ */
 
 export const lessons: { title: string; activities: Activity[] }[] = [
   {
@@ -21,17 +30,17 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "teach", sounds: [s.m, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast",
-          words: [w.me, w.if], // Ideally prepend "motor boat", "ice cream", "sis ter", and "ham burger", but that would require custom "sounds", which is weirw.
+          mode: "say_it_fast",
+          items: [w.me, w.if], // Ideally prepend "motor boat", "ice cream", "sis ter", and "ham burger", but that would require custom "sounds", which is weird.
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.am, w.if, w.in],
+          mode: "say_it_slow",
+          items: [w.am, w.if, w.in],
         },
       },
       {
@@ -39,10 +48,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast",
-          words: [w.me, w.if, w.she], // Ideally prepend "motor cycle".
+          mode: "say_it_fast",
+          items: [w.me, w.if, w.she], // Ideally prepend "motor cycle".
         },
       },
       {
@@ -64,17 +73,17 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "reteach", sounds: [s.m, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast",
-          words: [w.if, w.me, w.am, w.in, w.she], // Ideally prepend "lawn mower → lawnmower" and "side walk → sidewalk" compound word blending.
+          mode: "say_it_fast",
+          items: [w.if, w.me, w.am, w.in, w.she], // Ideally prepend "lawn mower → lawnmower" and "side walk → sidewalk" compound word blending.
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.she, w.on, w.if, w.ship],
+          mode: "say_it_slow",
+          items: [w.she, w.on, w.if, w.ship],
         },
       },
       {
@@ -82,10 +91,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast",
-          words: [w.man, w.will, w.she, w.sit],
+          mode: "say_it_fast",
+          items: [w.man, w.will, w.she, w.sit],
         },
       },
       {
@@ -111,10 +120,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.a, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.run, w.man, w.this, w.we],
+          mode: "say_it_slow",
+          items: [w.run, w.man, w.this, w.we],
         },
       },
       {
@@ -126,10 +135,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out", // Student says slowly, and then fast.
-          words: [w.me, w.man, w.if, w.we],
+          mode: "say_it_slow_then_fast", // Student says slowly, and then fast.
+          items: [w.me, w.man, w.if, w.we],
         },
       },
       {
@@ -158,10 +167,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.a, s.s] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast",
-          words: [
+          mode: "say_it_fast",
+          items: [
             w.at,
             w.eat,
             { spelling: "mat", sounds: [s.m, s.a, s.t] }, // TODO add to dictionary
@@ -182,10 +191,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out", // me slow -> you slow -> you fast
-          words: [
+          mode: "say_it_slow_then_fast", // me slow -> you slow -> you fast
+          items: [
             w.run,
             w.at,
             w.not,
@@ -227,17 +236,17 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.a, s.s, s.m, s.e_long] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out", // should rename to "say slowly" or something (no say it fast)
-          words: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if],
+          mode: "say_it_slow",
+          items: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if],
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast", // me slow -> you slow -> you fast
-          words: [w.see, w.that, w.if, w.at, w.am],
+          mode: "say_it_slow_then_fast", // me slow -> you slow -> you fast
+          items: [w.see, w.that, w.if, w.at, w.am],
         },
       },
       {
@@ -296,10 +305,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [
+          mode: "say_it_slow",
+          items: [
             w.we,
             w.in,
             w.run,
@@ -339,10 +348,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out", // Student says slowly, then fast.
-          words: [
+          mode: "say_it_slow_then_fast", // Student says slowly, then fast.
+          items: [
             w.at,
             w.sat,
             w.feet,
@@ -401,10 +410,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen],
+          mode: "say_it_slow",
+          items: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen],
         },
       },
       {
@@ -412,10 +421,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.a, s.t, s.s, s.e_long] },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_say_it_fast", // Slow then fast
-          words: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat],
+          mode: "say_it_slow_then_fast", // Slow then fast
+          items: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat],
         },
       },
       {
@@ -465,10 +474,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out",
-          words: [
+          mode: "say_it_slow",
+          items: [
             w.sam,
             w.if,
             w.in,
@@ -493,10 +502,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "HearItSayIt",
         input: {
-          variant: "no_visuals_sound_it_out", // slow then fast
-          words: [
+          mode: "say_it_slow_then_fast", // slow then fast
+          items: [
             w.run,
             w.rat,
             w.road,
