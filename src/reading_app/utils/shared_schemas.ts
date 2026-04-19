@@ -17,7 +17,9 @@ export type SoundDefinition = z.infer<typeof soundDefinitionSchema>;
 
 export const wordSchema = z.object({
   spelling: z.string().describe("The spelling of the word."),
-  sounds: z.array(soundDefinitionSchema).describe("The sounds that make up the word."),
+  sounds: z
+    .array(soundDefinitionSchema)
+    .describe("The sounds that make up the word."),
   isFunny: z
     .boolean()
     .optional()

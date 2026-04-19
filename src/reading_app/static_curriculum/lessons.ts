@@ -1,6 +1,7 @@
 import { HearItSayItTool } from "../tools/HearItSayItTool/HearItSayItTool.ts";
 import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
 import { ReadWordsTool } from "../tools/ReadWordsTool/ReadWordsTool.ts";
+import { RhymingTool } from "../tools/RhymingTool/RhymingTool.ts";
 import { WritingTool } from "../tools/WritingTool/WritingTool.ts";
 import { sounds as s } from "../utils/sounds.ts";
 import { words as w } from "../utils/words.ts";
@@ -10,6 +11,7 @@ const tools = [
   HearItSayItTool,
   ReadSoundsTool,
   ReadWordsTool,
+  RhymingTool,
   WritingTool,
 ] as const;
 type AnyTool = (typeof tools)[number];
@@ -17,14 +19,6 @@ type ActivityFor<T> = T extends AnyTool
   ? { toolName: T["name"]; input: z.infer<T["inputSchema"]> }
   : never;
 type Activity = ActivityFor<AnyTool>;
-
-/**
- * TODO
- *
- * [ ] The ReadWords tool has a "hide_end" variant. Delete it and create a new Rhyming tool allows you to
- *     specify a starting character and then a list of words.
- * [ ]
- */
 
 export const lessons: { title: string; activities: Activity[] }[] = [
   {
@@ -190,16 +184,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_fast",
-          items: [
-            w.at,
-            w.eat,
-            w.mat,
-            w.this,
-            w.run,
-            w.not,
-            w.that,
-            w.we,
-          ],
+          items: [w.at, w.eat, w.mat, w.this, w.run, w.not, w.that, w.we],
         },
       },
       {
@@ -214,13 +199,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_slow_then_fast", // me slow -> you slow -> you fast
-          items: [
-            w.run,
-            w.at,
-            w.not,
-            w.this,
-            w.mat,
-          ],
+          items: [w.run, w.at, w.not, w.this, w.mat],
         },
       },
       {
@@ -286,11 +265,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end", // Needs support for "visible start"
-          words: [w.meat, w.mat, w.me],
-        },
+        toolName: "Rhyming",
+        input: { startingSound: s.m, words: [w.meat, w.mat, w.me] },
       },
       {
         toolName: "ReadWords",
@@ -345,18 +321,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "Rhyming",
         input: {
-          variant: "hide_end", // TODO frame as "rhyming"... maybe
-          words: [
-            w.me,
-            w.meat,
-            w.mean,
-            w.mat,
-            w.men,
-            w.meat,
-            w.me,
-          ],
+          startingSound: s.m,
+          words: [w.me, w.meat, w.mean, w.mat, w.men, w.meat, w.me],
         },
       },
       {
@@ -383,9 +351,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
+        toolName: "Rhyming",
         input: {
-          variant: "hide_end", // Rhyming... student must read the first sound. Scaffolding for the whole word.
+          startingSound: s.s,
           words: [w.sat, w.seat, w.see, w.see, w.seat, w.sat],
         },
       },
@@ -423,11 +391,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end", // TODO frame as "rhyming"... maybe... student says it slow then fast (no different from other rhyming activities)
-          words: [w.see, w.sat, w.seat, w.seen],
-        },
+        toolName: "Rhyming",
+        input: { startingSound: s.s, words: [w.see, w.sat, w.seat, w.seen] },
       },
       {
         toolName: "HearItSayIt",
@@ -448,11 +413,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         },
       },
       {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end", // TODO frame as "rhyming"... maybe... student says it slow then fast (no different from other rhyming activities)
-          words: [w.me, w.mat, w.mean],
-        },
+        toolName: "Rhyming",
+        input: { startingSound: s.m, words: [w.me, w.mat, w.mean] },
       },
       {
         toolName: "ReadWords",
@@ -480,18 +442,12 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         input: { mode: "recall_check", sounds: [s.m, s.e_long, s.t, s.s, s.a] }, // "say it fast" is only for t
       },
       {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end", // rhyming
-          words: [w.seen, w.seat],
-        },
+        toolName: "Rhyming",
+        input: { startingSound: s.s, words: [w.seen, w.seat] },
       },
       {
-        toolName: "ReadWords",
-        input: {
-          variant: "hide_end", // rhyming
-          words: [w.me, w.mat, w.mean], // Todo "mean" is just "men" with long e
-        },
+        toolName: "Rhyming",
+        input: { startingSound: s.m, words: [w.me, w.mat, w.mean] }, // Todo "mean" is just "men" with long e
       },
       {
         toolName: "HearItSayIt",
@@ -525,15 +481,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         toolName: "HearItSayIt",
         input: {
           mode: "say_it_slow_then_fast", // slow then fast
-          items: [
-            w.run,
-            w.rat,
-            w.road,
-            w.that,
-            w.sit,
-            w.sat,
-            w.mat,
-          ],
+          items: [w.run, w.rat, w.road, w.that, w.sit, w.sat, w.mat],
         },
       },
       {

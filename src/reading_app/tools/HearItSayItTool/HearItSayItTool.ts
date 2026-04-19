@@ -6,12 +6,22 @@ const compoundItemSchema = z.object({
   parts: z.tuple([z.string(), z.string()]),
 });
 
-const itemSchema = z.union([wordSchema, compoundItemSchema]);
+const itemSchema = z.union([compoundItemSchema, wordSchema]);
 
-export const inputSchema = z.object({
-  mode: z.enum(["say_it_slow", "say_it_slow_then_fast", "say_it_fast"]),
-  items: z.array(itemSchema),
-});
+export const inputSchema = z.discriminatedUnion("mode", [
+  z.object({
+    mode: z.literal("say_it_fast"),
+    items: z.array(itemSchema),
+  }),
+  z.object({
+    mode: z.literal("say_it_slow"),
+    items: z.array(itemSchema),
+  }),
+  z.object({
+    mode: z.literal("say_it_slow_then_fast"),
+    items: z.array(itemSchema),
+  }),
+]);
 
 export type HearItSayItToolInput = z.infer<typeof inputSchema>;
 
