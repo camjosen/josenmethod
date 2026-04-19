@@ -1,5 +1,8 @@
 import { z } from "zod/v4";
-import { soundDefinitionSchema, wordSchema } from "../../utils/shared_schemas.ts";
+import {
+  soundDefinitionSchema,
+  wordSchema,
+} from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const writingTaskSchema = z.discriminatedUnion("type", [
@@ -14,7 +17,7 @@ const writingTaskSchema = z.discriminatedUnion("type", [
 ]);
 
 export const inputSchema = z.object({
-  tasks: z
+  items: z
     .array(writingTaskSchema)
     .describe("The writing tasks for the student to complete."),
 });
