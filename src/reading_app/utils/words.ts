@@ -1303,6 +1303,7 @@ export const words = {
     spelling: "side",
     sounds: [s.s, s.i_long, s.d],
   },
+  sin: { spelling: "sin", sounds: [s.s, s.i, s.n] },
   sing: {
     spelling: "sing",
     sounds: [s.s, s.ing],

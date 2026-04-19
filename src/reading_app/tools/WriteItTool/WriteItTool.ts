@@ -5,17 +5,19 @@ import {
 } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
+const WriteTaskSchema = z.union([soundDefinitionSchema, wordSchema]);
+
 export const inputSchema = z.object({
-  startingSound: soundDefinitionSchema.describe(
-    "The sound that all words begin with.",
-  ),
-  words: z.array(wordSchema),
+  items: z
+    .array(WriteTaskSchema)
+    .describe("The write tasks for the student to complete."),
 });
 
-export type RhymingToolInput = z.infer<typeof inputSchema>;
+export type WriteTask = z.infer<typeof WriteTaskSchema>;
+export type WriteToolInput = z.infer<typeof inputSchema>;
 
-export const RhymingTool = {
-  name: "Rhyming" as const,
+export const WriteItTool = {
+  name: "WriteIt" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };

@@ -15,10 +15,10 @@ const base = z.object({
     ),
 });
 
-export const inputSchema = z.discriminatedUnion("mode", [
+export const inputSchema = z.discriminatedUnion("variant", [
   base
     .extend({
-      mode: z.literal("say_it_fast"),
+      variant: z.literal("fast"),
       items: z.array(itemSchema),
     })
     .describe(
@@ -26,13 +26,13 @@ export const inputSchema = z.discriminatedUnion("mode", [
     ),
   base
     .extend({
-      mode: z.literal("say_it_slow"),
+      variant: z.literal("slow"),
       items: z.array(itemSchema),
     })
     .describe("The teacher says the sounds slowly, then the student does too."),
   base
     .extend({
-      mode: z.literal("say_it_slow_then_fast"),
+      variant: z.literal("slow_then_fast"),
       items: z.array(itemSchema),
     })
     .describe(
@@ -40,10 +40,10 @@ export const inputSchema = z.discriminatedUnion("mode", [
     ),
 ]);
 
-export type HearItSayItToolInput = z.infer<typeof inputSchema>;
+export type SayItInput = z.infer<typeof inputSchema>;
 
-export const HearItSayItTool = {
-  name: "HearItSayIt" as const,
+export const SayIt = {
+  name: "SayIt" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };

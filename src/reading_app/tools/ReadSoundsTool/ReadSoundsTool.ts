@@ -9,24 +9,24 @@ const base = z.object({
     .describe("If true, the should say the sound fast without 'holding' it."),
 });
 
-export const inputSchema = z.discriminatedUnion("mode", [
+export const inputSchema = z.discriminatedUnion("variant", [
   base.extend({
-    mode: z.literal("teach"),
-    sounds: z
+    variant: z.literal("introduce"),
+    items: z
       .array(soundDefinitionSchema)
       .describe("The sounds being introduced for the first time."),
   }),
   base.extend({
-    mode: z.literal("reteach"),
-    sounds: z
+    variant: z.literal("reintroduce"),
+    items: z
       .array(soundDefinitionSchema)
       .describe(
         "The sounds being re-introduced, possibly after a failed recall check.",
       ),
   }),
   base.extend({
-    mode: z.literal("recall_check"),
-    sounds: z
+    variant: z.literal("recall"),
+    items: z
       .array(soundDefinitionSchema)
       .describe("The sounds the student will read from memory."),
   }),

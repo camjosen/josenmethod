@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": "src/reading_app/static_curriculum/lessons.ts",
+      "options": {
+        "printWidth": 160
+      }
+    }
+  ]
+}
