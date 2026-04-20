@@ -33,4 +33,25 @@ export const rhymes = {
     ending: { spelling: "een", sounds: [s.e_long, s.n] },
     fullWord: w.seen,
   },
+  s_un: {
+    startingSound: s.s,
+    ending: { spelling: "un", sounds: [s.u, s.n] },
+    fullWord: w.sun,
+  },
+  s_am: {
+    startingSound: s.s,
+    ending: { spelling: "am", sounds: [s.a, s.m] },
+    fullWord: w.sam,
+  },
+  r_at: { startingSound: s.r, ending: w.at, fullWord: w.rat },
+  r_un: {
+    startingSound: s.r,
+    ending: { spelling: "un", sounds: [s.u, s.n] },
+    fullWord: w.run,
+  },
+  r_am: {
+    startingSound: s.r,
+    ending: { spelling: "am", sounds: [s.a, s.m] },
+    fullWord: w.ram,
+  },
 } satisfies Record<string, RhymeItem>;
