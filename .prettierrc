@@ -3,7 +3,7 @@
     {
       "files": "src/reading_app/static_curriculum/lessons.ts",
       "options": {
-        "printWidth": 180
+        "printWidth": 200
       }
     },
     {

@@ -10,14 +10,14 @@ export const inputSchema = z
   .discriminatedUnion("variant", [
     base
       .extend({
-        variant: z.literal("active_listening"),
-      })
-      .describe("The teacher reads the"),
-    base
-      .extend({
         variant: z.literal("sound_it_out"),
         scaffold: z
           .union([
+            z
+              .literal("maximum")
+              .describe(
+                "Teacher sounds it out as the student touches each sound.",
+              ),
             z
               .literal("very_high")
               .describe(
