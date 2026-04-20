@@ -44,7 +44,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["VerbalBlending", { variant: "say_it_slow", items: [w.run, w.man, w.this, w.we] }],
       ["ReadSounds", { variant: "recall", slowThenFast: true, items: [s.m, s.a, s.s] }],
       ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.me, w.man, w.if, w.we] }],
-      ["ReadWords", { variant: "default", words: [w.am, { spelling: "sa", sounds: [s.s, s.a] }] }], // NUX???
+      ["ReadWords", { variant: "active_listening", words: [w.am, { spelling: "sa", sounds: [s.s, s.a] }] }],
       ["Writing", { items: [s.a, s.m] }],
     ],
   },
@@ -53,9 +53,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { variant: "recall", items: [s.m, s.a, s.s] }],
       ["VerbalBlending", { variant: "say_it_fast", items: [w.at, w.eat, w.mat, w.this, w.run, w.not, w.that, w.we] }],
-      ["ReadSounds", { variant: "recall", slowThenFast: true, items: [s.s, s.m, s.a] }], // Student says sounds slowly, then fast.
-      ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.run, w.at, w.not, w.this, w.mat] }], // me slow -> you slow -> you fast
-      ["ReadWords", { variant: "default", words: [{ spelling: "ma", sounds: [s.m, s.a] },{ spelling: "sa", sounds: [s.s, s.a] }]}], // prettier-ignore
+      ["ReadSounds", { variant: "recall", slowThenFast: true, items: [s.s, s.m, s.a] }],
+      ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.run, w.at, w.not, w.this, w.mat] }],
+      ["ReadWords", { variant: "active_listening", words: [{ spelling: "ma", sounds: [s.m, s.a] },{ spelling: "sa", sounds: [s.s, s.a] }]}], // prettier-ignore
       ["Writing", { items: [s.s, s.a] }],
     ],
   },
@@ -69,8 +69,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadSounds", { variant: "recall", slowThenFast: true, items: [s.e_long, s.s, s.m, s.a] }],
       ["ReadSounds", { variant: "recall", slowThenFast: true, touchIt: true, items: [s.e_long, s.s, s.m, s.a] }],
       ["Rhyme", { startingSound: s.m, words: [w.meat, w.mat, w.me] }],
-      // just 'say it slow' no 'fast'
-      ["ReadWords", { variant: "default", words: [{ spelling: "em", sounds: [s.e_long, s.m] }, { spelling: "es", sounds: [s.e_long, s.s] }]}], // prettier-ignore
+      ["ReadWords", { variant: "sound_it_out", scaffold: "very_high", words: [{ spelling: "em", sounds: [s.e_long, s.m] }, { spelling: "es", sounds: [s.e_long, s.s] }]}], // prettier-ignore
       ["Writing", { items: [s.e_long, s.a] }],
     ],
   },
@@ -83,7 +82,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadSounds", { variant: "recall", slowThenFast: true, touchIt: true, items: [s.e_long, s.a, s.m, s.s] }],
       ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.at, w.sat, w.feet, w.sin, w.see, w.seen, w.we] }], // Student says slowly, then fast.
       ["Rhyme", { startingSound: s.s, words: [w.sat, w.seat, w.see, w.see, w.seat, w.sat] }],
-      ["ReadWords", { variant: "default", words: [w.me, w.see] }], // Say slowly without pausing (no say it fast). "See" is just "se" (not spelled correctly)
+      ["ReadWords", { variant: "sound_it_out", scaffold: "very_high", words: [w.me, w.see] }], // Say slowly without pausing (no say it fast). "See" is just "se" (not spelled correctly)
       ["Writing", { items: [s.e_long, s.s] }],
     ],
   },
@@ -97,7 +96,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadSounds", { variant: "recall", items: [s.m, s.a, s.t, s.s, s.e_long] }],
       ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat] }], // Slow then fast
       ["Rhyme", { startingSound: s.m, words: [w.me, w.mat, w.mean] }],
-      ["ReadWords", { variant: "default", words: [w.at, w.eat, w.meat] }], // TODO no say it fast... focus on saying slowly without stopping between sounds. TODO Meat is actually just "met" with the long e.
+      ["ReadWords", { variant: "sound_it_out", scaffold: "very_high", words: [w.at, w.eat, w.meat] }], // TODO no say it fast... focus on saying slowly without stopping between sounds. TODO Meat is actually just "met" with the long e.
       ["Writing", { items: [s.t, s.m] }],
     ],
   },
@@ -110,7 +109,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["VerbalBlending", { variant: "say_it_slow", items: [w.sam, w.if, w.in, w.sun, w.run, w.road, w.meat, w.sit, w.sat, w.rat, w.am, w.ram] }],
       ["ReadSounds", { variant: "recall", slowThenFast: true, touchIt: true, items: [s.t, s.e_long, s.m, s.s, s.a] }], // slow and then fast (except for "t", which can only be said fast)
       ["VerbalBlending", { variant: "say_it_slow_then_fast", items: [w.run, w.rat, w.road, w.that, w.sit, w.sat, w.mat] }], // slow then fast
-      ["ReadWords", { variant: "default", words: [w.mat, w.seat, w.am] }], // Nux. Focus on saying the sounds without pause. No say it fast. TODO "set" with long e (not an actual word, but good practice)
+      ["ReadWords", { variant: "sound_it_out", scaffold: "very_high", words: [w.mat, w.seat, w.am] }], // Nux. Focus on saying the sounds without pause. No say it fast. TODO "set" with long e (not an actual word, but good practice)
       ["Writing", { items: [s.s, s.t] }],
     ],
   },
@@ -119,10 +118,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { variant: "introduce", items: [s.r] }],
       ["ReadSounds", { variant: "recall", items: [s.m, s.a, s.s, s.e_long, s.t, s.r] }],
-      ["ReadWords", { variant: "no_visuals_sound_it_out", words: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat] }],
-      ["ReadWords", { variant: "default", words: [w.mat, w.sat, w.am] }],
+      ["VerbalBlending", { variant: "say_it_fast", items: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat] }],
+      ["ReadWords", { variant: "sound_it_out", scaffold: "high", words: [w.mat, w.sat, w.am] }],
       ["ReadSounds", { variant: "recall", slowThenFast: true, items: [s.e_long, s.a, s.s, s.m, s.r] }],
-      ["ReadWords", { variant: "no_visuals_sound_it_out", words: [w.am, w.sat] }],
+      ["ReadWords", { variant: "sound_it_out", scaffold: "medium", words: [w.am, w.sat] }],
       // ["ReadWords", { variant: "hide_end", words: [w.sat, w.sun, w.sam] }],
       // ["ReadWords", { variant: "hide_end", words: [w.rat, w.run, w.ram] }],
       // ["ReadWords", { variant: "hide_end", words: [w.me, w.mat] }],
