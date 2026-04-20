@@ -23,7 +23,7 @@ export const inputSchema = z
     base
       .extend({
         variant: z.literal("recall"),
-        sayItFast: z
+        slowThenFast: z
           .boolean()
           .optional()
           .describe(

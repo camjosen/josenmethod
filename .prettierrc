@@ -5,6 +5,12 @@
       "options": {
         "printWidth": 180
       }
+    },
+    {
+      "files": "src/reading_app/utils/words.ts",
+      "options": {
+        "printWidth": 180
+      }
     }
   ]
 }
