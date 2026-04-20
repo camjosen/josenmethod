@@ -5,12 +5,19 @@ import {
 } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
-export const inputSchema = z.object({
-  startingSound: soundDefinitionSchema.describe(
-    "The sound that all words begin with.",
-  ),
-  words: z.array(wordSchema),
-});
+export const inputSchema = z
+  .discriminatedUnion("variant", [
+    z.object({
+      variant: z.literal("common_start"),
+      items: z.object({
+        startingSound: soundDefinitionSchema,
+        words: z.array(wordSchema),
+      }),
+    }),
+  ])
+  .describe(
+    `An easier version of reading entire words that focuses on "rhyming" where only the first sound is displayed.`,
+  );
 
 export type RhymeToolInput = z.infer<typeof inputSchema>;
 
