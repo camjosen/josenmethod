@@ -9,20 +9,27 @@ export const inputSchema = z
   .discriminatedUnion("variant", [
     z.object({
       variant: z.literal("common_start"),
-      items: z.object({
-        startingSound: soundDefinitionSchema,
-        words: z.array(wordSchema),
-      }),
+      items: z.array(
+        z.object({
+          startingSound: soundDefinitionSchema,
+          ending: wordSchema,
+          fullWord: wordSchema,
+        }),
+      ),
+      scaffold: z
+        .union([z.literal("teacher_models")])
+        .optional()
+        .describe("How much additional support the student receives"),
     }),
   ])
   .describe(
     `An easier version of reading entire words that focuses on "rhyming" where only the first sound is displayed.`,
   );
 
-export type RhymeToolInput = z.infer<typeof inputSchema>;
+export type RhymingToolInput = z.infer<typeof inputSchema>;
 
-export const RhymeTool = {
-  name: "Rhyme" as const,
+export const RhymingTool = {
+  name: "Rhyming" as const,
   inputSchema,
   call: async (_input) => {
     return { data: [] };

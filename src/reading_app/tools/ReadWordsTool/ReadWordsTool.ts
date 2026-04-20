@@ -42,9 +42,9 @@ export const inputSchema = z
           .optional()
           .describe("How much additional support the student receives"),
       })
-      .describe("The teacher reads the"),
+      .describe("Student sounds out each word."),
   ])
-  .describe("Student practices reading individual words.");
+  .describe("Student reads individual words.");
 
 export type ReadWordsToolInput = z.infer<typeof inputSchema>;
 
