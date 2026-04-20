@@ -3,34 +3,44 @@ import { soundDefinitionSchema } from "../../utils/shared_schemas.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const base = z.object({
-  sayItFast: z
-    .boolean()
-    .optional()
-    .describe("If true, the should say the sound fast without 'holding' it."),
+  items: z
+    .array(soundDefinitionSchema)
+    .describe("The sounds for the student to see then say."),
 });
 
-export const inputSchema = z.discriminatedUnion("variant", [
-  base.extend({
-    variant: z.literal("introduce"),
-    items: z
-      .array(soundDefinitionSchema)
-      .describe("The sounds being introduced for the first time."),
-  }),
-  base.extend({
-    variant: z.literal("reintroduce"),
-    items: z
-      .array(soundDefinitionSchema)
+export const inputSchema = z
+  .discriminatedUnion("variant", [
+    base
+      .extend({
+        variant: z.literal("introduce"),
+      })
+      .describe("Introduce new sounds to a student."),
+    base
+      .extend({
+        variant: z.literal("reintroduce"),
+      })
+      .describe("Reintroduced sounds the student may not know well yet."),
+    base
+      .extend({
+        variant: z.literal("recall"),
+        sayItFast: z
+          .boolean()
+          .optional()
+          .describe(
+            "Whether the student should say each sound fast after saying it slowly.",
+          ),
+        touchIt: z
+          .boolean()
+          .optional()
+          .describe(
+            "Whether the student must touch the sounds while saying them.",
+          ),
+      })
       .describe(
-        "The sounds being re-introduced, possibly after a failed recall check.",
+        "Challenge the student to recall sounds from memory, saying them slowly.",
       ),
-  }),
-  base.extend({
-    variant: z.literal("recall"),
-    items: z
-      .array(soundDefinitionSchema)
-      .describe("The sounds the student will read from memory."),
-  }),
-]);
+  ])
+  .describe(`Teeach individual sounds.`);
 
 export type ReadSoundsToolInput = z.infer<typeof inputSchema>;
 
