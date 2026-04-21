@@ -23,12 +23,19 @@ export const inputSchema = z
     base
       .extend({
         variant: z.literal("recall"),
-        slowThenFast: z
-          .boolean()
-          .optional()
-          .describe(
-            "Whether the student should say each sound fast after saying it slowly.",
-          ),
+        responseType: z
+          .union([
+            z
+              .literal("say_it_slow")
+              .describe("Student says each sound slowly."),
+            z
+              .literal("say_it_slow_then_fast")
+              .describe("Student says each sound slowly, then quickly."),
+            z
+              .literal("say_it_fast")
+              .describe("Student says each sound quickly."),
+          ])
+          .describe("How the student should say each sound."),
         touchIt: z
           .boolean()
           .optional()

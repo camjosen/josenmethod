@@ -353,6 +353,7 @@ export const words = {
   stopping: { spelling: "stopping", sounds: [s.s, s.t, s.o, s.p, s.ing] },
   store: { spelling: "store", sounds: [s.s, s.t, s.o_long, s.r] },
   story: { spelling: "story", sounds: [s.s, s.t, s.o_long, s.r, s.y_long] },
+  sum: { spelling: "sum", sounds: [s.s, s.u, s.m] },
   sun: { spelling: "sun", sounds: [s.s, s.u, s.n] },
   swam: { spelling: "swam", sounds: [s.s, s.w, s.a, s.m] },
   swim: { spelling: "swim", sounds: [s.s, s.w, s.i, s.m] },

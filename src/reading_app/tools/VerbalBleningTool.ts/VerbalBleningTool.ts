@@ -25,7 +25,7 @@ export const inputSchema = z
       ),
     base
       .extend({
-        variant: z.literal("say_it_slow"),
+        variant: z.literal("blend"),
         items: z.array(itemSchema),
       })
       .describe(
@@ -33,7 +33,7 @@ export const inputSchema = z
       ),
     base
       .extend({
-        variant: z.literal("say_it_slow_then_fast"),
+        variant: z.literal("blend_then_say_it_fast"),
         items: z.array(itemSchema),
       })
       .describe(

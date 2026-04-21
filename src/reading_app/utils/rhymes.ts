@@ -44,6 +44,11 @@ export const rhymes = {
     fullWord: w.sam,
   },
   r_at: { startingSound: s.r, ending: w.at, fullWord: w.rat },
+  r_oad: {
+    startingSound: s.r,
+    ending: { spelling: "oad", sounds: [s.o_long, s.d] },
+    fullWord: w.run,
+  },
   r_un: {
     startingSound: s.r,
     ending: { spelling: "un", sounds: [s.u, s.n] },
