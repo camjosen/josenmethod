@@ -44,6 +44,19 @@ export const inputSchema = z
             .describe(
               "Student answers questions about the story using a picture for support.",
             ),
+          z
+            .literal("sound_it_out")
+            .describe(
+              "Student sounds out each word in the story, one at a time.",
+            ),
+          z
+            .literal("read_the_fast_way_with_questions")
+            .describe(
+              "Student reads each sentence at a normal fluent pace; teacher asks comprehension questions after each sentence.",
+            ),
+          z
+            .literal("title_reading")
+            .describe("Student reads the story title."),
         ]),
       )
       .describe("The tasks the student completes with this story."),

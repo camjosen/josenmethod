@@ -59,6 +59,13 @@ export const inputSchema = z
       .describe(
         `Introduce the concept of a "little sound" that won't be spoken aloud and will be rendered differently from the other sounds.`,
       ),
+    base
+      .extend({
+        variant: z.literal("introduce_funny_word"),
+      })
+      .describe(
+        `Introduce a "funny word" — a word whose pronunciation doesn't follow the usual phonics rules. The teacher explains that this word is special.`,
+      ),
   ])
   .describe("Student reads individual words.");
 

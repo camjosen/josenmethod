@@ -198,4 +198,74 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["Writing", { items: [s.s, s.d] }],
     ],
   },
+  // Skip a bunch of lessons for now
+  {
+    title: "Lesson 52",
+    activities: [
+      ["ReadSounds", { variant: "introduce", items: [s.e] }],
+      ["ReadSounds", { variant: "recall", responseType: "say_it_slow", items: [s.e_long, s.ch, s.p, s.v, s.e, s.o_long, s.k] }],
+      ["ReadWords", { variant: "scaffolded", itemTasks: ["sound_it_out", "say_it_fast"], items: [w.shop, w.chop, w.came] }], // dots removed except for under "ar"
+      ["ReadWords", { variant: "scaffolded", itemTasks: ["say_it_fast"], items: [w.cars, w.park, w.are, w.dog, w.cops, w.fog, w.log, w.to, w.goat] }],
+      ["ReadSounds", { variant: "recall", responseType: "say_it_fast", items: [s.e, s.o_long, s.k, s.p, s.o, s.v] }],
+      [
+        "Story",
+        {
+          markup: ["arrows"],
+          itemTasks: ["sound_it_out", "read_the_fast_way_with_questions", "picture_comprehension"],
+          paragraphs: [
+            [
+              [w.a, w.dog, w.was, w.in, w.the, w.fog, "period"],
+              [w.a, w.cat, w.was, w.in, w.the, w.fog, "period"],
+              [w.a, w.goat, w.was, w.in, w.the, w.fog, "period"],
+            ],
+            [[w.the, w.dog, w.and, w.the, w.cat, w.and, w.the, w.goat, w.came, w.to, w.a, w.log, "period"]],
+            [
+              [w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, "period"],
+              [w.the, w.dog, w.and, w.the, w.cat, w.said, "comma", "quotation_mark", w.we, w.are, w.on, w.the, w.log, "period", "quotation_mark"],
+            ],
+            [[w.the, w.goat, w.said, "comma", "quotation_mark", w.I, w.am, w.not, w.on, w.the, w.log, "period", w.I, w.am, w.in, w.the, w.log, "period", w.he, w.he, "period", "quotation_mark"]],
+          ],
+        },
+      ],
+      ["Writing", { items: [s.ch, s.p] }],
+    ],
+  },
+  {
+    title: "Lesson 53",
+    activities: [
+      ["ReadSounds", { variant: "recall", responseType: "say_it_slow", items: [s.e_long, s.e, s.a_long, s.a, s.o_long, s.o] }],
+      ["ReadWords", { variant: "introduce_funny_word", items: [w.girl] }],
+      ["ReadWords", { variant: "scaffolded", itemTasks: ["sound_it_out", "say_it_fast"], items: [w.each, w.cakes, w.home, w.ship, w.shop, w.chop] }],
+      ["ReadWords", { variant: "scaffolded", itemTasks: ["say_it_fast"], items: [w.farm, w.are, w.cars, w.lots, w.of, w.has, w.old, w.his, w.sheep] }],
+      ["ReadSounds", { variant: "recall", responseType: "say_it_fast", items: [s.e, s.i, s.o_long, s.u, s.a_long, s.p] }],
+      [
+        "Story",
+        {
+          title: { words: [w.lots, w.of, w.cars] },
+          markup: ["arrows"],
+          itemTasks: ["title_reading", "read_the_fast_way_with_questions", "picture_comprehension"],
+          paragraphs: [
+            [
+              [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "period"],
+              [w.he, w.has, w.old, w.cars, "period"],
+              [w.he, w.has, w.little, w.cars, "period"],
+            ],
+            [
+              [w.are, w.his, w.cars, w.for, w.goats, "question_mark"],
+              [w.no, "period"],
+              [w.are, w.his, w.cars, w.for, w.sheep, "question_mark"],
+              [w.no, "period"],
+              [w.are, w.his, w.cars, w.for, w.cows, "question_mark"],
+              [w.no, "period"],
+            ],
+            [
+              [w.his, w.cars, w.are, w.for, w.cops, "period"],
+              [w.he, w.has, w.lots, w.of, w.cop, w.cars, "period"],
+            ],
+          ],
+        },
+      ],
+      ["Writing", { items: [s.w, s.v, s.p] }],
+    ],
+  },
 ];

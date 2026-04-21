@@ -63,6 +63,7 @@ export const words = {
   cops: { spelling: "cops", sounds: [s.c, s.o, s.p, s.s] },
   corn: { spelling: "corn", sounds: [s.c, s.o_long, s.r, s.n], isFunny: true },
   cow: { spelling: "cow", sounds: [s.c, s.ou] },
+  cows: { spelling: "cows", sounds: [s.c, s.ou, s.z] },
   dark: { spelling: "dark", sounds: [s.d, s.ar, s.k] },
   day: { spelling: "day", sounds: [s.d, s.a_long] },
   deal: { spelling: "deal", sounds: [s.d, s.e_long, s.l] },

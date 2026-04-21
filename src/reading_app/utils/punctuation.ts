@@ -11,6 +11,7 @@ export const punctuationSchema = z.union([
   z
     .literal("quotation_mark")
     .describe("A quotation mark (\") surrounding spoken dialogue."),
+  z.literal("comma").describe("A comma (,) used for pauses and lists."),
 ]);
 
 export type Punctuation = z.infer<typeof punctuationSchema>;
