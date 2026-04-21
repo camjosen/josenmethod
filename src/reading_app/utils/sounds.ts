@@ -67,5 +67,6 @@ export const sounds = {
 
   // silent
   a_silent: { symbol: "a_silent", as_in: "eat", silent: true },
+  e_silent: { symbol: "e_silent", as_in: "kite", silent: true },
   k_silent: { symbol: "k_silent", as_in: "knight", silent: true },
 } as const satisfies Record<string, SoundDefinition>;

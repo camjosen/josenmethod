@@ -10,7 +10,7 @@ export const inputSchema = z
   .discriminatedUnion("variant", [
     base
       .extend({
-        variant: z.literal("sound_it_out"),
+        variant: z.literal("scaffolded"),
         itemTasks: z
           .array(
             z.union([
@@ -30,7 +30,15 @@ export const inputSchema = z
                   "The teacher says the word slowly, blending sounds without stopping.",
                 ),
               z
-                .literal("student_blends")
+                .literal("guided_sound_it_out")
+                .describe(
+                  "Teacher prompts the student for each sound, then the student blends.",
+                ),
+              z
+                .literal("sound_it_out")
+                .describe("Student sounds the word on their own."),
+              z
+                .literal("blend")
                 .describe(
                   "Student says the word slowly, blending sounds without stopping.",
                 ),
@@ -44,6 +52,13 @@ export const inputSchema = z
           .describe("The student tasks for each item."),
       })
       .describe("Student sounds out each word."),
+    base
+      .extend({
+        variant: z.literal("silent_letters_intro"),
+      })
+      .describe(
+        `Introduce the concept of a "little sound" that won't be spoken aloud and will be rendered differently from the other sounds.`,
+      ),
   ])
   .describe("Student reads individual words.");
 
