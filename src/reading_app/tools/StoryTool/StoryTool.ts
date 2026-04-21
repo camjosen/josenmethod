@@ -50,6 +50,9 @@ export const inputSchema = z
               "Student sounds out each word in the story, one at a time.",
             ),
           z
+            .literal("read_the_fast_way")
+            .describe("Student reads each sentence at a normal fluent pace."),
+          z
             .literal("read_the_fast_way_with_questions")
             .describe(
               "Student reads each sentence at a normal fluent pace; teacher asks comprehension questions after each sentence.",

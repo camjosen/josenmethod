@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
 // prettier-ignore
-export const soundSchema = z.enum([
+const soundSymbols = [
   // vowels
   "a", "e", "i", "o", "u",
   // long vowels
@@ -18,7 +18,10 @@ export const soundSchema = z.enum([
   "t", "c", "h", "k", "p", "ch", "x",
   // silent
   "a_silent", "e_silent", "k_silent",
-]);
+  // punctuation
+  "apostrophe"
+] as const;
+export const soundSchema = z.enum(soundSymbols);
 
 export const soundDefinitionSchema = z.object({
   symbol: soundSchema,
@@ -29,7 +32,7 @@ export const soundDefinitionSchema = z.object({
 });
 export type SoundDefinition = z.infer<typeof soundDefinitionSchema>;
 
-export const sounds: Record<string, SoundDefinition> = {
+export const sounds = {
   // vowels
   a: { symbol: "a", as_in: "and" },
   e: { symbol: "e", as_in: "end" },
@@ -92,4 +95,7 @@ export const sounds: Record<string, SoundDefinition> = {
   a_silent: { symbol: "a_silent", as_in: "eat", silent: true },
   e_silent: { symbol: "e_silent", as_in: "kite", silent: true },
   k_silent: { symbol: "k_silent", as_in: "knight", silent: true },
-} as const satisfies Record<string, SoundDefinition>;
+
+  // punctuation (silent)
+  apostrophe: { symbol: "apostrophe", as_in: "let's", silent: true },
+} as const satisfies Record<z.infer<typeof soundSchema>, SoundDefinition>;

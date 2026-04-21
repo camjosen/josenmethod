@@ -53,6 +53,11 @@ export const inputSchema = z
                 .describe(
                   "Require the student to touch each sound as they say it.",
                 ),
+              z
+                .literal("repeat_until_firm")
+                .describe(
+                  "Repeat the list of words until all words are read fluently.",
+                ),
             ]),
           )
           .optional()
@@ -61,14 +66,14 @@ export const inputSchema = z
       .describe("Student sounds out each word."),
     base
       .extend({
-        variant: z.literal("silent_letters_intro"),
+        variant: z.literal("introduce_silent_letters"),
       })
       .describe(
         `Introduce the concept of a "little sound" that won't be spoken aloud and will be rendered differently from the other sounds.`,
       ),
     base
       .extend({
-        variant: z.literal("introduce_funny_word"),
+        variant: z.literal("introduce_funny_words"),
       })
       .describe(
         `Introduce a "funny word" — a word whose pronunciation doesn't follow the usual phonics rules. The teacher explains that this word is special.`,

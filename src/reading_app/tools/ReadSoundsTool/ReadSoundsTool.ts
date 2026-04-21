@@ -18,7 +18,7 @@ export const inputSchema = z
             .describe(
               "Teacher reintroduces sounds the student may not know well yet.",
             ),
-          z.literal("say_it_slow").describe("Student says each sound slowly."),
+          z.literal("slowly").describe("Student says each sound slowly."),
           z.literal("say_it_fast").describe("Student says each sound quickly."),
         ]),
       )

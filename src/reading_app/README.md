@@ -29,6 +29,7 @@
   - capital letters
   - multi-syllable words
   - funny words
+  - words with apostrophes
 
 - Minimize markup. Only include markup if the student struggles. (different from TYC)
 

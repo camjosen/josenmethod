@@ -206,7 +206,7 @@ export const words = {
   left: { spelling: "left", sounds: [s.l, s.e, s.f, s.t] },
   leg: { spelling: "leg", sounds: [s.l, s.e, s.g] },
   let: { spelling: "let", sounds: [s.l, s.e, s.t] },
-  "let's": { spelling: "let's", sounds: [s.l, s.e, s.t, s.s] },
+  let_s: { spelling: "let's", sounds: [s.l, s.e, s.t, s.apostrophe, s.s] },
   lick: { spelling: "lick", sounds: [s.l, s.i, s.k] },
   licked: { spelling: "licked", sounds: [s.l, s.i, s.k, s.t] },
   lid: { spelling: "lid", sounds: [s.l, s.i, s.d] },
