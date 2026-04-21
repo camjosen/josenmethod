@@ -11,14 +11,9 @@ export const inputSchema = z
     base
       .extend({
         variant: z.literal("scaffolded"),
-        itemTasks: z
+        flow: z
           .array(
             z.union([
-              z
-                .literal("touch_sounds")
-                .describe(
-                  "Student touches each sound as it is spoken to practice methodical movement from left to right.",
-                ),
               z
                 .literal("recall_sounds")
                 .describe(
@@ -50,6 +45,18 @@ export const inputSchema = z
             ]),
           )
           .describe("The student tasks for each item."),
+        modifications: z
+          .array(
+            z.union([
+              z
+                .literal("require_touch")
+                .describe(
+                  "Require the student to touch each sound as they say it.",
+                ),
+            ]),
+          )
+          .optional()
+          .describe("Activity-level modifications"),
       })
       .describe("Student sounds out each word."),
     base

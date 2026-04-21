@@ -26,7 +26,7 @@ export const inputSchema = z
       .describe(
         "Visual markup style: arrows show direction of reading, dots mark individual sounds.",
       ),
-    itemTasks: z
+    flow: z
       .array(
         z.union([
           z
