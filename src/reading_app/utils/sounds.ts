@@ -1,12 +1,35 @@
-type SoundDefinition = {
-  symbol: string;
-  as_in: string;
-  whispered?: boolean;
-  stop?: boolean;
-  silent?: boolean;
-};
+import { z } from "zod/v4";
 
-export const sounds = {
+// prettier-ignore
+export const soundSchema = z.enum([
+  // vowels
+  "a", "e", "i", "o", "u",
+  // long vowels
+  "a_long", "e_long", "i_long", "o_long", "u_long", "y_long",
+  // special vowel sounds
+  "oo", "ea", "ai", "ou",
+  // consonants voiced and held
+  "m", "r", "th", "n", "l", "w", "I", "v", "ar", "ing", "y", "er", "qu", "z",
+  // voiced but not held
+  "d", "g", "b", "j", "wh",
+  // whispered and held
+  "s", "f", "sh",
+  // whispered but not held
+  "t", "c", "h", "k", "p", "ch", "x",
+  // silent
+  "a_silent", "e_silent", "k_silent",
+]);
+
+export const soundDefinitionSchema = z.object({
+  symbol: soundSchema,
+  as_in: z.string(),
+  whispered: z.boolean().optional(),
+  stop: z.boolean().optional(),
+  silent: z.boolean().optional(),
+});
+export type SoundDefinition = z.infer<typeof soundDefinitionSchema>;
+
+export const sounds: Record<string, SoundDefinition> = {
   // vowels
   a: { symbol: "a", as_in: "and" },
   e: { symbol: "e", as_in: "end" },

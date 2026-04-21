@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { soundDefinitionSchema } from "../../utils/shared_schemas.ts";
+import { soundDefinitionSchema } from "../../utils/sounds.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const base = z.object({

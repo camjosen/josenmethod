@@ -1,5 +1,13 @@
-import { sounds as s } from "./sounds";
-import { Word } from "./shared_schemas";
+import { z } from "zod/v4";
+
+import { sounds as s, soundDefinitionSchema } from "./sounds";
+
+export const wordSchema = z.object({
+  spelling: z.string().describe("The spelling of the word."),
+  sounds: z.array(soundDefinitionSchema).describe("The sounds that make up the word."),
+  isFunny: z.boolean().optional().describe("True if the word is not pronouced the same as the sounds would suggest, like 'was' or 'said'."),
+});
+export type Word = z.infer<typeof wordSchema>;
 
 export const words = {
   a: { spelling: "a", sounds: [s.a] },

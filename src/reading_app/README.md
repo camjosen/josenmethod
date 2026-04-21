@@ -20,3 +20,27 @@
 - Unlike a video game where you “just play”, learning can be hard work, and it often makes sense to help students mentally prepare for that work. Instructions for active listening, for example, can be helpful.
 - There’s an art to giving feedback. Try to keep it concrete and specific so that the child can connect their decisions to the feedback. Generic praise like “good work” is often too difficult to connect to choices made by the student.
 - Correct mistakes immediately.
+
+# Dependencies that affect lesson design
+
+- Don't use things that haven't been introduced. This includes:
+  - words with new sounds
+  - words with silent sounds
+  - capital letters
+  - multi-syllable words
+  - funny words
+
+- Minimize markup. Only include markup if the student struggles. (different from TYC)
+
+# Knowledge state helpers
+
+- For each sound: unstarted, introduced, struggling, slow, fluent (and also notes about struggles)
+- For each funny word: unstarted, introduced, struggling, slow, fluent (and also notes about struggles)
+- For silent sounds: unstarted, introduced, struggling, slow, fluent
+- For each capital letter: unstarted, introduced, struggling, slow, fluent (and also notes about struggles)
+- For each skill (below): unstarted, introduced, struggling, slow, fluent (and also notes about struggles)
+  - Reading left to right
+  - Keeping track of your place in a sentence or paragraph
+  - Blending sounds without stopping
+  - Reading the fast way (sound out in your head)
+- For each activity and item task: unstarted, introduced, struggling, slow, fluent (and also notes about struggles)

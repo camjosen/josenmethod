@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { wordSchema } from "../../utils/shared_schemas.ts";
+import { wordSchema } from "../../utils/words.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
 const base = z.object({

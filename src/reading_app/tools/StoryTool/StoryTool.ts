@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { wordSchema } from "../../utils/shared_schemas.ts";
+import { wordSchema } from "../../utils/words.ts";
 import { punctuationSchema } from "../../utils/punctuation.ts";
 import { Tool } from "../../../tools/Tool.ts";
 
@@ -54,9 +54,7 @@ export const inputSchema = z
             .describe(
               "Student reads each sentence at a normal fluent pace; teacher asks comprehension questions after each sentence.",
             ),
-          z
-            .literal("title_reading")
-            .describe("Student reads the story title."),
+          z.literal("title_reading").describe("Student reads the story title."),
         ]),
       )
       .describe("The tasks the student completes with this story."),
