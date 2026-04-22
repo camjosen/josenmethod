@@ -1,6 +1,5 @@
-import { sounds as s } from "./sounds.ts";
-import { words as w } from "./words.ts";
-import { SoundDefinition, Word } from "./shared_schemas.ts";
+import { sounds as s, SoundDefinition } from "./sounds.ts";
+import { words as w, Word } from "./words.ts";
 
 type RhymeItem = {
   startingSound: SoundDefinition;
@@ -83,5 +82,30 @@ export const rhymes = {
     startingSound: s.s,
     ending: { spelling: "oap", sounds: [s.o_long, s.a_silent, s.p] },
     fullWord: w.soap,
+  },
+  th_at: { startingSound: s.th, ending: w.at, fullWord: w.that },
+  m_an: { startingSound: s.m, ending: w.an, fullWord: w.man },
+  th_an: { startingSound: s.th, ending: w.an, fullWord: w.than },
+  c_at: { startingSound: s.c, ending: w.at, fullWord: w.cat },
+  d_one: {
+    startingSound: s.d,
+    ending: { spelling: "one", sounds: [s.u, s.n] },
+    fullWord: w.done,
+  },
+  c_an: { startingSound: s.c, ending: w.an, fullWord: w.can },
+  m_oo: {
+    startingSound: s.m,
+    ending: { spelling: "oo", sounds: [s.oo] },
+    fullWord: w.moo,
+  },
+  t_oo: {
+    startingSound: s.t,
+    ending: { spelling: "oo", sounds: [s.oo] },
+    fullWord: w.too,
+  },
+  d_o: {
+    startingSound: s.d,
+    ending: { spelling: "o", sounds: [s.oo] },
+    fullWord: w.do,
   },
 } satisfies Record<string, RhymeItem>;
