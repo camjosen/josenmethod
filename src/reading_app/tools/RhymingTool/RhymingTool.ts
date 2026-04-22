@@ -18,9 +18,6 @@ export const inputSchema = z
           z.literal("read_start").describe("Student says the starting sound."),
           z.literal("hear_ending").describe("Teacher says the ending aloud."),
           z
-            .literal("teacher_models")
-            .describe("Teacher models how to say the rhyme."),
-          z
             .literal("blend")
             .describe(
               "Student says the rhyme slowly, without stopping between sounds.",
@@ -30,6 +27,18 @@ export const inputSchema = z
       )
       .nonempty()
       .describe("The student tasks for each item."),
+    modifications: z
+      .array(
+        z.union([
+          z
+            .literal("teacher_models")
+            .describe(
+              "Before the student rhymes, the teacher demonstrates the rhyme.",
+            ),
+        ]),
+      )
+      .optional()
+      .describe("Activity-level modifications"),
   })
   .describe(
     `An easier version of reading entire words that focuses on "rhyming" where only the first sound is displayed.`,

@@ -32,6 +32,16 @@ export const inputSchema = z
       .nonempty()
       .describe("The student tasks for each item."),
     items: z.array(itemSchema),
+    modifications: z
+      .array(
+        z.union([
+          z
+            .literal("repeat_until_firm")
+            .describe("Repeat activity until fluency is achieved."),
+        ]),
+      )
+      .optional()
+      .describe("Activity-level modifications"),
   })
   .describe(
     `Teach verbal "blending" without presenting any visuals. The student says words slowly (sounded out without stopping) and also the fast way.`,
