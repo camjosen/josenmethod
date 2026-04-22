@@ -17,19 +17,19 @@ export const rhymes = {
   m_eat: { startingSound: s.m, ending: w.eat, fullWord: w.meat },
   m_ean: {
     startingSound: s.m,
-    ending: { spelling: "ean", sounds: [s.e_long, s.n] },
+    ending: { spelling: "ean", sounds: [s.ea, s.n] },
     fullWord: w.mean,
   },
   s_ee: {
     startingSound: s.s,
-    ending: { spelling: "ee", sounds: [s.e_long] },
+    ending: { spelling: "ee", sounds: [s.ee] },
     fullWord: w.see,
   },
   s_at: { startingSound: s.s, ending: w.at, fullWord: w.sat },
   s_eat: { startingSound: s.s, ending: w.eat, fullWord: w.seat },
   s_een: {
     startingSound: s.s,
-    ending: { spelling: "een", sounds: [s.e_long, s.n] },
+    ending: { spelling: "een", sounds: [s.ee, s.n] },
     fullWord: w.seen,
   },
   s_un: {
@@ -45,8 +45,8 @@ export const rhymes = {
   r_at: { startingSound: s.r, ending: w.at, fullWord: w.rat },
   r_oad: {
     startingSound: s.r,
-    ending: { spelling: "oad", sounds: [s.o_long, s.d] },
-    fullWord: w.run,
+    ending: { spelling: "oad", sounds: [s.o_long, s.a_silent, s.d] },
+    fullWord: w.road,
   },
   r_un: {
     startingSound: s.r,
@@ -65,12 +65,12 @@ export const rhymes = {
   },
   r_eed: {
     startingSound: s.r,
-    ending: { spelling: "eed", sounds: [s.e_long, s.d] },
+    ending: { spelling: "eed", sounds: [s.ee, s.d] },
     fullWord: w.read,
   },
   s_eed: {
     startingSound: s.s,
-    ending: { spelling: "eed", sounds: [s.e_long, s.d] },
+    ending: { spelling: "eed", sounds: [s.ee, s.d] },
     fullWord: w.seed,
   },
   r_ope: {

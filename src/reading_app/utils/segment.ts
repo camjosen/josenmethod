@@ -80,7 +80,7 @@ export function segmentWord(word: Word): Segment[] {
   for (const sound of sounds) {
     if (cursor >= spelling.length) break;
 
-    const patterns = symbolPatterns[sound.symbol] ?? [sound.symbol];
+    const patterns = symbolPatterns[sound.name] ?? [sound.name];
     let matched = false;
 
     // Allow a small lookahead so we can skip unmapped chars (e.g. "'" in "don't")
