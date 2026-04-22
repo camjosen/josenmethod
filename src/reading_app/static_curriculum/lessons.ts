@@ -185,9 +185,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          flow: ["guide_word_by_word", "guide_word_by_word", "teacher_models_the_fast_way"],
           markup: ["arrows", "dots"],
-          items: [[[w.see, w.me, w.eat]]],
+          items: ["guided_word_by_word", "guided_word_by_word", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.see, w.me, w.eat, "."]]] } } },
         },
       ],
       ["Writing", { items: [s.s, s.d] }],
@@ -202,7 +202,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["VerbalBlending", { flow: ["blend", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.seed, w.read, w.sad, w.ear] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.see, w.seed, w.rat, w.read, w.mad, w.sad, w.am, w.ear, w.at] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.i, s.t, s.a, s.r, s.d] }],
-      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.see, w.me, w.read, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "sound_it_out", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.see, w.me, w.read, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.i, s.e_long] }],
     ],
   },
@@ -214,7 +221,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["VerbalBlending", { flow: ["blend"], items: [w.seed, w.read, w.ear, w.meet] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.it, w.sit, w.ear, w.seed, w.rat, w.meet, w.mad] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.d, s.t, s.s, s.r, s.i] }],
-      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.mad, w.at, w.me, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "sound_it_out", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.mad, w.at, w.me, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.r, s.t] }],
     ],
   },
@@ -227,7 +241,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.is, w.it, w.sat, w.ear, w.meet, w.seem, w.read] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_am, r.s_am, r.m_am] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.th, s.d, s.m, s.r, s.i, s.t] }],
-      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.read, w.it, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "sound_it_out", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.read, w.it, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.d, s.i] }],
     ],
   },
@@ -239,7 +260,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.this, w.that, w.ram, w.ear, w.seem, w.sit] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_at, r.s_at, r.th_at] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.s, s.th, s.e_long, s.i, s.a, s.t, s.d] }],
-      ["Story", { flow: ["guide_word_by_word", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.this, w.rat, w.is, w.sad, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.this, w.rat, w.is, w.sad, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.s, s.e_long] }],
     ],
   },
@@ -250,7 +278,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.me, w.the, w.this, w.that, w.rat, w.sam] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_an, r.th_an] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.i, s.th, s.d, s.s, s.r] }],
-      ["Story", { flow: ["guide_word_by_word", "guide_word_by_word", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.sam, w.is, w.mad, w.at, w.me, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "guided_word_by_word", "teacher_models_the_fast_way"],
+          content: { paragraphs: { sentences: { words: [[[w.sam, w.is, w.mad, w.at, w.me, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.m, s.a] }],
     ],
   },
@@ -263,7 +298,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.at, w.that, w.ear, w.the, w.mitt, w.rid] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.th_at, r.m_at, r.s_at] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.i, s.c, s.s, s.t, s.a, s.th] }],
-      ["Story", { flow: ["guide_word_by_word", "teacher_models_the_fast_way", "read_the_fast_way_with_questions"], markup: ["arrows", "dots"], items: [[[w.see, w.the, w.ram, w.sit, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "teacher_models_the_fast_way", "read_the_fast_way_with_questions"],
+          content: { paragraphs: { sentences: { words: [[[w.see, w.the, w.ram, w.sit, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.d, s.r] }],
     ],
   },
@@ -275,7 +317,14 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.cat] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_at, r.th_at, r.c_at] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.c, s.t, s.i, s.th, s.a] }],
-      ["Story", { flow: ["guide_word_by_word", "guide_word_by_word", "read_the_fast_way", "read_the_fast_way_with_questions"], markup: ["arrows", "dots"], items: [[[w.the, w.ram, w.is, w.sad, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "guided_word_by_word", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: { paragraphs: { sentences: { words: [[[w.the, w.ram, w.is, w.sad, "."]]] } } },
+        },
+      ],
       ["Writing", { items: [s.c, s.d] }],
     ],
   },
@@ -287,7 +336,25 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.sick, w.rack, w.this, w.am, w.mad, w.meet, w.cat, w.that] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_un, r.s_un, r.d_one] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.c, s.o, s.th, s.r, s.t, s.i] }],
-      ["Story", { flow: ["guide_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"], markup: ["arrows", "dots"], items: [[[w.this, w.cat, w.is, w.sick, "."], [w.this, w.cat, w.is, w.sad, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.this, w.cat, w.is, w.sick, "."],
+                    [w.this, w.cat, w.is, w.sad, "."],
+                  ],
+                ],
+              },
+            },
+          },
+        },
+      ],
       ["Writing", { items: [s.i, s.t] }],
     ],
   },
@@ -299,7 +366,25 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_an, r.th_an, r.c_an] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.th, s.c, s.o, s.d, s.e_long, s.i] }],
       ["ReadWords", { flow: ["sound_it_out", "sound_it_out", "say_it_fast"], modifications: ["teach_funny_words"], items: [w.a] }],
-      ["Story", { flow: ["guide_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"], markup: ["arrows", "dots"], items: [[[w.this, w.is, w.a, w.seed, "."], [w.see, w.a, w.ram, w.eat, w.it, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.this, w.is, w.a, w.seed, "."],
+                    [w.see, w.a, w.ram, w.eat, w.it, "."],
+                  ],
+                ],
+              },
+            },
+          },
+        },
+      ],
       ["Writing", { items: [s.o, s.c] }],
     ],
   },
@@ -311,7 +396,25 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.rock, w.rod, w.sack, w.sock, w.sick, w.meet, w.cat, w.that] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_oo, r.t_oo, r.d_o] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.n, s.o, s.i, s.c, s.e_long, s.a] }],
-      ["Story", { flow: ["guide_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"], markup: ["arrows", "dots"], items: [[[w.this, w.is, w.a, w.rock, "."], [w.sam, w.is, w.at, w.the, w.rock, "."]]] }],
+      [
+        "Story",
+        {
+          markup: ["arrows", "dots"],
+          items: ["guided_word_by_word", "read_the_fast_way_with_questions", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.this, w.is, w.a, w.rock, "."],
+                    [w.sam, w.is, w.at, w.the, w.rock, "."],
+                  ],
+                ],
+              },
+            },
+          },
+        },
+      ],
       ["Writing", { items: [s.r, s.o] }],
     ],
   },
@@ -328,20 +431,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows"],
-          flow: ["sound_it_out", "read_the_fast_way_with_questions"],
-          items: [
-            [
-              [w.a, w.dog, w.was, w.in, w.the, w.fog, "."],
-              [w.a, w.cat, w.was, w.in, w.the, w.fog, "."],
-              [w.a, w.goat, w.was, w.in, w.the, w.fog, "."],
-            ],
-            [[w.the, w.dog, w.and, w.the, w.cat, w.and, w.the, w.goat, w.came, w.to, w.a, w.log, "."]],
-            [
-              [w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, "."],
-              [w.the, w.dog, w.and, w.the, w.cat, w.said, ",", '"', w.we, w.are, w.on, w.the, w.log, ".", '"'],
-            ],
-            [[w.the, w.goat, w.said, ",", '"', w.I, w.am, w.not, w.on, w.the, w.log, ".", w.I, w.am, w.in, w.the, w.log, ".", w.he, w.he, ".", '"']],
-          ],
+          items: ["sound_it_out", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.a, w.dog, w.was, w.in, w.the, w.fog, "."],
+                    [w.a, w.cat, w.was, w.in, w.the, w.fog, "."],
+                    [w.a, w.goat, w.was, w.in, w.the, w.fog, "."],
+                  ],
+                  [[w.the, w.dog, w.and, w.the, w.cat, w.and, w.the, w.goat, w.came, w.to, w.a, w.log, "."]],
+                  [
+                    [w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, "."],
+                    [w.the, w.dog, w.and, w.the, w.cat, w.said, ",", '"', w.we, w.are, w.on, w.the, w.log, ".", '"'],
+                  ],
+                  [[w.the, w.goat, w.said, ",", '"', w.I, w.am, w.not, w.on, w.the, w.log, ".", w.I, w.am, w.in, w.the, w.log, ".", w.he, w.he, ".", '"']],
+                ],
+              },
+            },
+          },
         },
       ],
       ["Writing", { items: [s.ch, s.p] }],
@@ -360,26 +469,32 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           title: { words: [w.lots, w.of, w.cars] },
           markup: ["arrows"],
-          flow: ["title_reading", "read_the_fast_way_with_questions"],
-          items: [
-            [
-              [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."],
-              [w.he, w.has, w.old, w.cars, "."],
-              [w.he, w.has, w.little, w.cars, "."],
-            ],
-            [
-              [w.are, w.his, w.cars, w.for, w.goats, "?"],
-              [w.no, "."],
-              [w.are, w.his, w.cars, w.for, w.sheep, "?"],
-              [w.no, "."],
-              [w.are, w.his, w.cars, w.for, w.cows, "?"],
-              [w.no, "."],
-            ],
-            [
-              [w.his, w.cars, w.are, w.for, w.cops, "."],
-              [w.he, w.has, w.lots, w.of, w.cop, w.cars, "."],
-            ],
-          ],
+          items: ["title_reading", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."],
+                    [w.he, w.has, w.old, w.cars, "."],
+                    [w.he, w.has, w.little, w.cars, "."],
+                  ],
+                  [
+                    [w.are, w.his, w.cars, w.for, w.goats, "?"],
+                    [w.no, "."],
+                    [w.are, w.his, w.cars, w.for, w.sheep, "?"],
+                    [w.no, "."],
+                    [w.are, w.his, w.cars, w.for, w.cows, "?"],
+                    [w.no, "."],
+                  ],
+                  [
+                    [w.his, w.cars, w.are, w.for, w.cops, "."],
+                    [w.he, w.has, w.lots, w.of, w.cop, w.cars, "."],
+                  ],
+                ],
+              },
+            },
+          },
         },
       ],
       ["Writing", { items: [s.w, s.v, s.p] }],
@@ -399,24 +514,30 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           title: { words: [w.a, w.bug, w.and, w.a, w.dog] },
           markup: ["arrows"],
-          flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          items: [
-            [
-              [w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, "."],
-              [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"'],
-            ],
-            [
-              [w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"'],
-              [w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"'],
-            ],
-            [
-              [w.the, w.bug, w.said, ",", '"', w.I, w.will, w.eat, w.this, w.log, ".", '"'],
-              [w.and, w.he, w.did, "."],
-              [w.he, w.bit, w.and, w.bit, w.and, w.bit, w.at, w.the, w.log, "."],
-              [w.the, w.bug, w.said, ",", '"', w.now, w.that, w.dog, w.can, w.see, w.how, w.big, w.I, w.am, ".", '"'],
-            ],
-            [[w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.can, w.eat, w.logs, ".", w.he, w.is, w.a, w.big, ",", w.big, w.bug, ".", '"']],
-          ],
+          items: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, "."],
+                    [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"'],
+                  ],
+                  [
+                    [w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"'],
+                    [w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"'],
+                  ],
+                  [
+                    [w.the, w.bug, w.said, ",", '"', w.I, w.will, w.eat, w.this, w.log, ".", '"'],
+                    [w.and, w.he, w.did, "."],
+                    [w.he, w.bit, w.and, w.bit, w.and, w.bit, w.at, w.the, w.log, "."],
+                    [w.the, w.bug, w.said, ",", '"', w.now, w.that, w.dog, w.can, w.see, w.how, w.big, w.I, w.am, ".", '"'],
+                  ],
+                  [[w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.can, w.eat, w.logs, ".", w.he, w.is, w.a, w.big, ",", w.big, w.bug, ".", '"']],
+                ],
+              },
+            },
+          },
         },
       ],
       ["Writing", { items: [s.d, s.b] }],
@@ -434,26 +555,32 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           title: { words: [w.the, w.bugs] },
           markup: ["arrows"],
-          flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          items: [
-            [
-              [w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, "."],
-              [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'],
-              [w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."],
-              [w.the, w.big, w.bug, w.said, ",", '"', w.that, w.is, w.how, w.big, w.bugs, w.eat, ".", '"'],
-            ],
-            [
-              [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.I, w.will, w.eat, ".", '"'],
-              [w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."],
-              [w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, "."],
-              [w.then, w.she, w.ate, w.ten, w.more, w.logs, "."],
-            ],
-            [
-              ['"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, "."],
-              ['"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"'],
-            ],
-            [[w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"']],
-          ],
+          items: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, "."],
+                    [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'],
+                    [w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."],
+                    [w.the, w.big, w.bug, w.said, ",", '"', w.that, w.is, w.how, w.big, w.bugs, w.eat, ".", '"'],
+                  ],
+                  [
+                    [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.I, w.will, w.eat, ".", '"'],
+                    [w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."],
+                    [w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, "."],
+                    [w.then, w.she, w.ate, w.ten, w.more, w.logs, "."],
+                  ],
+                  [
+                    ['"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, "."],
+                    ['"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"'],
+                  ],
+                  [[w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"']],
+                ],
+              },
+            },
+          },
         },
       ],
       ["Writing", { items: [s.g, s.b] }],
@@ -473,28 +600,34 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           title: { words: [w.the, w.man, w.and, w.his, w.bed] },
           markup: ["arrows"],
-          flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          items: [
-            [
-              [w.a, w.man, w.had, w.a, w.tub, "."],
-              [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'],
-            ],
-            [
-              [w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"'],
-              [w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, "."],
-            ],
-            [[w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"']],
-            [[w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"']],
-            [[w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"']],
-            [
-              [w.the, w.man, w.said, ",", '"', w.this, w.dog, w.likes, w.to, w.sleep, w.in, w.beds, ",", w.so, w.he, w.can, w.sleep, w.with, w.me, ".", w.but, w.I, w.do, w.not, w.like, w.dogs, w.that, w.bite, ".", '"'], // prettier-ignore
-            ],
-            [
-              [w.the, w.dog, w.said, ",", '"', w.I, w.do, w.not, w.like, w.to, w.bite, ".", '"'],
-              [w.so, w.the, w.man, w.and, w.the, w.dog, w.went, w.to, w.sleep, "."],
-              [w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, "."],
-            ],
-          ],
+          items: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
+          content: {
+            paragraphs: {
+              sentences: {
+                words: [
+                  [
+                    [w.a, w.man, w.had, w.a, w.tub, "."],
+                    [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'],
+                  ],
+                  [
+                    [w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"'],
+                    [w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, "."],
+                  ],
+                  [[w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"']],
+                  [[w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"']],
+                  [[w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"']],
+                  [
+                    [w.the, w.man, w.said, ",", '"', w.this, w.dog, w.likes, w.to, w.sleep, w.in, w.beds, ",", w.so, w.he, w.can, w.sleep, w.with, w.me, ".", w.but, w.I, w.do, w.not, w.like, w.dogs, w.that, w.bite, ".", '"'], // prettier-ignore
+                  ],
+                  [
+                    [w.the, w.dog, w.said, ",", '"', w.I, w.do, w.not, w.like, w.to, w.bite, ".", '"'],
+                    [w.so, w.the, w.man, w.and, w.the, w.dog, w.went, w.to, w.sleep, "."],
+                    [w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, "."],
+                  ],
+                ],
+              },
+            },
+          },
         },
       ],
     ],

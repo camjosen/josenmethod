@@ -1,6 +1,11 @@
 import { z } from "zod/v4";
 import { soundDefinitionSchema } from "../../utils/sounds.ts";
 import { Tool } from "../../../tools/Tool.ts";
+import {
+  READ_SOUNDS_TOOL_DESCRIPTION,
+  READ_SOUNDS_TOOL_NAME,
+  READ_SOUNDS_TOOL_PROMPT,
+} from "./Prompt.ts";
 
 export const inputSchema = z
   .object({
@@ -46,12 +51,15 @@ export const inputSchema = z
 export type ReadSoundsToolInput = z.infer<typeof inputSchema>;
 
 export const ReadSoundsTool = {
-  name: "ReadSounds" as const,
+  name: READ_SOUNDS_TOOL_NAME,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
-    return "";
+    return READ_SOUNDS_TOOL_DESCRIPTION;
+  },
+  prompt: async () => {
+    return READ_SOUNDS_TOOL_PROMPT;
   },
 } satisfies Tool<typeof inputSchema, string[]>;

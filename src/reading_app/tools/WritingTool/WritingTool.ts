@@ -2,6 +2,11 @@ import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
 import { Tool } from "../../../tools/Tool.ts";
 import { soundDefinitionSchema } from "../../utils/sounds.ts";
+import {
+  WRITING_TOOL_DESCRIPTION,
+  WRITING_TOOL_NAME,
+  WRITING_TOOL_PROMPT,
+} from "./Prompt.ts";
 
 const WritingTaskSchema = z.union([soundDefinitionSchema, wordSchema]);
 
@@ -19,12 +24,15 @@ export type WritingTask = z.infer<typeof WritingTaskSchema>;
 export type WritingToolInput = z.infer<typeof inputSchema>;
 
 export const WritingTool = {
-  name: "Writing" as const,
+  name: WRITING_TOOL_NAME,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
-    return "";
+    return WRITING_TOOL_DESCRIPTION;
+  },
+  prompt: async () => {
+    return WRITING_TOOL_PROMPT;
   },
 } satisfies Tool<typeof inputSchema, string[]>;

@@ -1,6 +1,11 @@
 import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
 import { Tool } from "../../../tools/Tool.ts";
+import {
+  READ_WORDS_TOOL_DESCRIPTION,
+  READ_WORDS_TOOL_NAME,
+  READ_WORDS_TOOL_PROMPT,
+} from "./Prompt.ts";
 
 export const inputSchema = z
   .object({
@@ -71,12 +76,15 @@ export const inputSchema = z
 export type ReadWordsToolInput = z.infer<typeof inputSchema>;
 
 export const ReadWordsTool = {
-  name: "ReadWords" as const,
+  name: READ_WORDS_TOOL_NAME,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
-    return "";
+    return READ_WORDS_TOOL_DESCRIPTION;
+  },
+  prompt: async () => {
+    return READ_WORDS_TOOL_PROMPT;
   },
 } satisfies Tool<typeof inputSchema, string[]>;

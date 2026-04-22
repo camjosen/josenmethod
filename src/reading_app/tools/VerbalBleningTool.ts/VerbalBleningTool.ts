@@ -1,6 +1,11 @@
 import { z } from "zod/v4";
 import { Tool } from "../../../tools/Tool.ts";
 import { wordSchema } from "../../utils/words.ts";
+import {
+  VERBAL_BLENDING_TOOL_DESCRIPTION,
+  VERBAL_BLENDING_TOOL_NAME,
+  VERBAL_BLENDING_TOOL_PROMPT,
+} from "./Prompt.ts";
 
 const compoundItemSchema = z.tuple([z.string(), z.string()]);
 
@@ -50,12 +55,15 @@ export const inputSchema = z
 export type VerbalBlendingInput = z.infer<typeof inputSchema>;
 
 export const VerbalBlending = {
-  name: "VerbalBlending" as const,
+  name: VERBAL_BLENDING_TOOL_NAME,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
-    return "";
+    return VERBAL_BLENDING_TOOL_DESCRIPTION;
+  },
+  prompt: async () => {
+    return VERBAL_BLENDING_TOOL_PROMPT;
   },
 } satisfies Tool<typeof inputSchema, string[]>;

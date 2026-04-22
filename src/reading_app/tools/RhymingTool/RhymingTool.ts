@@ -2,6 +2,11 @@ import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
 import { soundDefinitionSchema } from "../../utils/sounds.ts";
 import { Tool } from "../../../tools/Tool.ts";
+import {
+  RHYMING_TOOL_DESCRIPTION,
+  RHYMING_TOOL_NAME,
+  RHYMING_TOOL_PROMPT,
+} from "./Prompt.ts";
 
 export const inputSchema = z
   .object({
@@ -47,12 +52,15 @@ export const inputSchema = z
 export type RhymingToolInput = z.infer<typeof inputSchema>;
 
 export const RhymingTool = {
-  name: "Rhyming" as const,
+  name: RHYMING_TOOL_NAME,
   inputSchema,
   call: async (_input) => {
     return { data: [] };
   },
   description: async (_input) => {
-    return "";
+    return RHYMING_TOOL_DESCRIPTION;
+  },
+  prompt: async () => {
+    return RHYMING_TOOL_PROMPT;
   },
 } satisfies Tool<typeof inputSchema, string[]>;

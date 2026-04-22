@@ -11,4 +11,5 @@ export type Tool<Input extends AnyDict = AnyDict, Output = unknown> = {
   inputSchema: Input;
   call(input: z.infer<Input>): Promise<ToolOutput<Output>>;
   description(input: z.infer<Input>): Promise<string>;
+  prompt(): Promise<string>;
 };
