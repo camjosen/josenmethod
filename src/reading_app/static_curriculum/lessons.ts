@@ -193,6 +193,128 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["Writing", { items: [s.s, s.d] }],
     ],
   },
+  {
+    title: "Lesson 14",
+    activities: [
+      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.i] }],
+      ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.d, s.t, s.e_long, s.i] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_eed, r.r_eed] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.seed, w.read, w.sad, w.ear] }],
+      ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.see, w.seed, w.rat, w.read, w.mad, w.sad, w.am, w.ear, w.at] }],
+      ["ReadSounds", { flow: ["say_it_slowly"], items: [s.i, s.t, s.a, s.r, s.d] }],
+      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.see, w.me, w.read, "."]]] }],
+      ["Writing", { items: [s.i, s.e_long] }],
+    ],
+  },
+  {
+    title: "Lesson 15",
+    activities: [
+      ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.t, s.e_long, s.a, s.i, s.d] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_eat, r.s_eat] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.seed, w.read, w.ear, w.meet] }],
+      ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.it, w.sit, w.ear, w.seed, w.rat, w.meet, w.mad] }],
+      ["ReadSounds", { flow: ["say_it_fast"], items: [s.d, s.t, s.s, s.r, s.i] }],
+      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.mad, w.at, w.me, "."]]] }],
+      ["Writing", { items: [s.r, s.t] }],
+    ],
+  },
+  {
+    title: "Lesson 16",
+    activities: [
+      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.th] }],
+      ["ReadSounds", { flow: ["say_it_slowly"], modifications: ["require_touch"], items: [s.i, s.th, s.r, s.t] }],
+      ["ReadSounds", { flow: ["say_it_slowly"], items: [s.d, s.e_long] }],
+      ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.is, w.it, w.sat, w.ear, w.meet, w.seem, w.read] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_am, r.s_am, r.m_am] }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.th, s.d, s.m, s.r, s.i, s.t] }],
+      ["Story", { flow: ["guide_word_by_word", "sound_it_out", "teacher_models_the_fast_way"], markup: ["arrows", "dots"], items: [[[w.read, w.it, "."]]] }],
+      ["Writing", { items: [s.d, s.i] }],
+    ],
+  },
+  {
+    title: "Lesson 17",
+    activities: [
+      // read sounds th s r m t i d
+      // read words (sound it out) "is" (funny word)
+      // read words (sound it out, say it fast) this that ram ear seem sit
+      // rhyming m_at s_at th_at
+      // read sounds (fast) s th e_long i a t d
+      // story "this rat is sad." (guided, teacher models fast)
+      // writing s e_long
+    ],
+  },
+  {
+    title: "Lesson 18",
+    activities: [
+      // read sounds (slow) a th r i t
+      // read words (sound it out, say it fast) me the this that rat sam
+      // rhyming m_an th_an
+      // read sounds (slowly) i th d s r
+      // story "sam is mad at me." guided sound it out, guided sound it out, guided fast way
+      // writing m a
+    ],
+  },
+  {
+    title: "Lesson 19",
+    activities: [
+      // read sounds (introduce) c
+      // read sounds (slow) r th t m d c
+      // read words "is" (funny)
+      // read words (sound it out, say it fast), at that ear the mitt rid
+      // rhyming th_at m_at s_at
+      // read sounds (slowly) i c s t a th
+      // story "see the ram sit." guided sound it out, guided fast way, word finding
+      // writing d r
+    ],
+  },
+  {
+    title: "Lesson 20",
+    activities: [
+      // read sounds (slow) e_long c a r i d
+      // read words (sound it otu, say it fast) at mad sat sack rat this
+      // read words "cat" (rhyme's with "at") — this is a new variant of the task...
+      // rhyming m_at, th_at, c_at (requrie touch)
+      // read sounds (say it fast) c t i th a
+      // story "the ram is sad." guided sound it out, guided sound it out, read the fast way, word finding
+      // writing c d
+    ],
+  },
+  {
+    title: "Lesson 21",
+    activities: [
+      // read sounds (intro) o
+      // read sounds (slow) e_long d i th c
+      // read words (sound it out, say it fast) sick rack this am mad meet cat that
+      // rhyming r_un s_un d_one (require touch)
+      // read sounds (slowly) c o th r t i
+      // story "this cat is sick this cat is sad" guided sound it out (require touch), soud it out with questions after each sentence, read the fast way, word finding
+      // writing i t
+    ],
+  },
+  {
+    title: "Lesson 22",
+    activities: [
+      // read sounds (slowly) a o e_long th i t
+      // read words (sound it out, say it fast) mom rod cat rat sock rock it this
+      // rhyming m_an th_an c_an
+      // read souds (fast) th c o d e_long i
+      // read words "a" (funny)
+      // story "this is a seed. see a ram eat it." guided sound it out, guided w/ questions after each sentence, fast way, word finding
+      // writing o c
+    ],
+  },
+  {
+    title: "Lesson 23",
+    activities: [
+      // read sounds (intro) n
+      // read sounds (slow) o c th i d
+      // read words (sound it out, say it fast) rock rod sack sock sick meet cat that
+      // rhyming m_oo t_oo d_o
+      // read sounds (slowly) n o i c e_long a
+      // story "this is a rock. sam is at the rock." guided sound it out (require touch), guided w/ question after each sentence, fast way, word finding
+      // writing r o
+    ],
+  },
   // Skip a bunch of lessons for now
   {
     title: "Lesson 52",

@@ -54,6 +54,11 @@ export const rhymes = {
     ending: { spelling: "un", sounds: [s.u, s.n] },
     fullWord: w.run,
   },
+  m_am: {
+    startingSound: s.m,
+    ending: { spelling: "am", sounds: [s.a, s.m] },
+    fullWord: w.mam,
+  },
   r_am: {
     startingSound: s.r,
     ending: { spelling: "am", sounds: [s.a, s.m] },
