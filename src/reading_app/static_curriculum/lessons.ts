@@ -5,8 +5,7 @@ import { RhymingTool } from "../tools/RhymingTool/RhymingTool.ts";
 import { StoryTool } from "../tools/StoryTool/StoryTool.ts";
 import { WritingTool } from "../tools/WritingTool/WritingTool.ts";
 import { sounds as s } from "../utils/sounds.ts";
-import { words as w } from "../utils/words.ts";
-import { pseudoWords as pw } from "../utils/pseudo_words.ts";
+import { words as w, pseudoWords as pw } from "../utils/words.ts";
 import { rhymes as r } from "../utils/rhymes.ts";
 import { z } from "zod/v4";
 
@@ -20,10 +19,10 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 1",
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.m, s.s] }],
-      ["VerbalBlending", { variant: "say_it_fast", scaffold: true, items: [["motor", "boat"], ["ice", "cream"], ["sis", "ter"], ["ham", "burger"], w.me, w.if] }],
-      ["VerbalBlending", { variant: "blend", scaffold: true, items: [w.am, w.if, w.in] }],
+      ["VerbalBlending", { flow: ["guided_blending", "say_it_fast"], items: [["motor", "boat"], ["ice", "cream"], ["sis", "ter"], ["ham", "burger"], w.me, w.if] }],
+      ["VerbalBlending", { flow: ["guided_blending", "blend"], items: [w.am, w.if, w.in] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.s] }],
-      ["VerbalBlending", { variant: "say_it_fast", items: [["motor", "cycle"], w.me, w.if, w.she] }],
+      ["VerbalBlending", { flow: ["say_it_fast"], items: [["motor", "cycle"], w.me, w.if, w.she] }],
       ["Writing", { items: [s.m, s.s] }],
     ],
   },
@@ -31,11 +30,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 2",
     activities: [
       ["ReadSounds", { flow: ["reintroduction", "say_it_slowly", "say_it_slowly"], modifications: ["require_touch"], items: [s.m, s.s] }],
-      ["VerbalBlending", { variant: "say_it_fast", scaffold: true, items: [["lawn", "mower"], ["side", "walk"], w.if, w.me, w.am, w.in, w.she] }],
-      ["VerbalBlending", { variant: "blend", scaffold: true, items: [w.she, w.on, w.if, w.ship] }],
+      ["VerbalBlending", { flow: ["guided_blending", "say_it_fast"], items: [["lawn", "mower"], ["side", "walk"], w.if, w.me, w.am, w.in, w.she] }],
+      ["VerbalBlending", { flow: ["guided_blending", "blend"], items: [w.she, w.on, w.if, w.ship] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.s] }],
-      ["VerbalBlending", { variant: "say_it_fast", items: [["sis", "ter"], ["mis", "ter"], ["mo", "ther"], w.if, w.no, w.am] }],
-      ["VerbalBlending", { variant: "blend", items: [w.man, w.will, w.she, w.sit] }],
+      ["VerbalBlending", { flow: ["say_it_fast"], items: [["sis", "ter"], ["mis", "ter"], ["mo", "ther"], w.if, w.no, w.am] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.man, w.will, w.she, w.sit] }],
       ["Writing", { items: [s.s, s.m] }],
     ],
   },
@@ -44,9 +43,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.a] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.s] }],
-      ["VerbalBlending", { variant: "blend", items: [w.run, w.man, w.this, w.we] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.run, w.man, w.this, w.we] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.m, s.a, s.s] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.me, w.man, w.if, w.we] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.me, w.man, w.if, w.we] }],
       ["ReadWords", { flow: ["teacher_blends", "blend"], modifications: ["require_touch"], items: [w.am, pw.sa] }],
       ["Writing", { items: [s.a, s.m] }],
     ],
@@ -55,9 +54,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 4",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.s] }],
-      ["VerbalBlending", { variant: "say_it_fast", items: [w.at, w.eat, w.mat, w.this, w.run, w.not, w.that, w.we] }],
+      ["VerbalBlending", { flow: ["say_it_fast"], items: [w.at, w.eat, w.mat, w.this, w.run, w.not, w.that, w.we] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.s, s.m, s.a] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.run, w.at, w.not, w.this, w.mat] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.run, w.at, w.not, w.this, w.mat] }],
       ["ReadWords", { flow: ["teacher_blends", "blend"], modifications: ["require_touch"], items: [pw.ma, pw.sa] }],
       ["Writing", { items: [s.s, s.a] }],
     ],
@@ -67,11 +66,12 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.e_long] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.a, s.s, s.m, s.e_long] }],
-      ["VerbalBlending", { variant: "blend", items: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.see, w.that, w.if, w.at, w.am] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.see, w.that, w.if, w.at, w.am] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.e_long, s.s, s.m, s.a] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.e_long, s.s, s.m, s.a] }],
-      ["Rhyming", { variant: "prepend_a_sound", scaffold: "teacher_models", items: [r.m_eat, r.m_at, r.m_e] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.m_eat, r.m_at, r.m_e] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_eat, r.m_at, r.m_e] }],
       ["ReadWords", { flow: ["teacher_blends", "blend", "blend"], modifications: ["require_touch"], items: [pw.em, pw.es] }],
       ["Writing", { items: [s.e_long, s.a] }],
     ],
@@ -80,11 +80,13 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 6",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.e_long, s.s, s.a, s.m] }],
-      ["VerbalBlending", { variant: "blend", items: [w.we, w.in, w.run, w.not, w.fin, w.eat, w.that, w.feet, w.see, w.sat, w.seen, w.sin] }],
-      ["Rhyming", { variant: "prepend_a_sound", scaffold: "teacher_models", items: [r.m_e, r.m_eat, r.m_ean, r.m_at] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.we, w.in, w.run, w.not, w.fin, w.eat, w.that, w.feet, w.see, w.sat, w.seen, w.sin] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.m_e, r.m_eat, r.m_ean, r.m_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_e, r.m_eat, r.m_ean, r.m_at] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.e_long, s.a, s.m, s.s] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.at, w.sat, w.feet, w.sin, w.see, w.seen, w.we] }],
-      ["Rhyming", { variant: "prepend_a_sound", scaffold: "teacher_models", items: [r.s_at, r.s_eat, r.s_ee] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.at, w.sat, w.feet, w.sin, w.see, w.seen, w.we] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.s_at, r.s_eat, r.s_ee] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_at, r.s_eat, r.s_ee] }],
       ["ReadWords", { flow: ["teacher_blends", "blend", "blend"], modifications: ["require_touch"], items: [w.me, pw.se] }],
       ["Writing", { items: [s.e_long, s.s] }],
     ],
@@ -94,11 +96,13 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.t] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.e_long, s.s, s.m, s.a] }],
-      ["Rhyming", { variant: "prepend_a_sound", scaffold: "teacher_models", items: [r.s_ee, r.s_at, r.s_eat, r.s_een] }],
-      ["VerbalBlending", { variant: "blend", items: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.s_ee, r.s_at, r.s_eat, r.s_een] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_ee, r.s_at, r.s_eat, r.s_een] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.t, s.s, s.e_long] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat] }],
-      ["Rhyming", { variant: "prepend_a_sound", scaffold: "teacher_models", items: [r.m_e, r.m_at, r.m_ean] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.am, w.run, w.not, w.eat, w.see, w.seen, w.seat] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.m_e, r.m_at, r.m_ean] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_e, r.m_at, r.m_ean] }],
       ["ReadWords", { flow: ["teacher_blends", "blend", "blend"], modifications: ["require_touch"], items: [w.at, w.eat, pw.met] }],
       ["Writing", { items: [s.t, s.m] }],
     ],
@@ -107,11 +111,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 8",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.e_long, s.t, s.s, s.a] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.s_een, r.s_eat] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.m_e, r.m_at, r.m_ean] }],
-      ["VerbalBlending", { variant: "blend", items: [w.sam, w.if, w.in, w.sun, w.run, w.road, w.meat, w.sit, w.sat, w.rat, w.am, w.ram] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_een, r.s_eat] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_e, r.m_at, r.m_ean] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.sam, w.if, w.in, w.sun, w.run, w.road, w.meat, w.sit, w.sat, w.rat, w.am, w.ram] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.t, s.e_long, s.m, s.s, s.a] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.run, w.rat, w.road, w.that, w.sit, w.sat, w.mat] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.run, w.rat, w.road, w.that, w.sit, w.sat, w.mat] }],
       ["ReadWords", { flow: ["teacher_blends", "blend", "blend"], modifications: ["require_touch"], items: [w.mat, pw.set, w.am] }],
       ["Writing", { items: [s.s, s.t] }],
     ],
@@ -121,27 +125,28 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.r] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.s, s.e_long, s.t, s.r] }],
-      ["VerbalBlending", { variant: "say_it_fast", items: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat] }],
+      ["VerbalBlending", { flow: ["say_it_fast"], items: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat] }],
       ["ReadWords", { flow: ["recall_sounds", "teacher_blends", "blend", "say_it_fast"], items: [w.mat, w.sat, w.am] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.e_long, s.a, s.s, s.m, s.r] }],
       ["ReadWords", { flow: ["recall_sounds", "blend", "say_it_fast"], items: [w.am, w.sat] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.s_at, r.s_un, r.s_am] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.r_at, r.r_un, r.r_am] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.m_e, r.m_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_at, r.s_un, r.s_am] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_at, r.r_un, r.r_am] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_e, r.m_at] }],
       ["Writing", { items: [s.r, s.a] }],
-      ["VerbalBlending", { variant: "blend", items: [w.this, w.feet, w.we, w.meat, w.see, w.sum, w.rat, w.road, w.run, w.if, w.mean] }],
+      ["VerbalBlending", { flow: ["blend"], items: [w.this, w.feet, w.we, w.meat, w.see, w.sum, w.rat, w.road, w.run, w.if, w.mean] }],
     ],
   },
   {
     title: "Lesson 10",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.m, s.t, s.a, s.s, s.e_long] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.run, w.if, w.read, w.rope, w.soap, w.see, w.mat, w.me, w.am] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.run, w.if, w.read, w.rope, w.soap, w.see, w.mat, w.me, w.am] }], // Intentional repeat
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.run, w.if, w.read, w.rope, w.soap, w.see, w.mat, w.me, w.am] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.run, w.if, w.read, w.rope, w.soap, w.see, w.mat, w.me, w.am] }], // Intentional repeat
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.m, s.a, s.t, s.s, s.e_long, s.r] }],
       ["ReadWords", { flow: ["recall_sounds", "teacher_blends", "say_it_fast", "blend", "say_it_fast"], items: [w.am, w.me, w.see] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", scaffold: "teacher_models", items: [r.r_at, r.m_at, r.s_at] }],
-      ["Rhyming", { variant: "prepend_a_sound", items: [r.r_un, r.r_oad, r.r_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.r_at, r.m_at, r.s_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_at, r.m_at, r.s_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_un, r.r_oad, r.r_at] }],
       ["ReadWords", { flow: ["recall_sounds", "blend", "say_it_fast"], modifications: ["require_touch"], items: [w.me, w.sat] }],
       ["Writing", { items: [s.r, s.a] }],
     ],
@@ -150,13 +155,15 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 11",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.a, s.e_long, s.s, s.t, s.m] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", scaffold: "teacher_models", items: [r.r_am, r.s_am] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", scaffold: "teacher_models", items: [r.s_een, r.m_ean] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.read, w.seed, w.if, w.it, w.rope, w.soap, w.mean] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.read, w.seed, w.if, w.it, w.rope, w.soap, w.mean] }], // Intenitonal repeat
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.r_am, r.s_am] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_am, r.s_am] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "teacher_models"], items: [r.s_een, r.m_ean] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_een, r.m_ean] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.read, w.seed, w.if, w.it, w.rope, w.soap, w.mean] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.read, w.seed, w.if, w.it, w.rope, w.soap, w.mean] }], // Intenitonal repeat
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["teach_silent_letters"], items: [w.eat] }],
       ["ReadWords", { flow: ["guided_sound_it_out", "say_it_fast"], items: [w.am, w.eat, w.ram, w.see, w.rat] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", items: [r.m_at, r.r_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_at, r.r_at] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.s, s.e_long, s.m, s.r, s.a, s.t] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["require_touch"], items: [w.at, w.sat] }],
       ["Writing", { items: [s.t, s.e_long] }],
@@ -167,11 +174,11 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     activities: [
       ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.d] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.a, s.e_long, s.t, s.r, s.d] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", items: [r.r_eed, r.s_eed] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.read, w.seed, w.sad, w.seat, w.mad] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.read, w.seed, w.sad, w.seat, w.mad] }], // Intentional repeat
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_eed, r.s_eed] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.read, w.seed, w.sad, w.seat, w.mad] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.read, w.seed, w.sad, w.seat, w.mad] }], // Intentional repeat
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["require_touch"], items: [w.seed, w.rat, w.sam, w.me] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", items: [r.m_at, r.r_at, r.s_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_at, r.r_at, r.s_at] }],
       ["ReadSounds", { flow: ["say_it_fast"], items: [s.d, s.e_long, s.t, s.s, s.r] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["require_touch"], items: [w.eat, w.seat] }],
       ["Writing", { items: [s.d, s.a] }],
@@ -181,18 +188,18 @@ export const lessons: { title: string; activities: Activity[] }[] = [
     title: "Lesson 13",
     activities: [
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.s, s.a, s.t, s.d, s.e_long, s.r] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", items: [r.r_ope, r.s_oap] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.sad, w.mad, w.ear] }],
-      ["VerbalBlending", { variant: "blend_then_say_it_fast", items: [w.sad, w.mad, w.ear] }], // Intentional repeat
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_ope, r.s_oap] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.sad, w.mad, w.ear] }],
+      ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.sad, w.mad, w.ear] }], // Intentional repeat
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.sad, w.mad, w.eat, w.meat, w.read, w.am, w.ram, w.me] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], modifications: ["require_touch"], items: [s.d, s.r, s.t, s.e_long, s.m] }],
-      ["Rhyming", { variant: "prepend_multiple_sounds", items: [r.s_at, r.r_at, r.m_at] }],
+      ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_at, r.r_at, r.m_at] }],
       [
         "Story",
         {
           flow: ["guide_word_by_word", "guide_word_by_word", "teacher_models_the_fast_way"],
           markup: ["arrows", "dots"],
-          paragraphs: [[[w.see, w.me, w.eat]]],
+          items: [[[w.see, w.me, w.eat]]],
         },
       ],
       ["Writing", { items: [s.s, s.d] }],
@@ -212,7 +219,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           markup: ["arrows"],
           flow: ["sound_it_out", "read_the_fast_way_with_questions"],
-          paragraphs: [
+          items: [
             [
               [w.a, w.dog, w.was, w.in, w.the, w.fog, "."],
               [w.a, w.cat, w.was, w.in, w.the, w.fog, "."],
@@ -244,7 +251,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           title: { words: [w.lots, w.of, w.cars] },
           markup: ["arrows"],
           flow: ["title_reading", "read_the_fast_way_with_questions"],
-          paragraphs: [
+          items: [
             [
               [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."],
               [w.he, w.has, w.old, w.cars, "."],
@@ -268,7 +275,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       ["Writing", { items: [s.w, s.v, s.p] }],
     ],
   },
-  // Skipe a few more lessons
+  // Skip a few more lessons
   {
     title: "Lesson 58",
     activities: [
@@ -283,7 +290,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           title: { words: [w.a, w.bug, w.and, w.a, w.dog] },
           markup: ["arrows"],
           flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          paragraphs: [
+          items: [
             [
               [w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, "."],
               [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"'],
@@ -318,7 +325,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           title: { words: [w.the, w.bugs] },
           markup: ["arrows"],
           flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          paragraphs: [
+          items: [
             [
               [w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, "."],
               [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'],
@@ -357,7 +364,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           title: { words: [w.the, w.man, w.and, w.his, w.bed] },
           markup: ["arrows"],
           flow: ["title_reading", "read_the_fast_way", "read_the_fast_way_with_questions"],
-          paragraphs: [
+          items: [
             [
               [w.a, w.man, w.had, w.a, w.tub, "."],
               [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'],

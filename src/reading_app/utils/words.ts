@@ -447,3 +447,13 @@ export const words = {
   you: { spelling: "you", sounds: [s.y, s.oo], isFunny: true },
   zoom: { spelling: "zoom", sounds: [s.z, s.oo, s.m] },
 } satisfies Record<string, Word>;
+
+export const pseudoWords = {
+  em: { spelling: "em", sounds: [s.e_long, s.m] },
+  es: { spelling: "es", sounds: [s.e_long, s.s] },
+  ma: { spelling: "ma", sounds: [s.m, s.a] },
+  met: { spelling: "met", sounds: [s.m, s.e_long, s.t] },
+  sa: { spelling: "sa", sounds: [s.s, s.a] },
+  se: { spelling: "se", sounds: [s.s, s.e_long] },
+  set: { spelling: "set", sounds: [s.s, s.e_long, s.t] },
+} satisfies Record<string, Word>;

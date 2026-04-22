@@ -1,9 +1,7 @@
 import { z } from "zod/v4";
-import {
-  soundDefinitionSchema,
-  wordSchema,
-} from "../../utils/shared_schemas.ts";
+import { wordSchema } from "../../utils/words.ts";
 import { Tool } from "../../../tools/Tool.ts";
+import { soundDefinitionSchema } from "../../utils/sounds.ts";
 
 const WritingTaskSchema = z.union([soundDefinitionSchema, wordSchema]);
 

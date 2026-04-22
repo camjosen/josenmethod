@@ -10,7 +10,7 @@ const titleSchema = z.object({
 export const inputSchema = z
   .object({
     title: titleSchema.optional().describe("The title of the story."),
-    paragraphs: z
+    items: z
       .array(
         z
           .array(
