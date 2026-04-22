@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom Font Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Patrick Hand', cursive;
+      background: #faf9f6;
+      color: #2d2a26;
+      padding: 32px 24px 64px;
+    }
+
+    h1 { font-size: 28px; margin-bottom: 6px; }
+    .subtitle { font-size: 15px; color: #888; margin-bottom: 28px; }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 14px;
+      padding: 7px 16px;
+      border: 1.5px solid #b0a898;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover { background: #f0ede8; }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    input[type=range] { width: 110px; }
+
+    section { margin-bottom: 32px; }
+
+    h2 {
+      font-size: 12px;
+      font-weight: normal;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 12px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eae7e2;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card {
+      background: white;
+      border: 1.5px solid #e8e5e0;
+      border-radius: 10px;
+      padding: 14px 10px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s;
+      user-select: none;
+    }
+    .card:hover {
+      border-color: #c0b8ae;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card svg {
+      display: block;
+      overflow: visible;
+    }
+    .card svg path {
+      fill: none;
+      stroke: #2d2a26;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .key {
+      font-size: 11px;
+      color: #bbb;
+    }
+
+    .card svg path.drawing {
+      animation: draw var(--dur) linear forwards;
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  </style>
+</head>
+<body>
+
+<h1>Custom Font Preview</h1>
+<p class="subtitle">Click any card to animate · or use the controls below</p>
+
+<div class="controls">
+  <button id="animateAll">Animate All</button>
+  <label>
+    Speed
+    <input type="range" id="speed" min="100" max="2000" value="600" step="100">
+    <span id="speedLabel">0.6s</span>
+  </label>
+  <label>
+    Scale
+    <input type="range" id="scale" min="1" max="4" value="2" step="0.5">
+    <span id="scaleLabel">2×</span>
+  </label>
+</div>
+
+<div id="root"></div>
+
+<script>
+const glyphs = {
+  // Uppercase
+  A: { viewBox: "0 0 18 28", paths: ["M 2,20 L 9,2 L 16,20", "M 4,13 L 14,13"] },
+  B: { viewBox: "0 0 18 28", paths: ["M 3,2 L 3,20 C 14,20 14,15 14,15 C 14,11 3,11 3,11 C 13,11 13,7 13,7 C 13,2 3,2 3,2"] },
+  C: { viewBox: "0 0 18 28", paths: ["M 15,6 C 13,3 10,2 7,2 C 4,2 2,5 2,11 C 2,16 4,20 8,20 C 11,20 13,18 15,16"] },
+  D: { viewBox: "0 0 18 28", paths: ["M 3,20 L 3,2 C 9,2 16,5 16,11 C 16,17 9,20 3,20"] },
+  E: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20", "M 3,2 L 14,2", "M 3,11 L 11,11", "M 3,20 L 14,20"] },
+  F: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20", "M 3,2 L 14,2", "M 3,11 L 11,11"] },
+  G: { viewBox: "0 0 18 28", paths: ["M 15,6 C 13,3 10,2 7,2 C 4,2 2,5 2,11 C 2,16 4,20 8,20 C 12,20 15,18 15,14 L 9,14"] },
+  H: { viewBox: "0 0 18 28", paths: ["M 3,2 L 3,20", "M 15,2 L 15,20", "M 3,11 L 15,11"] },
+  I: { viewBox: "0 0 12 28", paths: ["M 6,2 L 6,20", "M 2,2 L 10,2", "M 2,20 L 10,20"] },
+  J: { viewBox: "0 0 14 28", paths: ["M 3,2 L 11,2", "M 9,2 L 9,17 C 9,21 7,22 4,21 C 2,20 2,18 2,17"] },
+  K: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20", "M 14,2 L 3,11 L 14,20"] },
+  L: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20 L 14,20"] },
+  M: { viewBox: "0 0 22 28", paths: ["M 2,20 L 2,2 L 11,14 L 20,2 L 20,20"] },
+  N: { viewBox: "0 0 18 28", paths: ["M 3,20 L 3,2 L 15,20 L 15,2"] },
+  O: { viewBox: "0 0 18 28", paths: ["M 9,2 C 13,2 16,6 16,11 C 16,16 13,20 9,20 C 5,20 2,16 2,11 C 2,6 5,2 9,2"] },
+  P: { viewBox: "0 0 18 28", paths: ["M 3,2 L 3,20", "M 3,2 C 9,2 15,4 15,8 C 15,11 9,11 3,11"] },
+  Q: { viewBox: "0 0 18 28", paths: ["M 9,2 C 13,2 16,6 16,11 C 16,16 13,20 9,20 C 5,20 2,16 2,11 C 2,6 5,2 9,2", "M 11,16 L 17,22"] },
+  R: { viewBox: "0 0 18 28", paths: ["M 3,2 L 3,20", "M 3,2 C 9,2 15,4 15,8 C 15,11 9,11 3,11 L 15,20"] },
+  S: { viewBox: "0 0 16 28", paths: ["M 14,5 C 13,3 11,2 8,2 C 5,2 3,4 3,7 C 3,10 5,11 9,11 C 13,11 15,13 15,16 C 15,19 13,20 10,20 C 7,20 5,19 4,17"] },
+  T: { viewBox: "0 0 18 28", paths: ["M 9,2 L 9,20", "M 2,2 L 16,2"] },
+  U: { viewBox: "0 0 18 28", paths: ["M 3,2 L 3,15 C 3,20 6,21 9,21 C 12,21 15,20 15,15 L 15,2"] },
+  V: { viewBox: "0 0 18 28", paths: ["M 2,2 L 9,20 L 16,2"] },
+  W: { viewBox: "0 0 24 28", paths: ["M 2,2 L 7,20 L 12,8 L 17,20 L 22,2"] },
+  X: { viewBox: "0 0 16 28", paths: ["M 2,2 L 14,20", "M 14,2 L 2,20"] },
+  Y: { viewBox: "0 0 16 28", paths: ["M 2,2 L 8,11 L 14,2", "M 8,11 L 8,20"] },
+  Z: { viewBox: "0 0 16 28", paths: ["M 2,2 L 14,2 L 2,20 L 14,20"] },
+
+  // Lowercase
+  a: { viewBox: "0 0 16 28", paths: ["M 13,11 C 13,7 10,5 7,5 C 4,5 2,8 2,12 C 2,16 4,20 7,20 C 10,20 13,17 13,11 L 13,20"] },
+  b: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20 L 3,13 C 3,9 5,7 8,7 C 11,7 13,10 13,13 C 13,17 11,20 8,20 C 5,20 3,18 3,13"] },
+  c: { viewBox: "0 0 14 28", paths: ["M 13,9 C 12,7 10,6 7,6 C 4,6 2,8 2,13 C 2,17 4,20 7,20 C 10,20 12,18 13,16"] },
+  d: { viewBox: "0 0 16 28", paths: ["M 13,2 L 13,20 L 13,14 C 13,10 11,8 8,8 C 5,8 2,10 2,14 C 2,17 4,20 7,20 C 10,20 13,18 13,14"] },
+  e: { viewBox: "0 0 16 28", paths: ["M 2,13 L 12,13 C 12,9 10,6 7,6 C 4,6 2,9 2,13 C 2,17 4,20 7,20 C 10,20 12,18 13,16"] },
+  f: { viewBox: "0 0 14 28", paths: ["M 11,5 C 11,3 10,2 8,2 C 6,2 5,3 5,5 L 5,20", "M 2,11 L 10,11"] },
+  g: { viewBox: "0 0 16 28", paths: ["M 13,11 C 13,7 10,5 7,5 C 4,5 2,8 2,12 C 2,16 4,20 7,20 C 10,20 13,17 13,11 L 13,24 C 13,27 11,28 8,28 C 6,28 5,27 5,25"] },
+  h: { viewBox: "0 0 16 28", paths: ["M 3,2 L 3,20 L 3,12 C 3,9 5,8 8,8 C 11,8 13,10 13,13 L 13,20"] },
+  i: { viewBox: "0 0 10 28", paths: ["M 5,9 L 5,20", "M 6,5 C 6,3.5 4,3.5 4,5 C 4,6.5 6,6.5 6,5"] },
+  j: { viewBox: "0 0 12 30", paths: ["M 7,9 L 7,24 C 7,27 5,28 3,26", "M 8,5 C 8,3.5 6,3.5 6,5 C 6,6.5 8,6.5 8,5"] },
+  k: { viewBox: "0 0 14 28", paths: ["M 3,2 L 3,20", "M 12,8 L 3,14 L 12,20"] },
+  l: { viewBox: "0 0 10 28", paths: ["M 5,2 L 5,20"] },
+  m: { viewBox: "0 0 22 28", paths: ["M 2,9 L 2,20 L 2,12 C 2,9 4,8 6,8 C 9,8 10,10 10,13 L 10,20 L 10,13 C 10,10 12,8 15,8 C 18,8 20,10 20,13 L 20,20"] },
+  n: { viewBox: "0 0 16 28", paths: ["M 3,9 L 3,20 L 3,12 C 3,9 5,8 8,8 C 11,8 13,10 13,13 L 13,20"] },
+  o: { viewBox: "0 0 16 28", paths: ["M 7,6 C 10,6 13,9 13,13 C 13,17 10,20 7,20 C 4,20 2,17 2,13 C 2,9 4,6 7,6"] },
+  p: { viewBox: "0 0 16 28", paths: ["M 3,9 L 3,26 L 3,14 C 3,10 5,8 8,8 C 11,8 13,11 13,14 C 13,17 11,20 8,20 C 5,20 3,18 3,14"] },
+  q: { viewBox: "0 0 14 28", paths: ["M 11,9 L 11,26 L 11,14 C 11,10 9,8 6,8 C 3,8 1,11 1,14 C 1,17 3,20 6,20 C 9,20 11,18 11,14"] },
+  r: { viewBox: "0 0 14 28", paths: ["M 3,9 L 3,20 L 3,12 C 3,9 5,7 7,7 C 9,7 11,8 11,10"] },
+  s: { viewBox: "0 0 14 28", paths: ["M 12,9 C 12,7 10,6 8,6 C 5,6 3,8 3,10 C 3,12 5,13 8,13 C 11,13 12,15 12,17 C 12,19 10,20 8,20 C 6,20 4,19 3,17"] },
+  t: { viewBox: "0 0 14 28", paths: ["M 7,4 L 7,20", "M 3,10 L 12,10"] },
+  u: { viewBox: "0 0 16 28", paths: ["M 2,8 L 2,17 C 2,21 5,22 8,21 C 11,20 13,18 13,15 L 13,8"] },
+  v: { viewBox: "0 0 14 28", paths: ["M 2,8 L 7,20 L 12,8"] },
+  w: { viewBox: "0 0 20 28", paths: ["M 2,8 L 6,20 L 10,11 L 14,20 L 18,8"] },
+  x: { viewBox: "0 0 14 28", paths: ["M 2,8 L 12,20", "M 12,8 L 2,20"] },
+  y: { viewBox: "0 0 14 28", paths: ["M 2,8 L 7,16", "M 12,8 L 7,16 L 5,26 C 4.5,27.5 3.5,27.5 3,26"] },
+  z: { viewBox: "0 0 14 28", paths: ["M 2,8 L 12,8 L 2,20 L 12,20"] },
+
+  apostrophe: { viewBox: "0 0 8 28", paths: ["M 4,4 C 5,4 5.5,5 4.5,6 L 3.5,8"] },
+};
+
+const sections = [
+  { title: "Uppercase", keys: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") },
+  { title: "Lowercase", keys: "abcdefghijklmnopqrstuvwxyz".split("") },
+  { title: "Punctuation", keys: ["apostrophe"] },
+];
+
+let duration = 600;
+let scale = 2;
+
+function makeCard(key) {
+  const g = glyphs[key];
+  if (!g) return null;
+
+  const [,, vw, vh] = g.viewBox.split(" ").map(Number);
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", g.viewBox);
+  svg.setAttribute("width",  vw * scale);
+  svg.setAttribute("height", vh * scale);
+
+  const pathEls = g.paths.map(d => {
+    const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p.setAttribute("d", d);
+    svg.appendChild(p);
+    return p;
+  });
+
+  const label = document.createElement("div");
+  label.className = "key";
+  label.textContent = key === "apostrophe" ? "'" : key;
+
+  card.appendChild(svg);
+  card.appendChild(label);
+
+  function initDashes() {
+    pathEls.forEach(p => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+    });
+  }
+
+  function animate() {
+    pathEls.forEach(p => {
+      p.classList.remove("drawing");
+      p.style.animationDuration = "";
+      p.style.animationDelay = "";
+    });
+    void card.offsetWidth;
+
+    let delay = 0;
+    pathEls.forEach(p => {
+      const len = p.getTotalLength();
+      const dur = Math.max(80, duration * (len / 40));
+      p.style.setProperty("--dur", dur + "ms");
+      p.style.animationDuration = dur + "ms";
+      p.style.animationDelay = delay + "ms";
+      p.classList.add("drawing");
+      delay += dur;
+    });
+  }
+
+  card._init = initDashes;
+  card._animate = animate;
+  card.addEventListener("click", animate);
+  return card;
+}
+
+function render() {
+  const root = document.getElementById("root");
+  root.innerHTML = "";
+
+  sections.forEach(({ title, keys }) => {
+    const sec = document.createElement("section");
+    const h2 = document.createElement("h2");
+    h2.textContent = title;
+    sec.appendChild(h2);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    keys.forEach(k => {
+      const card = makeCard(k);
+      if (card) row.appendChild(card);
+    });
+
+    sec.appendChild(row);
+    root.appendChild(sec);
+  });
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".card").forEach(c => c._init?.());
+  });
+}
+
+document.getElementById("animateAll").addEventListener("click", () => {
+  [...document.querySelectorAll(".card")].forEach((c, i) => {
+    setTimeout(() => c._animate?.(), i * 100);
+  });
+});
+
+const speedSlider = document.getElementById("speed");
+const speedLabel  = document.getElementById("speedLabel");
+speedSlider.addEventListener("input", () => {
+  duration = +speedSlider.value;
+  speedLabel.textContent = (duration / 1000).toFixed(1) + "s";
+});
+
+const scaleSlider = document.getElementById("scale");
+const scaleLabel  = document.getElementById("scaleLabel");
+scaleSlider.addEventListener("input", () => {
+  scale = +scaleSlider.value;
+  scaleLabel.textContent = scale + "×";
+  render();
+});
+
+render();
+
+setTimeout(() => {
+  [...document.querySelectorAll(".card")].forEach((c, i) => {
+    setTimeout(() => c._animate?.(), i * 70);
+  });
+}, 300);
+</script>
+</body>
+</html>

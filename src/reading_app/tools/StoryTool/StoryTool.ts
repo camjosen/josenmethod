@@ -19,15 +19,9 @@ export const inputSchema = z
       .object({
         paragraphs: z.object({
           sentences: z.object({
-            words: z.array(
-              z
-                .array(
-                  z
-                    .array(z.union([wordSchema, punctuationSchema]))
-                    .describe("The words in the sentence."),
-                )
-                .describe("The sentences of the paragraph."),
-            ),
+            words: z
+              .array(z.union([wordSchema, punctuationSchema]))
+              .describe("The words in the sentence."),
             questions: z
               .array(z.string().nonempty())
               .nonempty()
@@ -56,14 +50,9 @@ export const inputSchema = z
       .array(
         z.union([
           z
-            .literal("guided_word_by_word")
+            .literal("guided_sound_it_out")
             .describe(
               "Teacher guides the student through the story one word at a time.",
-            ),
-          z
-            .literal("teacher_models_the_fast_way")
-            .describe(
-              "Teacher models reading the story at a normal, fluent pace.",
             ),
           z
             .literal("sound_it_out")
@@ -71,12 +60,25 @@ export const inputSchema = z
               "Student sounds out each word in the story, one at a time.",
             ),
           z
-            .literal("read_the_fast_way")
+            .literal("sound_it_out_with_questions")
+            .describe(
+              "Student sounds out each word in the story, one at a time and is asked questions along the way.",
+            ),
+          z
+            .literal("teacher_models_say_it_fast")
+            .describe(
+              "Teacher models reading the story at a normal, fluent pace.",
+            ),
+          z
+            .literal("guided_say_it_fast")
             .describe("Student reads each sentence at a normal fluent pace."),
           z
-            .literal("read_the_fast_way_with_questions")
+            .literal("say_it_fast")
+            .describe("Student reads each sentence at a normal fluent pace."),
+          z
+            .literal("say_it_fast_with_questions")
             .describe(
-              "Student reads each sentence at a normal fluent pace; teacher asks comprehension questions after each sentence.",
+              "Student reads each sentence at a normal fluent pace and is asked questions along the way.",
             ),
           z.literal("title_reading").describe("Student reads the story title."),
         ]),
