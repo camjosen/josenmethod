@@ -5,6 +5,7 @@ export const fontKeySchema = z.enum([
   "sans-serif",
   "monospace",
   "manuscript",
+  "custom",
 ]);
 export type FontKey = z.infer<typeof fontKeySchema>;
 
@@ -41,6 +42,11 @@ export const fontMetadata: Record<
     label: "Manuscript",
     fontFamily: '"Patrick Hand", cursive',
     googleFamilyParam: "Patrick+Hand",
+  },
+  custom: {
+    label: "Custom",
+    fontFamily: "",
+    googleFamilyParam: "",
   },
 };
 

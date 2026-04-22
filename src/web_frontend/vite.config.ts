@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': path.resolve(__dirname, './src'),
         '@backend': path.resolve(__dirname, '../backend/src'),
+        '@reading_app': path.resolve(__dirname, '../reading_app'),
       },
     },
     server: {
