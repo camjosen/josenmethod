@@ -1,0 +1,528 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=EB+Garamond:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.re-root {
+  /* Palette */
+  --re-paper:        #F5EFE0;
+  --re-paper-deep:   #EDE4D0;
+  --re-paper-raised: #FBF7EC;
+  --re-vellum:       #FFFBF2;
+
+  --re-ink:    #1C1A17;
+  --re-ink-2:  #3B362E;
+  --re-ink-3:  #6E665A;
+  --re-ink-4:  #9A9184;
+
+  --re-oxblood: #6A1B1B;
+  --re-ivy:     #2D4A2B;
+  --re-ivy-2:   #3B6139;
+  --re-ivy-soft: #B7C4B2;
+  --re-ochre:   #B27D2B;
+
+  --re-rule:        #C9BEA8;
+  --re-rule-strong: #8A7F6B;
+
+  /* Type */
+  --re-font-display: 'Cormorant Garamond', 'EB Garamond', 'Garamond', 'Times New Roman', serif;
+  --re-font-text:    'EB Garamond', 'Garamond', Georgia, 'Times New Roman', serif;
+  --re-font-mono:    'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Motion */
+  --re-ease-quill:   cubic-bezier(0.32, 0.72, 0.24, 1);
+  --re-ease-pageturn: cubic-bezier(0.6, 0.05, 0.2, 0.95);
+  --re-dur-base:  200ms;
+
+  /* Shadows */
+  --re-shadow-page: 0 1px 0 rgba(28, 26, 23, 0.08), 0 2px 6px rgba(28, 26, 23, 0.06);
+  --re-shadow-lift: 0 1px 0 rgba(28, 26, 23, 0.10), 0 4px 14px rgba(28, 26, 23, 0.10);
+
+  font-family: var(--re-font-text);
+  color: var(--re-ink);
+}
+
+/* ====================================================================== */
+/* Stage — letterboxes a 1366×1024 canvas to fit any viewport. */
+
+.re-stage-wrap {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #1a1613;
+  overflow: hidden;
+}
+
+.re-stage {
+  width: 1366px;
+  height: 1024px;
+  position: relative;
+  background: var(--re-paper);
+  overflow: hidden;
+  transform-origin: center center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Vignette */
+.re-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(28,26,23,0.08) 100%);
+  z-index: 101;
+}
+
+/* ====================================================================== */
+/* Chrome — tiny, symbol-only */
+
+.re-chrome-btn {
+  position: absolute;
+  top: 28px;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--re-rule);
+  background: var(--re-paper-raised);
+  color: var(--re-ink-2);
+  cursor: pointer;
+  z-index: 50;
+  transition:
+    background var(--re-dur-base) var(--re-ease-quill),
+    color var(--re-dur-base) var(--re-ease-quill),
+    transform var(--re-dur-base) var(--re-ease-quill);
+}
+.re-chrome-btn:hover { background: var(--re-paper); color: var(--re-ink); }
+.re-chrome-btn:active { transform: translateY(0.5px); }
+.re-chrome-btn.left { left: 28px; }
+.re-chrome-btn.right { right: 28px; }
+.re-chrome-btn svg { width: 26px; height: 26px; }
+
+/* ====================================================================== */
+/* LESSON SCREEN */
+
+.re-lesson-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- SAFE variant --- */
+.re-lesson-safe {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 120px;
+  position: relative;
+}
+
+.re-lesson-safe .re-connector {
+  position: absolute;
+  left: 120px;
+  right: 120px;
+  top: 50%;
+  height: 1px;
+  background: var(--re-rule);
+  transform: translateY(-0.5px);
+  z-index: 0;
+}
+
+/* --- BOLD variant --- */
+.re-lesson-bold {
+  position: absolute;
+  inset: 0;
+}
+.re-lesson-bold svg.re-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.re-lesson-bold .re-activity-pos {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* --- Activity medallion --- */
+.re-activity {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.re-lesson-safe .re-activity { margin: 0 36px; }
+
+.re-activity .re-medallion {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--re-paper-raised);
+  border: 1px solid var(--re-rule-strong);
+  display: grid;
+  place-items: center;
+  color: var(--re-ink);
+  position: relative;
+  box-shadow: var(--re-shadow-page);
+  transition:
+    transform var(--re-dur-base) var(--re-ease-quill),
+    box-shadow var(--re-dur-base) var(--re-ease-quill),
+    background var(--re-dur-base) var(--re-ease-quill);
+}
+.re-activity:hover .re-medallion {
+  transform: scale(1.04);
+  box-shadow: var(--re-shadow-lift);
+  background: var(--re-vellum);
+}
+.re-activity .re-medallion svg.glyph {
+  width: 52px;
+  height: 52px;
+  stroke: var(--re-ink);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Locked/done states */
+.re-activity.done .re-medallion { background: var(--re-ivy-soft); border-color: var(--re-ivy-2); }
+.re-activity.done .re-medallion svg.glyph { stroke: var(--re-ivy); }
+.re-activity.current .re-medallion {
+  border-color: var(--re-oxblood);
+  border-width: 2px;
+  background: var(--re-vellum);
+}
+.re-activity.current .re-medallion::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid var(--re-oxblood);
+  opacity: 0.35;
+  animation: re-pulse 2.4s var(--re-ease-quill) infinite;
+}
+.re-activity.locked .re-medallion { opacity: 0.55; }
+.re-activity.locked { cursor: default; }
+.re-activity.locked:hover .re-medallion {
+  transform: none;
+  box-shadow: var(--re-shadow-page);
+  background: var(--re-paper-raised);
+}
+
+@keyframes re-pulse {
+  0%   { transform: scale(1); opacity: 0.35; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* Item dots orbit */
+.re-activity .re-items-ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.re-activity .re-item-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--re-paper);
+  border: 1px solid var(--re-rule-strong);
+  transition: all var(--re-dur-base) var(--re-ease-quill);
+}
+.re-activity .re-item-dot.done    { background: var(--re-ivy); border-color: var(--re-ivy); }
+.re-activity .re-item-dot.failed  { background: var(--re-oxblood); border-color: var(--re-oxblood); }
+.re-activity .re-item-dot.current { background: var(--re-ochre); border-color: var(--re-ochre); }
+
+/* Ornament between activities (safe) */
+.re-lesson-safe .re-ornament {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--re-ink-3);
+  z-index: 1;
+}
+.re-lesson-safe .re-ornament svg { width: 28px; height: 28px; }
+
+/* Header */
+.re-lesson-header {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  opacity: 0.85;
+}
+.re-lesson-header .re-mark { width: 40px; height: 36px; }
+.re-lesson-header .re-mark svg { width: 100%; height: 100%; }
+.re-lesson-header .re-lesson-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.re-lesson-header .re-seg {
+  width: 22px;
+  height: 3px;
+  background: var(--re-rule);
+}
+.re-lesson-header .re-seg.done { background: var(--re-ink); }
+.re-lesson-header .re-seg.current { background: var(--re-oxblood); }
+
+/* Footer ornament */
+.re-lesson-foot {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--re-ink-4);
+}
+.re-lesson-foot svg { width: 140px; height: 20px; }
+
+/* ====================================================================== */
+/* ACTIVITY SCREEN */
+
+.re-activity-view {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.re-activity-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1700px;
+  height: 1700px;
+  border-radius: 50%;
+  background: var(--re-paper);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.re-activity-stage .re-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--re-rule);
+  opacity: 0.4;
+}
+
+/* Activity glyph echo */
+.re-activity-mark {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: var(--re-ink-2);
+  opacity: 0.7;
+}
+.re-activity-mark svg {
+  width: 36px;
+  height: 36px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Item word */
+.re-item-container {
+  position: relative;
+  width: 900px;
+  height: 420px;
+  display: grid;
+  place-items: center;
+}
+
+.re-item-word {
+  font-family: var(--re-font-display);
+  font-weight: 500;
+  font-size: 360px;
+  line-height: 1;
+  color: var(--re-ink);
+  letter-spacing: -0.01em;
+  user-select: none;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* Item enter / exit animations */
+@keyframes re-ink-rise-in {
+  0%   { opacity: 0; transform: translateY(60px) scale(0.92); filter: blur(6px); }
+  40%  { opacity: 0.6; filter: blur(1.5px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes re-ink-settle-out {
+  0%   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); letter-spacing: -0.01em; }
+  100% { opacity: 0; transform: translateY(-40px) scale(0.6); filter: blur(4px); letter-spacing: -0.05em; }
+}
+@keyframes re-success-flash {
+  0%   { color: var(--re-ink); }
+  30%  { color: var(--re-ivy); transform: scale(1.04); }
+  100% { color: var(--re-ink); transform: scale(1); }
+}
+@keyframes re-fail-flash {
+  0%   { transform: translateX(0); color: var(--re-ink); }
+  20%  { transform: translateX(-10px); color: var(--re-oxblood); }
+  40%  { transform: translateX(10px); color: var(--re-oxblood); }
+  60%  { transform: translateX(-6px); }
+  80%  { transform: translateX(6px); }
+  100% { transform: translateX(0); color: var(--re-ink); }
+}
+
+.re-item-word.enter { animation: re-ink-rise-in 420ms var(--re-ease-quill) both; }
+.re-item-word.exit  { animation: re-ink-settle-out 320ms var(--re-ease-quill) both; }
+.re-item-word.success-flash { animation: re-success-flash 700ms var(--re-ease-quill) both; }
+.re-item-word.fail-flash    { animation: re-fail-flash 480ms var(--re-ease-quill) both; }
+
+/* Progress dots */
+.re-progress-row {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.re-progress-row .re-pdot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--re-paper);
+  border: 1px solid var(--re-rule-strong);
+  transition: all var(--re-dur-base) var(--re-ease-quill);
+}
+.re-progress-row .re-pdot.done    { background: var(--re-ivy); border-color: var(--re-ivy); transform: scale(1.02); }
+.re-progress-row .re-pdot.failed  { background: var(--re-oxblood); border-color: var(--re-oxblood); }
+.re-progress-row .re-pdot.current {
+  background: var(--re-ochre);
+  border-color: var(--re-ochre);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px rgba(178,125,43,0.15);
+}
+
+/* Key legend */
+.re-key-legend {
+  position: absolute;
+  bottom: 30px;
+  right: 36px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  opacity: 0.5;
+  font-size: 12px;
+  font-family: var(--re-font-mono);
+  color: var(--re-ink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 40;
+}
+.re-key-legend kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 3px;
+  border: 1px solid var(--re-rule-strong);
+  background: var(--re-paper-raised);
+  color: var(--re-ink-2);
+  font-family: var(--re-font-mono);
+  font-size: 11px;
+  margin-right: 6px;
+}
+.re-key-legend .re-group { display: flex; align-items: center; gap: 0; }
+
+/* Variant toggle — small chip bottom-left */
+.re-variant-toggle {
+  position: absolute;
+  bottom: 30px;
+  left: 36px;
+  display: inline-flex;
+  border: 1px solid var(--re-rule-strong);
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 40;
+  opacity: 0.75;
+}
+.re-variant-toggle button {
+  background: var(--re-paper);
+  border: 0;
+  padding: 6px 12px;
+  font-family: var(--re-font-text);
+  font-size: 13px;
+  color: var(--re-ink-3);
+  cursor: pointer;
+  border-right: 1px solid var(--re-rule);
+}
+.re-variant-toggle button:last-child { border-right: 0; }
+.re-variant-toggle button.on {
+  background: var(--re-ink);
+  color: var(--re-paper);
+}
+
+/* ====================================================================== */
+/* Lesson-complete overlay */
+
+.re-lesson-done {
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 239, 224, 0.92);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 200;
+  animation: re-fade-in 500ms var(--re-ease-quill) both;
+  cursor: pointer;
+}
+@keyframes re-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.re-lesson-done .re-ring {
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 3px double var(--re-ink);
+  display: grid;
+  place-items: center;
+  position: relative;
+  animation: re-ring-in 800ms var(--re-ease-quill) both;
+}
+@keyframes re-ring-in {
+  0%   { transform: scale(0.5) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.re-lesson-done .re-ring::before,
+.re-lesson-done .re-ring::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--re-rule-strong);
+}
+.re-lesson-done .re-ring::after {
+  inset: -24px;
+  border: 1px solid var(--re-rule);
+}
+.re-lesson-done .star {
+  width: 120px;
+  height: 120px;
+  color: var(--re-oxblood);
+}

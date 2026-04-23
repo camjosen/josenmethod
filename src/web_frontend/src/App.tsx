@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import CallbackPage from './pages/CallbackPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
+import ReadingExercisePage from './pages/ReadingExercisePage';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { isLoading, user } = useAuth();
@@ -28,6 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
+        <Route path="/reading-exercise" element={<ReadingExercisePage />} />
         <Route
           path="/me"
           element={
