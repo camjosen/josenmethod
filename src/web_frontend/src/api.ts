@@ -1,11 +1,24 @@
+import { useAuth } from '@workos-inc/authkit-react';
 import { hc } from 'hono/client';
+import { useMemo } from 'react';
 import type { AppType } from '@backend/app';
 
-// Create a base client without dynamic auth headers
-// For authenticated requests, pass headers explicitly with the access token
-export const client = hc<AppType>('http://localhost:3001');
+const BASE_URL = 'http://localhost:3001';
 
-// Helper to create headers with access token
-export function authHeaders(accessToken: string): Record<string, string> {
-  return { Authorization: `Bearer ${accessToken}` };
+export function useApiClient() {
+  const { getAccessToken } = useAuth();
+  return useMemo(
+    () =>
+      hc<AppType>(BASE_URL, {
+        fetch: async (input, init) => {
+          const token = await getAccessToken();
+          const headers = new Headers(init?.headers);
+          if (token) headers.set('Authorization', `Bearer ${token}`);
+          return fetch(input, { ...init, headers });
+        },
+      }),
+    [getAccessToken]
+  );
 }
+
+export type ApiClient = ReturnType<typeof useApiClient>;
