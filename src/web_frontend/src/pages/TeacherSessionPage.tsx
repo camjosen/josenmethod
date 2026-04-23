@@ -104,7 +104,16 @@ export default function TeacherSessionPage() {
         {error && <div className="p-4 text-red-400">{error}</div>}
         {state && lesson && (
           <Stage>
-            <SessionStage session={state} lesson={lesson} onEnterActivity={(idx) => send({ type: "enterActivity", activityIdx: idx })} onResetLesson={() => send({ type: "reset" })} />
+            <SessionStage
+              session={state}
+              lesson={lesson}
+              role="teacher"
+              onEnterActivity={(idx) => send({ type: "enterActivity", activityIdx: idx })}
+              onResetLesson={() => send({ type: "reset" })}
+              onItemDone={() => send({ type: "rate", stars: 5 })}
+              onItemFailed={() => send({ type: "rate", stars: 1 })}
+              onExitActivity={() => send({ type: "exitActivity" })}
+            />
           </Stage>
         )}
       </div>

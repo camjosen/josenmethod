@@ -1,9 +1,19 @@
+import type { ReactNode } from "react";
+import type { FontKey } from "@reading_app/utils/fonts";
 import type { SessionState } from "@backend/sessions/types";
-import type { SessionLesson } from "./lessonAdapter";
+import type { SessionLesson, SessionLessonActivity } from "./lessonAdapter";
 import "../reading_exercise/reading-exercise.css";
-import { Fleuron, FootOrnament, LogoMark, StarBig } from "../reading_exercise/glyphs";
+import "../activities/activities.css";
+import { Fleuron, FootOrnament, Glyphs, LogoMark, StarBig } from "../reading_exercise/glyphs";
 import { Medallion } from "../reading_exercise/Medallion";
 import { itemStatus, type ItemResult, type LessonState } from "../reading_exercise/state";
+import { ItemActivity, type Role } from "../activities/ItemActivity";
+import { ReadSoundsItem } from "../activities/items/ReadSoundsItem";
+import { ReadWordsItem } from "../activities/items/ReadWordsItem";
+import { RhymingItem, rhymeTeacherExtra } from "../activities/items/RhymingItem";
+import { VerbalBlendingItem, blendingTeacherExtra } from "../activities/items/VerbalBlendingItem";
+import { WritingItem } from "../activities/items/WritingItem";
+import { StoryItem, storyTeacherExtra } from "../activities/items/StoryItem";
 
 function toLessonState(s: SessionState): LessonState {
   const itemResults: Record<number, Record<number, ItemResult>> = {};
@@ -23,14 +33,38 @@ function toLessonState(s: SessionState): LessonState {
   };
 }
 
+const TOOL_GLYPH: Record<SessionLessonActivity["toolName"], ReactNode> = {
+  ReadSounds: Glyphs.listen,
+  ReadWords: Glyphs.read,
+  Rhyming: Glyphs.speak,
+  VerbalBlending: Glyphs.speak,
+  Writing: Glyphs.star,
+  Story: Glyphs.read,
+};
+
 interface StageProps {
   session: SessionState;
   lesson: SessionLesson;
+  role?: Role;
+  font?: FontKey;
   onEnterActivity?: (idx: number) => void;
   onResetLesson?: () => void;
+  onItemDone?: () => void;
+  onItemFailed?: () => void;
+  onExitActivity?: () => void;
 }
 
-export function SessionStage({ session, lesson, onEnterActivity, onResetLesson }: StageProps) {
+export function SessionStage({
+  session,
+  lesson,
+  role = "student",
+  font,
+  onEnterActivity,
+  onResetLesson,
+  onItemDone,
+  onItemFailed,
+  onExitActivity,
+}: StageProps) {
   const state = toLessonState(session);
 
   if (session.screen === "done") {
@@ -45,37 +79,14 @@ export function SessionStage({ session, lesson, onEnterActivity, onResetLesson }
 
   if (session.screen === "activity") {
     const activity = lesson.activities[session.cursor.activityIdx];
-    const item = activity?.items[session.cursor.itemIdx];
-    return (
-      <div className="re-activity-view">
-        <div className="re-activity-stage">
-          <div className="re-rim" />
-        </div>
-        <div
-          className="re-activity-mark"
-          style={{ fontFamily: "serif", fontSize: 20, textTransform: "uppercase", letterSpacing: 2 }}
-        >
-          {activity?.toolName}
-        </div>
-        <div className="re-item-container">
-          <div className="re-item-word enter">
-            <span style={{ fontSize: "inherit", fontFamily: "inherit" }}>
-              {item?.spelling ?? ""}
-            </span>
-          </div>
-        </div>
-        <div className="re-progress-row">
-          {activity?.items.map((_, i) => {
-            const st = itemStatus(session.cursor.activityIdx, i, state);
-            const pcls = ["re-pdot"];
-            if (st === "done") pcls.push("done");
-            if (st === "failed") pcls.push("failed");
-            if (st === "current") pcls.push("current");
-            return <div key={i} className={pcls.join(" ")} />;
-          })}
-        </div>
-      </div>
-    );
+    if (!activity) return null;
+    return renderActivity(activity, state, session.cursor.activityIdx, {
+      role,
+      font,
+      onItemDone,
+      onItemFailed,
+      onExitActivity,
+    });
   }
 
   return (
@@ -104,7 +115,8 @@ export function SessionStage({ session, lesson, onEnterActivity, onResetLesson }
           {lesson.activities.map((a, i) => (
             <div key={a.id} style={{ display: "contents" }}>
               <Medallion
-                activity={a}
+                itemCount={a.itemCount}
+                glyph={TOOL_GLYPH[a.toolName]}
                 idx={i}
                 state={state}
                 onEnter={(idx) => onEnterActivity?.(idx)}
@@ -125,3 +137,113 @@ export function SessionStage({ session, lesson, onEnterActivity, onResetLesson }
     </>
   );
 }
+
+interface ActivityOpts {
+  role: Role;
+  font?: FontKey;
+  onItemDone?: () => void;
+  onItemFailed?: () => void;
+  onExitActivity?: () => void;
+}
+
+function renderActivity(
+  activity: SessionLessonActivity,
+  state: LessonState,
+  activityIdx: number,
+  opts: ActivityOpts
+) {
+  const { role, font, onItemDone, onItemFailed, onExitActivity } = opts;
+  const common = {
+    activityIdx,
+    state,
+    role,
+    font,
+    onItemDone,
+    onItemFailed,
+    onExit: onExitActivity,
+    glyph: TOOL_GLYPH[activity.toolName],
+  };
+
+  switch (activity.toolName) {
+    case "ReadSounds":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="ReadSounds"
+          items={activity.input.items}
+          flow={activity.input.flow}
+          modifications={activity.input.modifications}
+          renderItem={(sound, ctx) => <ReadSoundsItem sound={sound} ctx={ctx} />}
+        />
+      );
+    case "ReadWords":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="ReadWords"
+          items={activity.input.items}
+          flow={activity.input.flow}
+          modifications={activity.input.modifications}
+          renderItem={(word, ctx) => (
+            <ReadWordsItem word={word} modifications={activity.input.modifications} ctx={ctx} />
+          )}
+        />
+      );
+    case "Rhyming":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="Rhyming"
+          items={activity.input.items}
+          flow={activity.input.flow}
+          modifications={activity.input.modifications}
+          renderItem={(rhyme, ctx) => <RhymingItem rhyme={rhyme} ctx={ctx} />}
+          teacherExtraFor={(rhyme, ctx) => rhymeTeacherExtra(rhyme, ctx)}
+        />
+      );
+    case "VerbalBlending":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="VerbalBlending"
+          items={activity.input.items}
+          flow={activity.input.flow}
+          modifications={activity.input.modifications}
+          renderItem={(item, ctx) => <VerbalBlendingItem item={item} ctx={ctx} />}
+          teacherExtraFor={(item, ctx) => blendingTeacherExtra(item, ctx)}
+        />
+      );
+    case "Writing":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="Writing"
+          items={activity.input.items}
+          flow={[]}
+          renderItem={(task, ctx) => <WritingItem task={task} ctx={ctx} />}
+        />
+      );
+    case "Story":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="Story"
+          items={activity.input.items}
+          flow={[]}
+          renderItem={(mode, ctx) => (
+            <StoryItem
+              mode={mode}
+              content={activity.input.content}
+              markup={activity.input.markup}
+              focusWords={activity.input.focusWords}
+              ctx={ctx}
+            />
+          )}
+          teacherExtraFor={(mode) => storyTeacherExtra(mode, activity.input.content)}
+        />
+      );
+  }
+}
+
+// Re-exports for consumers.
+export { itemStatus };

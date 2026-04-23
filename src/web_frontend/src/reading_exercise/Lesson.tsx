@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from "react";
 import type { Lesson as LessonData } from "./data";
-import { Fleuron, LogoMark } from "./glyphs";
+import { Fleuron, Glyphs, LogoMark } from "./glyphs";
 import { Medallion } from "./Medallion";
 import { activityStatus, type LessonState } from "./state";
 
@@ -47,7 +47,8 @@ function LessonSafe({ lesson, state, onEnter, registerRef }: Props) {
         {lesson.activities.map((a, i) => (
           <Fragment key={a.id}>
             <Medallion
-              activity={a}
+              itemCount={a.items.length}
+              glyph={Glyphs[a.type]}
               idx={i}
               state={state}
               onEnter={onEnter}
@@ -109,7 +110,8 @@ function LessonBold({ lesson, state, onEnter, registerRef }: Props) {
             style={{ left: BOLD_POSITIONS[i].x, top: BOLD_POSITIONS[i].y }}
           >
             <Medallion
-              activity={a}
+              itemCount={a.items.length}
+              glyph={Glyphs[a.type]}
               idx={i}
               state={state}
               onEnter={onEnter}

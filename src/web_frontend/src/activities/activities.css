@@ -1,0 +1,263 @@
+/* Activity-level chrome additions layered on top of reading-exercise.css */
+
+.jm-item-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.jm-funny-hint {
+  font-family: var(--re-font-text);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--re-ochre);
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  opacity: 0.85;
+}
+
+.jm-writing-item {
+  /* Trace-hint opacity is set via the `color` prop; nothing else needed. */
+}
+
+.jm-blending-neutral {
+  opacity: 0.85;
+}
+
+.jm-listening-glyph {
+  display: block;
+}
+
+/* Flow indicator (below item, above progress dots) */
+.jm-flow-indicator {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 30;
+}
+.jm-flow-seg {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--re-rule-strong);
+  background: var(--re-paper);
+  color: var(--re-ink-3);
+  font-family: var(--re-font-text);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 200ms var(--re-ease-quill);
+  opacity: 0.55;
+}
+.jm-flow-seg.done {
+  background: var(--re-ivy-soft);
+  border-color: var(--re-ivy);
+  color: var(--re-ivy);
+  opacity: 0.85;
+}
+.jm-flow-seg.current {
+  background: var(--re-ochre);
+  border-color: var(--re-ochre);
+  color: var(--re-paper);
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+/* Teacher script banner (top of the stage, below the activity glyph) */
+.jm-teacher-banner {
+  position: absolute;
+  top: 132px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 900px;
+  padding: 12px 22px;
+  background: var(--re-vellum);
+  border: 1px solid var(--re-rule);
+  border-radius: 3px;
+  box-shadow: var(--re-shadow-page);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 30;
+}
+.jm-teacher-script {
+  font-family: var(--re-font-text);
+  font-size: 18px;
+  color: var(--re-ink);
+  text-align: center;
+  line-height: 1.35;
+}
+.jm-teacher-extra {
+  font-family: var(--re-font-text);
+  font-size: 16px;
+  color: var(--re-ink-2);
+  text-align: center;
+}
+.jm-teacher-mods {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.jm-teacher-mod {
+  font-family: var(--re-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--re-paper-deep);
+  color: var(--re-ink-3);
+  border: 1px solid var(--re-rule);
+}
+
+/* Rhyming teacher extras */
+.jm-rhyme-extra {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--re-font-display);
+  font-size: 24px;
+}
+.jm-rhyme-part,
+.jm-rhyme-full {
+  display: inline-flex;
+  align-items: baseline;
+}
+.jm-rhyme-start {
+  color: var(--re-ochre);
+  font-weight: 500;
+  font-size: 32px;
+}
+.jm-rhyme-join {
+  color: var(--re-ink-3);
+  font-family: var(--re-font-mono);
+  font-size: 16px;
+}
+
+/* VerbalBlending teacher extras */
+.jm-blending-compound {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--re-font-display);
+  font-size: 36px;
+  color: var(--re-ink);
+}
+.jm-blending-part {
+  display: inline-block;
+}
+.jm-blending-dot {
+  color: var(--re-ochre);
+  font-size: 32px;
+}
+.jm-blending-word {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+/* ====================================================================== */
+/* STORY */
+
+.jm-story-item {
+  position: relative;
+  width: 1100px;
+  max-width: 90%;
+  max-height: 620px;
+  padding: 40px 48px 32px;
+  background: var(--re-vellum);
+  border: 1px solid var(--re-rule);
+  box-shadow: var(--re-shadow-page);
+  overflow: auto;
+}
+.jm-story-mode-tag {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-family: var(--re-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--re-ink-3);
+  opacity: 0.75;
+}
+.jm-story-text {
+  font-family: var(--re-font-text);
+  color: var(--re-ink);
+  line-height: 1.35;
+}
+.jm-story-title {
+  margin: 0 0 24px;
+  font-family: var(--re-font-display);
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.jm-story-title.highlight {
+  color: var(--re-oxblood);
+}
+.jm-story-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: opacity 200ms var(--re-ease-quill);
+}
+.jm-story-body.dim {
+  opacity: 0.35;
+}
+.jm-story-paragraph {
+  margin: 0;
+  display: inline;
+}
+.jm-story-sentence {
+  display: inline;
+}
+.jm-story-word {
+  display: inline-flex;
+  margin-right: 8px;
+  vertical-align: baseline;
+}
+.jm-story-word.focus {
+  background: rgba(178, 125, 43, 0.25);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+.jm-story-punct {
+  display: inline-block;
+  margin-right: 4px;
+  color: var(--re-ink-3);
+}
+
+/* Story teacher extra: questions list */
+.jm-story-questions {
+  max-width: 740px;
+  text-align: left;
+}
+.jm-story-questions-label {
+  font-family: var(--re-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--re-ink-3);
+  margin-bottom: 4px;
+}
+.jm-story-questions ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  color: var(--re-ink-2);
+}
+.jm-story-questions li {
+  margin: 2px 0;
+}
