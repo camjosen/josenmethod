@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { FontKey } from "@reading_app/utils/fonts";
 import { Word } from "../components/Word";
 import { audio } from "./audio";
 import type { Activity as ActivityData } from "./data";
@@ -13,6 +14,7 @@ interface Props {
   onResult: (result: ItemResult) => void;
   onAdvance: () => void;
   showLegend: boolean;
+  font?: FontKey;
 }
 
 type Phase = "enter" | "exit";
@@ -26,6 +28,7 @@ export function Activity({
   onResult,
   onAdvance,
   showLegend,
+  font,
 }: Props) {
   const currentItem = state.currentItem;
   const [animState, setAnimState] = useState<{
@@ -108,7 +111,13 @@ export function Activity({
           key={`${animState.wordIndex}:${animState.phase}:${animState.flash}`}
           className={cls.join(" ")}
         >
-          {word && <Word word={word} />}
+          {word && (
+            <Word
+              word={word}
+              font={font}
+              fontSize={font === "custom" ? 360 : undefined}
+            />
+          )}
         </div>
       </div>
 

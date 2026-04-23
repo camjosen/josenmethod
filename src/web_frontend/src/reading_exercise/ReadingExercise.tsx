@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { FontKey } from "@reading_app/utils/fonts";
+import { useCurriculumFonts } from "../curriculumFonts";
 import { Activity } from "./Activity";
 import { audio } from "./audio";
 import { SAMPLE_LESSON } from "./data";
+import { FontPicker } from "./FontPicker";
 import { Glyphs, FootOrnament, StarBig } from "./glyphs";
 import { Lesson, LessonHeader } from "./Lesson";
 import type { ItemResult, LessonState } from "./state";
@@ -42,10 +45,12 @@ function useStageFit(stageRef: React.RefObject<HTMLDivElement | null>) {
 }
 
 export function ReadingExercise() {
+  useCurriculumFonts();
   const stageRef = useRef<HTMLDivElement | null>(null);
   useStageFit(stageRef);
 
   const [variant, setVariant] = useState<"safe" | "bold">("bold");
+  const [font, setFont] = useState<FontKey>("serif");
   const [state, setState] = useState<LessonState>({
     screen: "lesson",
     currentActivity: 0,
@@ -224,6 +229,7 @@ export function ReadingExercise() {
                 onResult={recordResult}
                 onAdvance={advance}
                 showLegend
+                font={font}
               />
             </div>
           )}
@@ -238,6 +244,8 @@ export function ReadingExercise() {
           )}
 
           {state.screen === "done" && <LessonComplete onReset={resetLesson} />}
+
+          <FontPicker font={font} onChange={setFont} />
         </div>
       </div>
     </div>

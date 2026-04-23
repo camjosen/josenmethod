@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { words } from "@reading_app/utils/words";
+import { type FontKey, fontKeySchema, fontMetadata } from "@reading_app/utils/fonts";
 import { Word } from "@/components/Word";
+import { useCurriculumFonts } from "@/curriculumFonts";
 
 const entries = Object.values(words);
+const fontOptions = fontKeySchema.options;
 
 interface ToggleProps {
   label: string;
@@ -25,6 +28,8 @@ function Toggle({ label, checked, onChange }: ToggleProps) {
 }
 
 export default function DictionaryPage() {
+  useCurriculumFonts();
+  const [font, setFont] = useState<FontKey>("serif");
   const [showLongVowel, setShowLongVowel] = useState(true);
   const [showDigraph, setShowDigraph] = useState(true);
   const [showSilent, setShowSilent] = useState(true);
@@ -39,7 +44,21 @@ export default function DictionaryPage() {
               {entries.length} words
             </span>
           </h1>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-wrap">
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
+              Font
+              <select
+                value={font}
+                onChange={(e) => setFont(e.target.value as FontKey)}
+                className="rounded-md border border-neutral-300 bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"
+              >
+                {fontOptions.map((k) => (
+                  <option key={k} value={k}>
+                    {fontMetadata[k].label}
+                  </option>
+                ))}
+              </select>
+            </label>
             <Toggle
               label="Long vowel bars"
               checked={showLongVowel}
@@ -59,11 +78,13 @@ export default function DictionaryPage() {
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">
-        <ul className="flex flex-wrap gap-x-8 gap-y-6 font-serif">
+        <ul className="flex flex-wrap gap-x-8 gap-y-6">
           {entries.map((word) => (
-            <li key={word.spelling} className="text-3xl leading-none">
+            <li key={word.spelling} className="leading-none">
               <Word
                 word={word}
+                font={font}
+                fontSize={30}
                 showLongVowel={showLongVowel}
                 showDigraph={showDigraph}
                 showSilent={showSilent}
