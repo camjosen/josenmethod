@@ -1,9 +1,14 @@
 import { useAuth } from '@workos-inc/authkit-react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import CallbackPage from './pages/CallbackPage';
+import HostPage from './pages/HostPage';
+import JoinPage from './pages/JoinPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import ReadingExercisePage from './pages/ReadingExercisePage';
+import SessionIndexPage from './pages/SessionIndexPage';
+import StudentSessionPage from './pages/StudentSessionPage';
+import TeacherSessionPage from './pages/TeacherSessionPage';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { isLoading, user } = useAuth();
@@ -30,6 +35,11 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/reading-exercise" element={<ReadingExercisePage />} />
+        <Route path="/session" element={<SessionIndexPage />} />
+        <Route path="/host" element={<HostPage />} />
+        <Route path="/join" element={<JoinPage />} />
+        <Route path="/teacher/:code" element={<TeacherSessionPage />} />
+        <Route path="/student/:code" element={<StudentSessionPage />} />
         <Route
           path="/me"
           element={

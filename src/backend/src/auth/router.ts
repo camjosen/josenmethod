@@ -5,10 +5,14 @@ import { SignJWT } from 'jose';
 import { db } from '../db';
 import { accounts, profiles } from '../db/schema';
 
-const workos = new WorkOS(process.env.WORKOS_API_KEY!);
-const clientId = process.env.WORKOS_CLIENT_ID!;
-const redirectUri = process.env.WORKOS_REDIRECT_URI ?? 'http://localhost:3001/auth/callback';
-const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:5173';
+let _workos: WorkOS | null = null;
+function getWorkOS(): WorkOS {
+  if (!_workos) _workos = new WorkOS(process.env.WORKOS_API_KEY!);
+  return _workos;
+}
+const clientId = () => process.env.WORKOS_CLIENT_ID!;
+const redirectUri = () => process.env.WORKOS_REDIRECT_URI ?? 'http://localhost:3001/auth/callback';
+const frontendUrl = () => process.env.FRONTEND_URL ?? 'http://localhost:5173';
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET ?? 'dev-secret-change-me'
@@ -23,9 +27,9 @@ async function signToken(accountId: number): Promise<string> {
 
 export const authRouter = new Hono()
   .get('/workos', (c) => {
-    const authorizationUrl = workos.userManagement.getAuthorizationUrl({
-      clientId,
-      redirectUri,
+    const authorizationUrl = getWorkOS().userManagement.getAuthorizationUrl({
+      clientId: clientId(),
+      redirectUri: redirectUri(),
       provider: 'authkit',
     });
     return c.redirect(authorizationUrl);
@@ -33,12 +37,12 @@ export const authRouter = new Hono()
   .get('/callback', async (c) => {
     const code = c.req.query('code');
     if (!code) {
-      return c.redirect(`${frontendUrl}/login?error=auth_failed`);
+      return c.redirect(`${frontendUrl()}/login?error=auth_failed`);
     }
 
     try {
-      const { user: workosUser } = await workos.userManagement.authenticateWithCode({
-        clientId,
+      const { user: workosUser } = await getWorkOS().userManagement.authenticateWithCode({
+        clientId: clientId(),
         code,
       });
 
@@ -70,9 +74,9 @@ export const authRouter = new Hono()
       }
 
       const token = await signToken(account.id);
-      return c.redirect(`${frontendUrl}/auth/callback?token=${token}`);
+      return c.redirect(`${frontendUrl()}/auth/callback?token=${token}`);
     } catch {
-      return c.redirect(`${frontendUrl}/login?error=auth_failed`);
+      return c.redirect(`${frontendUrl()}/login?error=auth_failed`);
     }
   })
   .post('/logout', async (c) => {
