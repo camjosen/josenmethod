@@ -452,10 +452,46 @@
 }
 .re-key-legend .re-group { display: flex; align-items: center; gap: 0; }
 
-/* Variant toggle — small chip bottom-left */
-.re-variant-toggle {
+/* Font picker — subtle 5-glyph cluster bottom-left */
+.re-font-picker {
   position: absolute;
   bottom: 30px;
+  left: 36px;
+  display: flex;
+  gap: 2px;
+  z-index: 40;
+  opacity: 0.35;
+  transition: opacity var(--re-dur-base) var(--re-ease-quill);
+}
+.re-font-picker:hover { opacity: 0.9; }
+.re-font-picker button {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--re-ink-3);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+  border-radius: 4px;
+  transition:
+    color var(--re-dur-base) var(--re-ease-quill),
+    background var(--re-dur-base) var(--re-ease-quill);
+}
+.re-font-picker button:hover { color: var(--re-ink); }
+.re-font-picker button.on {
+  color: var(--re-ink);
+  background: var(--re-paper-raised);
+}
+.re-font-picker button svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Variant toggle — small chip above the font picker */
+.re-variant-toggle {
+  position: absolute;
+  bottom: 76px;
   left: 36px;
   display: inline-flex;
   border: 1px solid var(--re-rule-strong);
