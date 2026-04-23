@@ -1,6 +1,7 @@
 import { useAuth } from '@workos-inc/authkit-react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import CallbackPage from './pages/CallbackPage';
+import DictionaryPage from './pages/DictionaryPage';
 import HostPage from './pages/HostPage';
 import JoinPage from './pages/JoinPage';
 import LoginPage from './pages/LoginPage';
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/reading-exercise" element={<ReadingExercisePage />} />
+        <Route path="/dictionary" element={<DictionaryPage />} />
         <Route path="/session" element={<SessionIndexPage />} />
         <Route path="/host" element={<HostPage />} />
         <Route path="/join" element={<JoinPage />} />
