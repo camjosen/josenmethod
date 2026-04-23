@@ -9,38 +9,36 @@ import {
 } from "./Prompt.ts";
 
 const titleSchema = z.object({
-  words: z.array(wordSchema).describe("The words in the title."),
+  words: z.array(wordSchema).nonempty().describe("The words in the title."),
 });
+
+const sentenceSchema = z.object({
+  words: z
+    .array(z.union([wordSchema, punctuationSchema]))
+    .describe("The words in the sentence."),
+  questions: z
+    .array(z.string().nonempty())
+    .nonempty()
+    .optional()
+    .describe(
+      'On "_with_questions" items, the student is asked these questions when then finish reading the sentence.',
+    ),
+});
+
+const paragraphSchema = z.object({
+  sentences: z.array(sentenceSchema),
+});
+
+const contentSchema = z
+  .object({
+    title: titleSchema.optional().describe("The title of the story."),
+    paragraphs: z.array(paragraphSchema),
+  })
+  .describe("The paragraphs of the story.");
 
 export const inputSchema = z
   .object({
-    title: titleSchema.optional().describe("The title of the story."),
-    content: z
-      .object({
-        paragraphs: z.object({
-          sentences: z.object({
-            words: z
-              .array(z.union([wordSchema, punctuationSchema]))
-              .describe("The words in the sentence."),
-            questions: z
-              .array(z.string().nonempty())
-              .nonempty()
-              .optional()
-              .describe("Questions to assess understanding of the sentence."),
-          }),
-          questions: z
-            .array(z.string().nonempty())
-            .nonempty()
-            .optional()
-            .describe("Questions to assess understanding of the paragraph."),
-        }),
-        questions: z
-          .array(z.string().nonempty())
-          .nonempty()
-          .optional()
-          .describe("Questions to assess understanding of the story."),
-      })
-      .describe("The paragraphs of the story."),
+    content: contentSchema,
     markup: z
       .array(z.union([z.literal("arrows"), z.literal("dots")]))
       .describe(
@@ -80,10 +78,21 @@ export const inputSchema = z
             .describe(
               "Student reads each sentence at a normal fluent pace and is asked questions along the way.",
             ),
+          z
+            .literal("word_finding")
+            .describe("The student must find a given word in the story."),
           z.literal("title_reading").describe("Student reads the story title."),
         ]),
       )
+      .nonempty()
       .describe("The tasks the student completes with this story."),
+    focusWords: z
+      .array(z.union([wordSchema, punctuationSchema]))
+      .nonempty()
+      .optional()
+      .describe(
+        'Words you would like the student to focus on. These are use in, for example, "word_finding" items.',
+      ),
   })
   .describe("Student reads a short story.");
 
