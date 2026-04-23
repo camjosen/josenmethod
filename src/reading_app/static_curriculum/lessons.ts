@@ -187,7 +187,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           markup: ["arrows", "dots"],
           items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.see, w.me, w.eat, "."] } } },
+          content: { paragraphs: [{ sentences: [{ words: [w.see, w.me, w.eat, "."] }] }] },
         },
       ],
       ["Writing", { items: [s.s, s.d] }],
@@ -206,8 +206,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.see, w.me, w.read, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
+          content: { paragraphs: [{ sentences: [{ words: [w.see, w.me, w.read, "."] }] }] },
         },
       ],
       ["Writing", { items: [s.i, s.e_long] }],
@@ -225,8 +225,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.mad, w.at, w.me, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
+          content: { paragraphs: [{ sentences: [{ words: [w.mad, w.at, w.me, "."] }] }] },
         },
       ],
       ["Writing", { items: [s.r, s.t] }],
@@ -245,8 +245,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.read, w.it, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
+          content: { paragraphs: [{ sentences: [{ words: [w.read, w.it, "."] }] }] },
         },
       ],
       ["Writing", { items: [s.d, s.i] }],
@@ -265,7 +265,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         {
           markup: ["arrows", "dots"],
           items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.this, w.rat, w.is, w.sad, "."] } } },
+          content: { paragraphs: [{ sentences: [{ words: [w.this, w.rat, w.is, w.sad, "."] }] }] },
         },
       ],
       ["Writing", { items: [s.s, s.e_long] }],
@@ -282,8 +282,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.sam, w.is, w.mad, w.at, w.me, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
+          content: { paragraphs: [{ sentences: [{ words: [w.sam, w.is, w.mad, w.at, w.me, "."] }] }] },
+          focusWords: [w.at, w.me],
         },
       ],
       ["Writing", { items: [s.m, s.a] }],
@@ -302,8 +303,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.see, w.the, w.ram, w.sit, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
+          content: { paragraphs: [{ sentences: [{ words: [w.see, w.the, w.ram, w.sit, "."] }] }] },
+          focusWords: [w.sit, w.the],
         },
       ],
       ["Writing", { items: [s.d, s.r] }],
@@ -321,8 +323,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
         "Story",
         {
           markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast"],
-          content: { paragraphs: { sentences: { words: [w.the, w.ram, w.is, w.sad, "."] } } },
+          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
+          content: { paragraphs: [{ sentences: [{ words: [w.the, w.ram, w.is, w.sad, "."] }] }] },
+          focusWords: [w.ram, w.is],
         },
       ],
       ["Writing", { items: [s.c, s.d] }],
@@ -342,12 +345,16 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           markup: ["arrows", "dots"],
           items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [w.this, w.cat, w.is, w.sick, ".", w.this, w.cat, w.is, w.sad, "."],
+            paragraphs: [
+              {
+                sentences: [
+                  { words: [w.this, w.cat, w.is, w.sick, "."], questions: ["How does the cat feel?"] },
+                  { words: [w.this, w.cat, w.is, w.sad, "."], questions: ["What else do you know about the cat?", "Why is the cat sad?"] },
+                ],
               },
-            },
+            ],
           },
+          focusWords: [w.sick, w.sad],
         },
       ],
       ["Writing", { items: [s.i, s.t] }],
@@ -367,12 +374,22 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           markup: ["arrows", "dots"],
           items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [w.this, w.is, w.a, w.seed, ".", w.see, w.a, w.ram, w.eat, w.it, "."],
+            paragraphs: [
+              {
+                sentences: [
+                  {
+                    words: [w.this, w.is, w.a, w.seed, "."],
+                    questions: ["What is that?"],
+                  },
+                  {
+                    words: [w.see, w.a, w.ram, w.eat, w.it, "."],
+                    questions: ["What is the ram eating?", "Who is eating a seed?"],
+                  },
+                ],
               },
-            },
+            ],
           },
+          focusWords: [w.a, w.see, w.that, w.a, w.that, w.a, w.see, w.that, w.see],
         },
       ],
       ["Writing", { items: [s.o, s.c] }],
@@ -392,12 +409,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           markup: ["arrows", "dots"],
           items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [w.this, w.is, w.a, w.rock, ".", w.sam, w.is, w.at, w.the, w.rock, "."],
-              },
-            },
+            paragraphs: [{ sentences: [{ words: [w.this, w.is, w.a, w.rock, "."] }, { words: [w.sam, w.is, w.at, w.the, w.rock, "."] }] }],
           },
+          focusWords: [w.is, w.sam, w.is, w.rock, w.is, w.sam, w.rock, w.rock, w.is, w.sam],
         },
       ],
       ["Writing", { items: [s.r, s.o] }],
@@ -418,19 +432,39 @@ export const lessons: { title: string; activities: Activity[] }[] = [
           markup: ["arrows"],
           items: ["sound_it_out", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [
-                  w.a, w.dog, w.was, w.in, w.the, w.fog, ".",
-                  w.a, w.cat, w.was, w.in, w.the, w.fog, ".",
-                  w.a, w.goat, w.was, w.in, w.the, w.fog, ".",
-                  w.the, w.dog, w.and, w.the, w.cat, w.and, w.the, w.goat, w.came, w.to, w.a, w.log, ".",
-                  w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, ".",
-                  w.the, w.dog, w.and, w.the, w.cat, w.said, ",", '"', w.we, w.are, w.on, w.the, w.log, ".", '"',
-                  w.the, w.goat, w.said, ",", '"', w.I, w.am, w.not, w.on, w.the, w.log, ".", w.I, w.am, w.in, w.the, w.log, ".", w.he, w.he, ".", '"',
+            paragraphs: [
+              {
+                sentences: [
+                  {
+                    words: [w.a, w.dog, w.was, w.in, w.the, w.fog, "."],
+                    questions: ["What's a fog?"],
+                  },
+                  { words: [w.a, w.cat, w.was, w.in, w.the, w.fog, "."] },
+                  {
+                    words: [w.a, w.goat, w.was, w.in, w.the, w.fog, "."],
+                    questions: ["Name everybody who was in the fog."],
+                  },
                 ],
               },
-            },
+              { sentences: [{ words: [w.the, w.dog, w.and, w.the, w.cat, w.and, w.the, w.goat, w.came, w.to, w.a, w.log, "."] }] },
+              {
+                sentences: [
+                  {
+                    words: [w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, "."],
+                    questions: ["Who sat on the log?", "Who didn't sit on the log?"],
+                  },
+                  { words: [w.the, w.dog, w.and, w.the, w.cat, w.said, ",", '"', w.we, w.are, w.on, w.the, w.log, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  {
+                    words: [w.the, w.goat, w.said, ",", '"', w.I, w.am, w.not, w.on, w.the, w.log, ".", w.I, w.am, w.in, w.the, w.log, ".", w.he, w.he, ".", '"'],
+                    questions: ['Why is he laughing and saying "he he"?'],
+                  },
+                ],
+              },
+            ],
           },
         },
       ],
@@ -448,27 +482,35 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          title: { words: [w.lots, w.of, w.cars] },
           markup: ["arrows"],
-          items: ["title_reading", "say_it_fast_with_questions"],
+          items: ["title_reading", "sound_it_out", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [
-                  w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, ".",
-                  w.he, w.has, w.old, w.cars, ".",
-                  w.he, w.has, w.little, w.cars, ".",
-                  w.are, w.his, w.cars, w.for, w.goats, "?",
-                  w.no, ".",
-                  w.are, w.his, w.cars, w.for, w.sheep, "?",
-                  w.no, ".",
-                  w.are, w.his, w.cars, w.for, w.cows, "?",
-                  w.no, ".",
-                  w.his, w.cars, w.are, w.for, w.cops, ".",
-                  w.he, w.has, w.lots, w.of, w.cop, w.cars, ".",
+            title: { words: [w.lots, w.of, w.cars] },
+            paragraphs: [
+              {
+                sentences: [
+                  { words: [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."], questions: ["What does he have?"] },
+                  { words: [w.he, w.has, w.old, w.cars, "."] },
+                  { words: [w.he, w.has, w.little, w.cars, "."], questions: ["What kinds of cars does he have?"] },
                 ],
               },
-            },
+              {
+                sentences: [
+                  { words: [w.are, w.his, w.cars, w.for, w.goats, "?"], questions: ["What do you think?"] },
+                  { words: [w.no, "."], questions: ["Are they for goats?"] },
+                  { words: [w.are, w.his, w.cars, w.for, w.sheep, "?"] },
+                  { words: [w.no, "."] },
+                  { words: [w.are, w.his, w.cars, w.for, w.cows, "?"] },
+                  { words: [w.no, "."] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.his, w.cars, w.are, w.for, w.cops, "."] },
+                  { words: [w.he, w.has, w.lots, w.of, w.cop, w.cars, "."], questions: ["What kinds of cars does he have?"] },
+                ],
+              },
+            ],
           },
         },
       ],
@@ -487,25 +529,53 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          title: { words: [w.a, w.bug, w.and, w.a, w.dog] },
           markup: ["arrows"],
           items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [
-                  w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, ".",
-                  w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"',
-                  w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"',
-                  w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"',
-                  w.the, w.bug, w.said, ",", '"', w.I, w.will, w.eat, w.this, w.log, ".", '"',
-                  w.and, w.he, w.did, ".",
-                  w.he, w.bit, w.and, w.bit, w.and, w.bit, w.at, w.the, w.log, ".",
-                  w.the, w.bug, w.said, ",", '"', w.now, w.that, w.dog, w.can, w.see, w.how, w.big, w.I, w.am, ".", '"',
-                  w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.can, w.eat, w.logs, ".", w.he, w.is, w.a, w.big, ",", w.big, w.bug, ".", '"',
+            title: { words: [w.a, w.bug, w.and, w.a, w.dog] },
+            paragraphs: [
+              {
+                sentences: [
+                  { words: [w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, "."] },
+                  {
+                    words: [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"'],
+                    questions: ["Why couldn't the dog see the bug?"],
+                  },
                 ],
               },
-            },
+              {
+                sentences: [
+                  { words: [w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  {
+                    words: [w.the, w.bug, w.said, ",", '"', w.I, w.will, w.eat, w.this, w.log, ".", '"'],
+                    questions: ["What did the bug say?"],
+                  },
+                  { words: [w.and, w.he, w.did, "."] },
+                  {
+                    words: [w.he, w.bit, w.and, w.bit, w.and, w.bit, w.at, w.the, w.log, "."],
+                    questions: ["What did the bug do?"],
+                  },
+                  { words: [w.the, w.bug, w.said, ",", '"', w.now, w.that, w.dog, w.can, w.see, w.how, w.big, w.I, w.am, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  {
+                    words: [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.can, w.eat, w.logs, ".", w.he, w.is, w.a, w.big, ",", w.big, w.bug, ".", '"'],
+                    questions: [`Why did the dog say, "He is a big, big bug?"`],
+                  },
+                ],
+              },
+            ],
           },
         },
       ],
@@ -522,27 +592,39 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          title: { words: [w.the, w.bugs] },
           markup: ["arrows"],
           items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [
-                  w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, ".",
-                  w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"',
-                  w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, ".",
-                  w.the, w.big, w.bug, w.said, ",", '"', w.that, w.is, w.how, w.big, w.bugs, w.eat, ".", '"',
-                  w.the, w.little, w.bug, w.said, ",", '"', w.now, w.I, w.will, w.eat, ".", '"',
-                  w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, ".",
-                  w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, ".",
-                  w.then, w.she, w.ate, w.ten, w.more, w.logs, ".",
-                  '"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, ".",
-                  '"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"',
-                  w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"',
+            title: { words: [w.the, w.bugs] },
+            paragraphs: [
+              {
+                sentences: [
+                  { words: [w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, "."] },
+                  { words: [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'], questions: ["Did the big bug want to eat?"] },
+                  { words: [w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], questions: ["What did the big bug eat?"] },
+                  { words: [w.the, w.big, w.bug, w.said, ",", '"', w.that, w.is, w.how, w.big, w.bugs, w.eat, ".", '"'] },
                 ],
               },
-            },
+              {
+                sentences: [
+                  { words: [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.I, w.will, w.eat, ".", '"'] },
+                  { words: [w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], questions: ["What did the little bug eat?"] },
+                  { words: [w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, "."], questions: ["Did she eat the log?"] },
+                  { words: [w.then, w.she, w.ate, w.ten, w.more, w.logs, "."], questions: ["Then what did she eat?"] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: ['"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, "."] },
+                  { words: ['"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"'], questions: ["What did the little bug say?"] },
+                ],
+              },
+            ],
           },
         },
       ],
@@ -561,27 +643,52 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          title: { words: [w.the, w.man, w.and, w.his, w.bed] },
           markup: ["arrows"],
           items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            paragraphs: {
-              sentences: {
-                words: [
-                  w.a, w.man, w.had, w.a, w.tub, ".",
-                  w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"',
-                  w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"',
-                  w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, ".",
-                  w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"',
-                  w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"',
-                  w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"',
-                  w.the, w.man, w.said, ",", '"', w.this, w.dog, w.likes, w.to, w.sleep, w.in, w.beds, ",", w.so, w.he, w.can, w.sleep, w.with, w.me, ".", w.but, w.I, w.do, w.not, w.like, w.dogs, w.that, w.bite, ".", '"', // prettier-ignore
-                  w.the, w.dog, w.said, ",", '"', w.I, w.do, w.not, w.like, w.to, w.bite, ".", '"',
-                  w.so, w.the, w.man, w.and, w.the, w.dog, w.went, w.to, w.sleep, ".",
-                  w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, ".",
+            title: { words: [w.the, w.man, w.and, w.his, w.bed] },
+            paragraphs: [
+              {
+                sentences: [
+                  { words: [w.a, w.man, w.had, w.a, w.tub, "."] },
+                  { words: [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'], questions: ["What did the man say?"] },
                 ],
               },
-            },
+              {
+                sentences: [
+                  { words: [w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"'], questions: ["What did the man say?"] },
+                  { words: [w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, "."], questions: ["What was in his bed?"] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"'], questions: ["Will the man let the dog sleep in the bed?"] },
+                ],
+              },
+              {
+                sentences: [
+                  // prettier-ignore
+                  { words: [w.the, w.man, w.said, ",", '"', w.this, w.dog, w.likes, w.to, w.sleep, w.in, w.beds, ",", w.so, w.he, w.can, w.sleep, w.with, w.me, ".", w.but, w.I, w.do, w.not, w.like, w.dogs, w.that, w.bite, ".", '"'] },
+                ],
+              },
+              {
+                sentences: [
+                  { words: [w.the, w.dog, w.said, ",", '"', w.I, w.do, w.not, w.like, w.to, w.bite, ".", '"'] },
+                  { words: [w.so, w.the, w.man, w.and, w.the, w.dog, w.went, w.to, w.sleep, "."] },
+                  { words: [w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, "."], questions: ["Does the dog like to bite?", "Did he bite the man?"] },
+                ],
+              },
+            ],
           },
         },
       ],
