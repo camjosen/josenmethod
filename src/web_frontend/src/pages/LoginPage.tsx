@@ -7,16 +7,12 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If already authenticated, redirect to profile
-    if (!isLoading && user) {
+    if (isLoading) return;
+    if (user) {
       navigate('/me', { replace: true });
       return;
     }
-
-    // Auto-redirect to AuthKit sign-in
-    if (!isLoading && !user) {
-      signIn();
-    }
+    signIn();
   }, [isLoading, user, signIn, navigate]);
 
   return (

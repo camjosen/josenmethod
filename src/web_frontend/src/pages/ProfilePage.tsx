@@ -1,5 +1,7 @@
 import { useAuth } from "@workos-inc/authkit-react";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useApiClient } from "../api";
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
@@ -15,12 +17,9 @@ function Field({ label, value }: { label: string; value: string }) {
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const client = useApiClient();
 
-  const {
-    data: profile,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: profile, isLoading, error } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const res = await client.accounts.profile.$get();
@@ -30,23 +29,15 @@ export default function ProfilePage() {
       }
       return res.json();
     },
+    enabled: !!user,
   });
 
-  const logout = useMutation({
-    mutationFn: async () => {
-      await client.auth.logout.$post({});
-    },
-    onSettled() {
-      auth.clearToken();
-      navigate("/login");
-    },
-  });
-
-  function handleLogout() {
-    logout.mutate();
+  async function handleSignOut() {
+    setIsSigningOut(true);
+    await signOut();
   }
 
-  if (!user) {
+  if (!user || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">
         Loading…
@@ -54,9 +45,13 @@ export default function ProfilePage() {
     );
   }
 
-  // Build display name from WorkOS user object
-  const displayName =
-    [user.firstName, user.lastName].filter(Boolean).join(" ") || null;
+  if (error || !profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">
+        {error instanceof Error ? error.message : "Failed to load profile"}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background px-4 py-12">
@@ -78,26 +73,24 @@ export default function ProfilePage() {
           <div className="flex flex-col space-y-1.5 p-6 pb-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
-                {profile?.displayName
-                  ? profile.displayName.charAt(0).toUpperCase()
-                  : profile?.email.charAt(0).toUpperCase()}
+                {(profile.displayName ?? profile.email).charAt(0).toUpperCase()}
               </div>
               <div>
                 <h3 className="text-base font-semibold leading-none tracking-tight">
-                  {profile?.displayName ?? "Your profile"}
+                  {profile.displayName ?? "Your profile"}
                 </h3>
               </div>
             </div>
           </div>
 
           <div className="p-6 pt-0 space-y-4">
-            <Field label="Email" value={profile!.email} />
-            {profile?.displayName && (
+            <Field label="Email" value={profile.email} />
+            {profile.displayName && (
               <Field label="Name" value={profile.displayName} />
             )}
             <Field
               label="Member since"
-              value={new Date(profile!.createdAt).toLocaleDateString("en-US", {
+              value={new Date(profile.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",

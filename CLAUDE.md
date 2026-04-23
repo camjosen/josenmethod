@@ -120,7 +120,13 @@ Two loading paths — **read this carefully, it has bitten**:
 
 So: repo-root `.env.local` is the source of truth for frontend-visible and shared dev secrets; `src/backend/.env` is the source of truth for backend-only vars. Copy what you need into `src/backend/.env` (see `src/backend/.env.example`). The backend now boots without these (they're lazily required), but features that touch them still fail at call time if missing.
 
-Relevant vars: `DATABASE_URL`, `JWT_SECRET`, `PORT` (default 3001), `FRONTEND_URL` (default `http://localhost:5173`), `WORKOS_API_KEY`, `WORKOS_CLIENT_ID`, `WORKOS_REDIRECT_URI`, `VITE_WORKOS_CLIENT_ID` (frontend only).
+Relevant vars: `DATABASE_URL`, `PORT` (default 3001), `FRONTEND_URL` (default `http://localhost:5173`), `WORKOS_API_KEY`, `WORKOS_CLIENT_ID`, `VITE_WORKOS_CLIENT_ID` (frontend only).
+
+## Auth
+
+AuthKit-React owns the session end-to-end. The frontend calls `signIn()`/`signOut()` from `useAuth()`; WorkOS redirects back to `/callback`, which hydrates the session and forwards to `/me`. Make sure the WorkOS dashboard has `http://localhost:5173/callback` configured as an allowed redirect URI.
+
+API calls go through `useApiClient()` in `src/web_frontend/src/api.ts` — a Hono RPC client wired to attach `Authorization: Bearer <accessToken>` (fetched from AuthKit's `getAccessToken()`, which auto-refreshes). The backend verifies these tokens via the WorkOS JWKS endpoint (`src/backend/src/middleware/auth.ts`) and lazily upserts an `accounts` row on first hit. There is no backend-minted JWT and no `/auth/*` route — AuthKit handles the OAuth dance client-side.
 
 ## Preview / dev servers
 
