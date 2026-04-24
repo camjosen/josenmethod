@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "EnterWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/setup-worktree-port.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
