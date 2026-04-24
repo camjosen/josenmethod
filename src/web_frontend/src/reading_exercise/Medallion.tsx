@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
-import type { Activity } from "./data";
-import { Glyphs } from "./glyphs";
+import { useEffect, useRef, type ReactNode } from "react";
 import { activityStatus, itemStatus, type LessonState } from "./state";
 
 interface Props {
-  activity: Activity;
+  itemCount: number;
+  glyph: ReactNode;
   idx: number;
   state: LessonState;
   onEnter: (idx: number) => void;
@@ -22,7 +21,7 @@ function orbitPosition(i: number, n: number, radius = 86) {
   };
 }
 
-export function Medallion({ activity, idx, state, onEnter, registerRef }: Props) {
+export function Medallion({ itemCount, glyph, idx, state, onEnter, registerRef }: Props) {
   const status = activityStatus(idx, state);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -39,8 +38,8 @@ export function Medallion({ activity, idx, state, onEnter, registerRef }: Props)
       onClick={() => status !== "locked" && onEnter(idx)}
     >
       <div className="re-items-ring">
-        {activity.items.map((_, i) => {
-          const pos = orbitPosition(i, activity.items.length, 86);
+        {Array.from({ length: itemCount }, (_, i) => {
+          const pos = orbitPosition(i, itemCount, 86);
           const st = itemStatus(idx, i, state);
           const cls = ["re-item-dot"];
           if (st === "done") cls.push("done");
@@ -55,7 +54,7 @@ export function Medallion({ activity, idx, state, onEnter, registerRef }: Props)
           );
         })}
       </div>
-      <div className="re-medallion">{Glyphs[activity.type]}</div>
+      <div className="re-medallion">{glyph}</div>
     </div>
   );
 }

@@ -1,46 +1,20 @@
-import type { ActivityType, Activity as UIActivity, Lesson as UILesson } from "../reading_exercise/data";
+import type { ReadSoundsToolInput } from "@reading_app/tools/ReadSoundsTool/ReadSoundsTool";
+import type { ReadWordsToolInput } from "@reading_app/tools/ReadWordsTool/ReadWordsTool";
+import type { RhymingToolInput } from "@reading_app/tools/RhymingTool/RhymingTool";
+import type { VerbalBlendingInput } from "@reading_app/tools/VerbalBleningTool.ts/VerbalBleningTool";
+import type { WritingToolInput } from "@reading_app/tools/WritingTool/WritingTool";
+import type { StoryToolInput } from "@reading_app/tools/StoryTool/StoryTool";
 
-const TOOL_TO_TYPE: Record<string, ActivityType> = {
-  ReadSounds: "listen",
-  VerbalBlending: "speak",
-  ReadWords: "read",
-  Rhyming: "speak",
-  Writing: "star",
-  Story: "read",
-};
+export type SessionLessonActivity =
+  | { id: string; toolName: "ReadSounds"; input: ReadSoundsToolInput; itemCount: number }
+  | { id: string; toolName: "ReadWords"; input: ReadWordsToolInput; itemCount: number }
+  | { id: string; toolName: "Rhyming"; input: RhymingToolInput; itemCount: number }
+  | { id: string; toolName: "VerbalBlending"; input: VerbalBlendingInput; itemCount: number }
+  | { id: string; toolName: "Writing"; input: WritingToolInput; itemCount: number }
+  | { id: string; toolName: "Story"; input: StoryToolInput; itemCount: number };
 
-function activityTypeFor(name: string): ActivityType {
-  return TOOL_TO_TYPE[name] ?? "read";
-}
-
-function itemSpelling(raw: unknown): string {
-  if (typeof raw === "string") return raw;
-  if (Array.isArray(raw)) return raw.map((p) => String(p)).join("·");
-  if (raw && typeof raw === "object") {
-    const r = raw as { spelling?: unknown; characters?: unknown; fullWord?: unknown };
-    if (typeof r.spelling === "string") return r.spelling;
-    if (typeof r.characters === "string") return r.characters;
-    if (typeof r.fullWord === "string") return r.fullWord;
-  }
-  return "…";
-}
-
-function extractItems(name: string, input: unknown): string[] {
-  const obj = input as { items?: unknown; content?: unknown };
-  if (name === "Story") {
-    const content = obj.content as { paragraphs?: { sentences?: { words?: unknown[] } } };
-    const words = content?.paragraphs?.sentences?.words ?? [];
-    return [words.map(itemSpelling).filter(Boolean).join(" ") || "Story"];
-  }
-  const items = Array.isArray(obj.items) ? obj.items : [];
-  return items.map(itemSpelling);
-}
-
-export interface SessionLessonActivity extends UIActivity {
-  toolName: string;
-}
-
-export interface SessionLesson extends Omit<UILesson, "activities"> {
+export interface SessionLesson {
+  id: string;
   activities: SessionLessonActivity[];
 }
 
@@ -50,17 +24,35 @@ export interface BackendLessonDetail {
   activities: Array<{ name: string; input: unknown }>;
 }
 
+function itemsLength(input: unknown): number {
+  const items = (input as { items?: unknown }).items;
+  return Array.isArray(items) ? items.length : 1;
+}
+
+function toActivity(name: string, input: unknown, i: number): SessionLessonActivity {
+  const id = `a${i}`;
+  const itemCount = itemsLength(input);
+  switch (name) {
+    case "ReadSounds":
+      return { id, toolName: "ReadSounds", input: input as ReadSoundsToolInput, itemCount };
+    case "ReadWords":
+      return { id, toolName: "ReadWords", input: input as ReadWordsToolInput, itemCount };
+    case "Rhyming":
+      return { id, toolName: "Rhyming", input: input as RhymingToolInput, itemCount };
+    case "VerbalBlending":
+      return { id, toolName: "VerbalBlending", input: input as VerbalBlendingInput, itemCount };
+    case "Writing":
+      return { id, toolName: "Writing", input: input as WritingToolInput, itemCount };
+    case "Story":
+      return { id, toolName: "Story", input: input as StoryToolInput, itemCount };
+    default:
+      throw new Error(`Unknown tool name from backend: ${name}`);
+  }
+}
+
 export function adaptLesson(detail: BackendLessonDetail): SessionLesson {
   return {
     id: `lesson-${detail.idx}`,
-    activities: detail.activities.map((a, i) => ({
-      id: `a${i}`,
-      toolName: a.name,
-      type: activityTypeFor(a.name),
-      items: extractItems(a.name, a.input).map((spelling) => ({
-        spelling,
-        sounds: [{ name: "a", characters: spelling, as_in: spelling }],
-      })) as UIActivity["items"],
-    })),
+    activities: detail.activities.map((a, i) => toActivity(a.name, a.input, i)),
   };
 }

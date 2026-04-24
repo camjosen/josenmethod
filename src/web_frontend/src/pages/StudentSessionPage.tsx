@@ -29,7 +29,7 @@ export default function StudentSessionPage() {
       {error && <div className="text-red-400 p-4">{error}</div>}
       {state && lesson && (
         <Stage>
-          <SessionStage session={state} lesson={lesson} />
+          <SessionStage session={state} lesson={lesson} role="student" />
         </Stage>
       )}
     </div>
