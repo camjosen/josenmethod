@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "bun run --parallel --filter '*' dev",
+    "dev:cleanup": "lsof -ti:3001,5173 | xargs kill -9 2>/dev/null; echo 'Ports 3001 and 5173 cleared'",
     "dev:backend": "bun run --filter josenmethod-backend dev",
     "dev:web": "bun run --filter josenmethod-web dev",
     "build": "bun run --filter josenmethod-web build",
