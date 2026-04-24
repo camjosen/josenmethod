@@ -12,7 +12,7 @@ const titleSchema = z.object({
   words: z.array(wordSchema).nonempty().describe("The words in the title."),
 });
 
-const sentenceSchema = z.object({
+const sentence = z.object({
   words: z
     .array(z.union([wordSchema, punctuationSchema]))
     .describe("The words in the sentence."),
@@ -25,76 +25,105 @@ const sentenceSchema = z.object({
     ),
 });
 
-const paragraphSchema = z.object({
-  sentences: z.array(sentenceSchema),
+const paragraph = z.object({
+  sentences: z.array(sentence),
 });
 
-const contentSchema = z
+const content = z
   .object({
     title: titleSchema.optional().describe("The title of the story."),
-    paragraphs: z.array(paragraphSchema),
+    paragraphs: z.array(paragraph),
   })
   .describe("The paragraphs of the story.");
 
+const fluencyMode = z.union([
+  z.literal("high:sound_out_each_word_with_guidance"),
+  z.literal("medium:sound_out_each_word"),
+  z.literal("low:read_the_fast_way_with_guidance"),
+  z.literal("none:read_the_fast_way"),
+]);
+
+const scaffoldingRank: Record<z.infer<typeof fluencyMode>, number> = {
+  "high:sound_out_each_word_with_guidance": 3,
+  "medium:sound_out_each_word": 2,
+  "low:read_the_fast_way_with_guidance": 1,
+  "none:read_the_fast_way": 0,
+};
+
+const hints = z.object({
+  longVowels: z.boolean(),
+  digraphs: z.boolean(),
+  funnyWords: z.boolean(),
+  soundTypes: z.boolean(),
+  readingDirection: z.boolean(),
+});
+
+const additionalTasks = z.object({
+  prereading_tasks: z
+    .array(
+      z.discriminatedUnion("type", [
+        z.object({
+          type: z.literal("analyze_the_title"),
+        }),
+      ]),
+    )
+    .optional(),
+  postreading_tasks: z
+    .array(
+      z.discriminatedUnion("type", [
+        z.object({
+          type: z.literal("answer_comprehension_questions"),
+        }),
+      ]),
+    )
+    .optional(),
+});
+
+const modeling = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("teacher_reads_entire_story"),
+  }),
+  z.object({
+    type: z.literal("teacher_reads_opening_sentences"),
+    numSentences: z.number(),
+  }),
+]);
+
 export const inputSchema = z
   .object({
-    content: contentSchema,
-    markup: z
-      .array(z.union([z.literal("arrows"), z.literal("dots")]))
-      .describe(
-        "Visual markup style: arrows show direction of reading, dots mark individual sounds.",
-      ),
-    items: z
-      .array(
-        z.union([
-          z
-            .literal("guided_sound_it_out")
-            .describe(
-              "Teacher guides the student through the story one word at a time.",
-            ),
-          z
-            .literal("sound_it_out")
-            .describe(
-              "Student sounds out each word in the story, one at a time.",
-            ),
-          z
-            .literal("sound_it_out_with_questions")
-            .describe(
-              "Student sounds out each word in the story, one at a time and is asked questions along the way.",
-            ),
-          z
-            .literal("teacher_models_say_it_fast")
-            .describe(
-              "Teacher models reading the story at a normal, fluent pace.",
-            ),
-          z
-            .literal("guided_say_it_fast")
-            .describe("Student reads each sentence at a normal fluent pace."),
-          z
-            .literal("say_it_fast")
-            .describe("Student reads each sentence at a normal fluent pace."),
-          z
-            .literal("say_it_fast_with_questions")
-            .describe(
-              "Student reads each sentence at a normal fluent pace and is asked questions along the way.",
-            ),
-          z
-            .literal("word_finding")
-            .describe("The student must find a given word in the story."),
-          z.literal("title_reading").describe("Student reads the story title."),
-        ]),
-      )
-      .nonempty()
-      .describe("The tasks the student completes with this story."),
-    focusWords: z
-      .array(z.union([wordSchema, punctuationSchema]))
-      .nonempty()
+    content: content,
+    firstReading: z
+      .object({
+        fluencyMode: fluencyMode,
+        hints: hints.optional(),
+        additionalTasks: additionalTasks.optional(),
+        modeling: modeling.optional(),
+      })
+      .describe("Typically a more scaffolded and easier experience."),
+    secondReading: z
+      .object({
+        fluencyMode: fluencyMode,
+        hints: hints.optional(),
+        additionalTasks: additionalTasks.optional(),
+        modeling: modeling.optional(),
+      })
       .optional()
       .describe(
-        'Words you would like the student to focus on. These are use in, for example, "word_finding" items.',
+        "Typically a less scaffolded and more challenging experience, pushing for greater fluency, greater comprehension, or both.",
       ),
   })
-  .describe("Student reads a short story.");
+  .describe("Student reads a short story.")
+  .refine(
+    ({ firstReading, secondReading }) =>
+      !secondReading ||
+      scaffoldingRank[secondReading.fluencyMode] <
+        scaffoldingRank[firstReading.fluencyMode],
+    {
+      path: ["secondReading", "fluencyMode"],
+      message:
+        "secondReading.fluencyMode must be less scaffolded than firstReading.fluencyMode (the second reading should push for more fluency).",
+    },
+  );
 
 export type StoryToolInput = z.infer<typeof inputSchema>;
 
