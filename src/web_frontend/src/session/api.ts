@@ -1,4 +1,6 @@
-const BASE = "http://localhost:3001";
+import { backendHttpUrl } from "../backendUrl";
+
+const BASE = backendHttpUrl();
 
 export interface LessonSummary {
   idx: number;
