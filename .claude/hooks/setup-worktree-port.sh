@@ -40,3 +40,9 @@ else
 fi
 
 echo "setup-worktree-port: set FRONTEND_PORT=$PORT in $ENV_FILE"
+
+LAN_IP=$(ipconfig getifaddr en0 2>/dev/null || true)
+if [ -n "$LAN_IP" ]; then
+  echo "setup-worktree-port: LAN URL will be http://$LAN_IP:$PORT"
+  echo "setup-worktree-port: to use WorkOS auth from another device, add http://$LAN_IP:$PORT/callback to the WorkOS dashboard's allowed redirect URIs"
+fi

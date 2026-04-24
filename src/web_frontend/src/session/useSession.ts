@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ClientMsg, ServerMsg, SessionState } from "@backend/sessions/types";
-
-const BACKEND_HOST = "localhost:3001";
+import { backendWsHost } from "../backendUrl";
 
 export type ConnectionStatus = "connecting" | "open" | "closed";
 
@@ -30,7 +29,7 @@ export function useSession(code: string | undefined, role: "teacher" | "student"
     const connect = () => {
       if (cancelled) return;
       setStatus("connecting");
-      const ws = new WebSocket(`ws://${BACKEND_HOST}/sessions/${code}/ws?role=${role}`);
+      const ws = new WebSocket(`ws://${backendWsHost()}/sessions/${code}/ws?role=${role}`);
       wsRef.current = ws;
 
       ws.onopen = () => {
