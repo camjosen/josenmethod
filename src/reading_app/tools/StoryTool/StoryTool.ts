@@ -8,22 +8,23 @@ import {
   STORY_TOOL_PROMPT,
 } from "./Prompt.ts";
 
-const titleSchema = z.object({
-  words: z.array(wordSchema).nonempty().describe("The words in the title."),
-});
+const questions = z.array(z.string().nonempty()).nonempty().optional();
 
-const sentence = z.object({
-  words: z
-    .array(z.union([wordSchema, punctuationSchema]))
-    .describe("The words in the sentence."),
-  questions: z
-    .array(z.string().nonempty())
-    .nonempty()
-    .optional()
-    .describe(
-      'On "_with_questions" items, the student is asked these questions when then finish reading the sentence.',
+const sentence = z
+  .object({
+    words: z
+      .array(z.union([wordSchema, punctuationSchema]))
+      .describe("The words in the sentence."),
+    firstReadingQuestions: questions.describe(
+      "Questions for student during the first reading.",
     ),
-});
+    secondReadingQuestions: questions.describe(
+      "Questions for student during the second reading.",
+    ),
+  })
+  .describe("A setnence in a story.");
+
+const titleSchema = sentence.describe("The title of the story");
 
 const paragraph = z.object({
   sentences: z.array(sentence),
@@ -36,92 +37,93 @@ const content = z
   })
   .describe("The paragraphs of the story.");
 
-const fluencyMode = z.union([
-  z.literal("high:sound_out_each_word_with_guidance"),
-  z.literal("medium:sound_out_each_word"),
-  z.literal("low:read_the_fast_way_with_guidance"),
-  z.literal("none:read_the_fast_way"),
-]);
+const fluencyExpectation = z
+  .union([
+    z.literal("beginner:sound_out_each_word"),
+    z.literal("intermediate:say_each_word_the_fast_way"),
+    z.literal("advanced:read_like_a_storyteller"),
+  ])
+  .describe("");
 
-const scaffoldingRank: Record<z.infer<typeof fluencyMode>, number> = {
-  "high:sound_out_each_word_with_guidance": 3,
-  "medium:sound_out_each_word": 2,
-  "low:read_the_fast_way_with_guidance": 1,
-  "none:read_the_fast_way": 0,
+const fluencyExpectationRank: Record<
+  z.infer<typeof fluencyExpectation>,
+  number
+> = {
+  "beginner:sound_out_each_word": 0,
+  "intermediate:say_each_word_the_fast_way": 1,
+  "advanced:read_like_a_storyteller": 2,
 };
 
-const hints = z.object({
-  longVowels: z.boolean(),
-  digraphs: z.boolean(),
-  funnyWords: z.boolean(),
-  soundTypes: z.boolean(),
-  readingDirection: z.boolean(),
-});
+const scaffolding = z
+  .object({
+    // Phonics
+    disambiguateSounds: z
+      .boolean()
+      .optional()
+      .describe(
+        `Whether to highlighting long vowels, digraphs, and "heart parts" (irregular pronunciations that must be memorized).`,
+      ),
+    visualizeBlending: z
+      .boolean()
+      .optional()
+      .describe(
+        "Help the student navigate each word smoothly, without stopping between sounds",
+      ),
 
-const additionalTasks = z.object({
-  prereading_tasks: z
-    .array(
-      z.discriminatedUnion("type", [
-        z.object({
-          type: z.literal("analyze_the_title"),
-        }),
-      ]),
-    )
-    .optional(),
-  postreading_tasks: z
-    .array(
-      z.discriminatedUnion("type", [
-        z.object({
-          type: z.literal("answer_comprehension_questions"),
-        }),
-      ]),
-    )
-    .optional(),
-});
+    // General
+    visualizeReadingDirection: z.boolean().optional(),
+    modelItFirst: z
+      .enum(["first_word", "first_sentence", "full_story"])
+      .optional()
+      .describe(
+        "Teacher demonstrates how to read some or all of the story at the expected fluency before the student attempts it.",
+      ),
+    directStudentAttention: z
+      .enum(["each_word", "each_sentence", "each_paragraph"])
+      .optional()
+      .describe(
+        "How often should the student's focus be directed? For example, should they be guided word by word?",
+      ),
+  })
+  .describe("");
 
-const modeling = z.discriminatedUnion("type", [
-  z.object({
-    type: z.literal("teacher_reads_entire_story"),
-  }),
-  z.object({
-    type: z.literal("teacher_reads_opening_sentences"),
-    numSentences: z.number(),
-  }),
-]);
+const askQuesitons = z
+  .boolean()
+  .describe("Whether to ask the student question while they read.");
 
 export const inputSchema = z
   .object({
     content: content,
     firstReading: z
       .object({
-        fluencyMode: fluencyMode,
-        hints: hints.optional(),
-        additionalTasks: additionalTasks.optional(),
-        modeling: modeling.optional(),
+        fluencyExpectation: fluencyExpectation,
+        scaffolding: scaffolding.optional(),
+        // TODO there should probably be a "student touches" option of some kind
       })
-      .describe("Typically a more scaffolded and easier experience."),
+      .describe(
+        "Fluency expectations and scaffolding should be configured such that the student feels successful.",
+      ),
     secondReading: z
       .object({
-        fluencyMode: fluencyMode,
-        hints: hints.optional(),
-        additionalTasks: additionalTasks.optional(),
-        modeling: modeling.optional(),
+        fluencyExpectation: fluencyExpectation,
+        scaffolding: scaffolding.optional(),
+        // TODO there should probably be a "student touches" option of some kind
       })
       .optional()
       .describe(
-        "Typically a less scaffolded and more challenging experience, pushing for greater fluency, greater comprehension, or both.",
+        "Either fluency expectations increase, scaffolding decreases, or both. The student should feel appropriately challenged.",
       ),
   })
   .describe("Student reads a short story.")
   .refine(
     ({ firstReading, secondReading }) =>
-      !secondReading ||
-      scaffoldingRank[secondReading.fluencyMode] <
-        scaffoldingRank[firstReading.fluencyMode],
+      secondReading != null &&
+      fluencyExpectationRank[secondReading.fluencyExpectation] <
+        fluencyExpectationRank[firstReading.fluencyExpectation],
     {
-      path: ["secondReading", "fluencyMode"],
+      path: ["secondReading", "difficulty"],
       message:
-        "secondReading.fluencyMode must be less scaffolded than firstReading.fluencyMode (the second reading should push for more fluency).",
+        "secondReading.difficulty must be less scaffolded than firstReading.difficulty (the second reading should push for more fluency).",
     },
   );
 
