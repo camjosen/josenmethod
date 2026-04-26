@@ -16,9 +16,6 @@ export const inputSchema = z
       .array(
         z.union([
           z
-            .literal("introduction")
-            .describe("Teacher introduces each sound to the student."),
-          z
             .literal("reintroduction")
             .describe(
               "Teacher reintroduces sounds the student may not know well yet.",

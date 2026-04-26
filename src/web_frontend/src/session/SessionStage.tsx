@@ -9,6 +9,7 @@ import { Medallion } from "../reading_exercise/Medallion";
 import { itemStatus, type ItemResult, type LessonState } from "../reading_exercise/state";
 import { ItemActivity, type Role } from "../activities/ItemActivity";
 import { ReadSoundsItem } from "../activities/items/ReadSoundsItem";
+import { SoundIntroductionItem } from "../activities/items/SoundIntroductionItem";
 import { ReadWordsItem } from "../activities/items/ReadWordsItem";
 import { RhymingItem, rhymeTeacherExtra } from "../activities/items/RhymingItem";
 import { VerbalBlendingItem, blendingTeacherExtra } from "../activities/items/VerbalBlendingItem";
@@ -35,6 +36,7 @@ function toLessonState(s: SessionState): LessonState {
 
 const TOOL_GLYPH: Record<SessionLessonActivity["toolName"], ReactNode> = {
   ReadSounds: Glyphs.listen,
+  SoundIntroduction: Glyphs.listen,
   ReadWords: Glyphs.read,
   Rhyming: Glyphs.speak,
   VerbalBlending: Glyphs.speak,
@@ -174,6 +176,16 @@ function renderActivity(
           flow={activity.input.flow}
           modifications={activity.input.modifications}
           renderItem={(sound, ctx) => <ReadSoundsItem sound={sound} ctx={ctx} />}
+        />
+      );
+    case "SoundIntroduction":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="SoundIntroduction"
+          items={[activity.input.item]}
+          flow={[]}
+          renderItem={(sound, ctx) => <SoundIntroductionItem sound={sound} ctx={ctx} />}
         />
       );
     case "ReadWords":
