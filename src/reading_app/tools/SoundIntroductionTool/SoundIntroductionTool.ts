@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 import { soundDefinitionSchema } from "../../utils/sounds.ts";
-import { Tool } from "../../../tools/Tool.ts";
+import type { Tool } from "../../../tools/Tool.ts";
 import {
   SOUND_INTRODUCTION_TOOL_DESCRIPTION,
   SOUND_INTRODUCTION_TOOL_NAME,

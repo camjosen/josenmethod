@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { Tool } from "../../../tools/Tool.ts";
+import type { Tool } from "../../../tools/Tool.ts";
 import { wordSchema } from "../../utils/words.ts";
 import {
   VERBAL_BLENDING_TOOL_DESCRIPTION,
@@ -10,13 +10,6 @@ import {
 const compoundItemSchema = z.tuple([z.string(), z.string()]);
 
 const itemSchema = z.union([compoundItemSchema, wordSchema]);
-
-const base = z.object({
-  scaffold: z
-    .boolean()
-    .optional()
-    .describe("Whether to help the student understand the task."),
-});
 
 export const inputSchema = z
   .object({

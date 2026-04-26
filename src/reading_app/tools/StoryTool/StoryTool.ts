@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
 import { punctuationSchema } from "../../utils/punctuation.ts";
-import { Tool } from "../../../tools/Tool.ts";
+import type { Tool } from "../../../tools/Tool.ts";
 import {
   STORY_TOOL_DESCRIPTION,
   STORY_TOOL_NAME,
@@ -86,10 +86,6 @@ const scaffolding = z
       ),
   })
   .describe("");
-
-const askQuesitons = z
-  .boolean()
-  .describe("Whether to ask the student question while they read.");
 
 export const inputSchema = z
   .object({

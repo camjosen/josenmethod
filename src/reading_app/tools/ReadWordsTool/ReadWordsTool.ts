@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
-import { Tool } from "../../../tools/Tool.ts";
+import type { Tool } from "../../../tools/Tool.ts";
 import {
   READ_WORDS_TOOL_DESCRIPTION,
   READ_WORDS_TOOL_NAME,
