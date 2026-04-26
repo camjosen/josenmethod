@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { FontKey } from "@reading_app/utils/fonts";
-import type { SessionState } from "@backend/sessions/types";
+import type { LessonState as BackendLessonState } from "@backend/sessions/types";
 import type { SessionLesson, SessionLessonActivity } from "./lessonAdapter";
 import "../reading_exercise/reading-exercise.css";
 import "../activities/activities.css";
@@ -16,9 +16,9 @@ import { VerbalBlendingItem, blendingTeacherExtra } from "../activities/items/Ve
 import { WritingItem } from "../activities/items/WritingItem";
 import { StoryItem, buildStoryItems, storyTeacherExtra } from "../activities/items/StoryItem";
 
-function toLessonState(s: SessionState): LessonState {
+function toLessonState(l: BackendLessonState): LessonState {
   const itemResults: Record<number, Record<number, ItemResult>> = {};
-  for (const [key, value] of Object.entries(s.itemResults)) {
+  for (const [key, value] of Object.entries(l.itemResults)) {
     const [aStr, iStr] = key.split(":");
     const a = Number(aStr);
     const i = Number(iStr);
@@ -26,11 +26,11 @@ function toLessonState(s: SessionState): LessonState {
     itemResults[a][i] = value as ItemResult;
   }
   return {
-    screen: s.screen,
-    currentActivity: s.cursor.activityIdx,
-    currentItem: s.cursor.itemIdx,
+    screen: l.screen,
+    currentActivity: l.cursor.activityIdx,
+    currentItem: l.cursor.itemIdx,
     itemResults,
-    completedActivities: new Set(s.completedActivities),
+    completedActivities: new Set(l.completedActivities),
   };
 }
 
@@ -45,7 +45,7 @@ const TOOL_GLYPH: Record<SessionLessonActivity["toolName"], ReactNode> = {
 };
 
 interface StageProps {
-  session: SessionState;
+  lessonState: BackendLessonState;
   lesson: SessionLesson;
   role?: Role;
   font?: FontKey;
@@ -57,7 +57,7 @@ interface StageProps {
 }
 
 export function SessionStage({
-  session,
+  lessonState,
   lesson,
   role = "student",
   font,
@@ -67,9 +67,9 @@ export function SessionStage({
   onItemFailed,
   onExitActivity,
 }: StageProps) {
-  const state = toLessonState(session);
+  const state = toLessonState(lessonState);
 
-  if (session.screen === "done") {
+  if (lessonState.screen === "done") {
     return (
       <div className="re-lesson-done" onClick={onResetLesson}>
         <div className="re-ring">
@@ -79,10 +79,10 @@ export function SessionStage({
     );
   }
 
-  if (session.screen === "activity") {
-    const activity = lesson.activities[session.cursor.activityIdx];
+  if (lessonState.screen === "activity") {
+    const activity = lesson.activities[lessonState.cursor.activityIdx];
     if (!activity) return null;
-    return renderActivity(activity, state, session.cursor.activityIdx, {
+    return renderActivity(activity, state, lessonState.cursor.activityIdx, {
       role,
       font,
       onItemDone,
@@ -108,7 +108,7 @@ export function SessionStage({
           })}
         </div>
         <div style={{ fontFamily: "serif", fontSize: 12, color: "var(--re-ink-soft)" }}>
-          {session.lessonTitle}
+          {lessonState.lessonTitle}
         </div>
       </div>
       <div className="re-lesson-view">

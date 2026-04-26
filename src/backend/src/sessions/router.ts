@@ -16,13 +16,9 @@ export const sessionsRouter = new Hono()
     if (!detail) return c.json({ error: "not found" }, 404);
     return c.json({ lesson: detail });
   })
-  .post("/", async (c) => {
-    const body = (await c.req.json().catch(() => null)) as { lessonIdx?: number } | null;
-    if (!body || typeof body.lessonIdx !== "number") {
-      return c.json({ error: "lessonIdx required" }, 400);
-    }
-    const state = createSession(body.lessonIdx);
-    if (!state) return c.json({ error: "could not create session" }, 400);
+  .post("/", (c) => {
+    const state = createSession();
+    if (!state) return c.json({ error: "could not create session" }, 500);
     return c.json({ code: state.code, session: state });
   })
   .get("/:code", (c) => {
