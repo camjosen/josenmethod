@@ -26,20 +26,22 @@ export function StoryActivity({ input, role, font, onComplete, onExit }: Props) 
 
   return (
     <div className="re-activity-view">
-      <div className="re-activity-strip">
-        {onExit ? (
-          <button
-            className="re-activity-strip-back"
-            onClick={onExit}
-            aria-label="Back"
-          >
-            <BackArrow />
-          </button>
-        ) : (
-          <span className="re-activity-strip-back-spacer" aria-hidden />
-        )}
-        <div className="re-activity-strip-preview" />
-      </div>
+      {role === "teacher" && (
+        <div className="re-activity-strip">
+          {onExit ? (
+            <button
+              className="re-activity-strip-back"
+              onClick={onExit}
+              aria-label="Back"
+            >
+              <BackArrow />
+            </button>
+          ) : (
+            <span className="re-activity-strip-back-spacer" aria-hidden />
+          )}
+          <div className="re-activity-strip-preview" />
+        </div>
+      )}
 
       <article className="jm-story-article">
         {title && (
@@ -52,7 +54,7 @@ export function StoryActivity({ input, role, font, onComplete, onExit }: Props) 
                   key={i}
                   word={slot as WordData}
                   font={font}
-                  fontSize={48}
+                  fontSize={88}
                   showLongVowel
                   showDigraph
                 />
@@ -73,7 +75,7 @@ export function StoryActivity({ input, role, font, onComplete, onExit }: Props) 
                       <Word
                         word={slot as WordData}
                         font={font}
-                        fontSize={28}
+                        fontSize={64}
                         showLongVowel
                         showDigraph
                       />

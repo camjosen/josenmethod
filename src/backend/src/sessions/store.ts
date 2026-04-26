@@ -37,6 +37,7 @@ export function createSession(): SessionState | null {
     lessons: {},
     participantCount: 0,
     createdAt: Date.now(),
+    font: "serif",
   };
 
   sessions.set(code, { state, sockets: new Set() });
@@ -125,6 +126,11 @@ export function applyCommand(code: string, msg: ClientMsg): void {
   }
   if (msg.type === "exitLesson") {
     state.currentLessonIdx = null;
+    broadcast(code);
+    return;
+  }
+  if (msg.type === "setFont") {
+    state.font = msg.font;
     broadcast(code);
     return;
   }

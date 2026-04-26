@@ -534,6 +534,22 @@
   transition: opacity var(--re-dur-base) var(--re-ease-quill);
 }
 .re-font-picker:hover { opacity: 0.9; }
+.re-font-picker.re-font-picker-inline {
+  position: static;
+  bottom: auto;
+  left: auto;
+  opacity: 1;
+}
+.re-font-picker.re-font-picker-inline button {
+  color: #a3a3a3;
+}
+.re-font-picker.re-font-picker-inline button:hover {
+  color: #fafafa;
+}
+.re-font-picker.re-font-picker-inline button.on {
+  color: #fafafa;
+  background: #262626;
+}
 .re-font-picker button {
   width: 30px;
   height: 30px;

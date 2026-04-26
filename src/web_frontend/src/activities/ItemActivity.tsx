@@ -177,7 +177,7 @@ export function ItemActivity<TItem>({
       </div>
 
       <div className="re-activity-foot">
-        {flow.length > 0 && (
+        {role === "teacher" && flow.length > 0 && (
           <FlowIndicator toolName={toolName} flow={flow} flowIdx={flowIdx} />
         )}
 
