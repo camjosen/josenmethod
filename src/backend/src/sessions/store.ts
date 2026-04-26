@@ -1,7 +1,7 @@
 import type { ServerWebSocket } from "bun";
 import { generateCode } from "./codes.ts";
 import { getLessonShape } from "./lessonShape.ts";
-import type { ClientMsg, ServerMsg, SessionState } from "./types.ts";
+import type { ClientMsg, LessonState, ServerMsg, SessionState } from "./types.ts";
 import { cursorKey } from "./types.ts";
 
 interface Socket {
@@ -22,10 +22,7 @@ const sessions = new Map<string, InternalSession>();
 
 const SESSION_TTL_MS = 6 * 60 * 60 * 1000;
 
-export function createSession(lessonIdx: number): SessionState | null {
-  const shape = getLessonShape(lessonIdx);
-  if (!shape) return null;
-
+export function createSession(): SessionState | null {
   let code = generateCode();
   let tries = 0;
   while (sessions.has(code) && tries < 20) {
@@ -36,14 +33,8 @@ export function createSession(lessonIdx: number): SessionState | null {
 
   const state: SessionState = {
     code,
-    lessonIdx,
-    lessonTitle: shape.title,
-    activityCounts: shape.activityCounts,
-    screen: "lesson",
-    cursor: { activityIdx: 0, itemIdx: 0 },
-    ratings: {},
-    itemResults: {},
-    completedActivities: [],
+    currentLessonIdx: null,
+    lessons: {},
     participantCount: 0,
     createdAt: Date.now(),
   };
@@ -96,103 +87,144 @@ function broadcast(code: string) {
   }
 }
 
+function getOrInitLesson(state: SessionState, lessonIdx: number): LessonState | null {
+  const existing = state.lessons[lessonIdx];
+  if (existing) return existing;
+  const shape = getLessonShape(lessonIdx);
+  if (!shape) return null;
+  const lesson: LessonState = {
+    lessonIdx,
+    lessonTitle: shape.title,
+    activityCounts: shape.activityCounts,
+    screen: "lesson",
+    cursor: { activityIdx: 0, itemIdx: 0 },
+    ratings: {},
+    itemResults: {},
+    completedActivities: [],
+  };
+  state.lessons[lessonIdx] = lesson;
+  return lesson;
+}
+
+function currentLesson(state: SessionState): LessonState | null {
+  if (state.currentLessonIdx == null) return null;
+  return state.lessons[state.currentLessonIdx] ?? null;
+}
+
 export function applyCommand(code: string, msg: ClientMsg): void {
   const s = sessions.get(code);
   if (!s) return;
   const state = s.state;
+
+  if (msg.type === "selectLesson") {
+    const lesson = getOrInitLesson(state, msg.lessonIdx);
+    if (!lesson) return;
+    state.currentLessonIdx = msg.lessonIdx;
+    broadcast(code);
+    return;
+  }
+  if (msg.type === "exitLesson") {
+    state.currentLessonIdx = null;
+    broadcast(code);
+    return;
+  }
+
+  const lesson = currentLesson(state);
+  if (!lesson) return;
+
   switch (msg.type) {
     case "enterActivity": {
-      if (msg.activityIdx < 0 || msg.activityIdx >= state.activityCounts.length) return;
-      state.screen = "activity";
-      state.cursor = { activityIdx: msg.activityIdx, itemIdx: 0 };
+      if (msg.activityIdx < 0 || msg.activityIdx >= lesson.activityCounts.length) return;
+      lesson.screen = "activity";
+      lesson.cursor = { activityIdx: msg.activityIdx, itemIdx: 0 };
       break;
     }
     case "exitActivity": {
-      state.screen = "lesson";
+      lesson.screen = "lesson";
       break;
     }
     case "advance": {
-      stepForward(state);
+      stepForward(lesson);
       break;
     }
     case "back": {
-      stepBackward(state);
+      stepBackward(lesson);
       break;
     }
     case "rate": {
-      const key = cursorKey(state.cursor);
-      state.ratings[key] = msg.stars;
-      state.itemResults[key] = msg.stars >= 4 ? "done" : "failed";
-      stepForward(state);
+      const key = cursorKey(lesson.cursor);
+      lesson.ratings[key] = msg.stars;
+      lesson.itemResults[key] = msg.stars >= 4 ? "done" : "failed";
+      stepForward(lesson);
       break;
     }
     case "reset": {
-      state.screen = "lesson";
-      state.cursor = { activityIdx: 0, itemIdx: 0 };
-      state.ratings = {};
-      state.itemResults = {};
-      state.completedActivities = [];
+      lesson.screen = "lesson";
+      lesson.cursor = { activityIdx: 0, itemIdx: 0 };
+      lesson.ratings = {};
+      lesson.itemResults = {};
+      lesson.completedActivities = [];
       break;
     }
   }
   broadcast(code);
 }
 
-function stepForward(state: SessionState) {
-  if (state.screen === "done") return;
-  if (state.screen === "lesson") {
-    state.screen = "activity";
+function stepForward(lesson: LessonState) {
+  if (lesson.screen === "done") return;
+  if (lesson.screen === "lesson") {
+    lesson.screen = "activity";
     return;
   }
-  const curActivity = state.cursor.activityIdx;
-  const itemCount = state.activityCounts[curActivity] ?? 0;
-  const nextItem = state.cursor.itemIdx + 1;
+  const curActivity = lesson.cursor.activityIdx;
+  const itemCount = lesson.activityCounts[curActivity] ?? 0;
+  const nextItem = lesson.cursor.itemIdx + 1;
   if (nextItem < itemCount) {
-    state.cursor = { activityIdx: curActivity, itemIdx: nextItem };
+    lesson.cursor = { activityIdx: curActivity, itemIdx: nextItem };
     return;
   }
-  if (!state.completedActivities.includes(curActivity)) {
-    state.completedActivities = [...state.completedActivities, curActivity];
+  if (!lesson.completedActivities.includes(curActivity)) {
+    lesson.completedActivities = [...lesson.completedActivities, curActivity];
   }
   const nextActivity = curActivity + 1;
-  if (nextActivity >= state.activityCounts.length) {
-    state.screen = "done";
+  if (nextActivity >= lesson.activityCounts.length) {
+    lesson.screen = "done";
     return;
   }
-  state.screen = "lesson";
-  state.cursor = { activityIdx: nextActivity, itemIdx: 0 };
+  lesson.screen = "lesson";
+  lesson.cursor = { activityIdx: nextActivity, itemIdx: 0 };
 }
 
-function stepBackward(state: SessionState) {
-  if (state.screen === "done") {
-    const lastActivity = state.activityCounts.length - 1;
-    state.screen = "activity";
-    state.cursor = {
+function stepBackward(lesson: LessonState) {
+  if (lesson.screen === "done") {
+    const lastActivity = lesson.activityCounts.length - 1;
+    lesson.screen = "activity";
+    lesson.cursor = {
       activityIdx: lastActivity,
-      itemIdx: Math.max(0, (state.activityCounts[lastActivity] ?? 1) - 1),
+      itemIdx: Math.max(0, (lesson.activityCounts[lastActivity] ?? 1) - 1),
     };
     return;
   }
-  if (state.screen === "lesson") {
-    const prevActivity = state.cursor.activityIdx - 1;
+  if (lesson.screen === "lesson") {
+    const prevActivity = lesson.cursor.activityIdx - 1;
     if (prevActivity < 0) return;
-    state.screen = "activity";
-    state.cursor = {
+    lesson.screen = "activity";
+    lesson.cursor = {
       activityIdx: prevActivity,
-      itemIdx: Math.max(0, (state.activityCounts[prevActivity] ?? 1) - 1),
+      itemIdx: Math.max(0, (lesson.activityCounts[prevActivity] ?? 1) - 1),
     };
-    state.completedActivities = state.completedActivities.filter((i) => i !== prevActivity);
+    lesson.completedActivities = lesson.completedActivities.filter((i) => i !== prevActivity);
     return;
   }
-  const curActivity = state.cursor.activityIdx;
-  if (state.cursor.itemIdx > 0) {
-    state.cursor = { activityIdx: curActivity, itemIdx: state.cursor.itemIdx - 1 };
-    const key = cursorKey(state.cursor);
-    delete state.ratings[key];
-    delete state.itemResults[key];
+  const curActivity = lesson.cursor.activityIdx;
+  if (lesson.cursor.itemIdx > 0) {
+    lesson.cursor = { activityIdx: curActivity, itemIdx: lesson.cursor.itemIdx - 1 };
+    const key = cursorKey(lesson.cursor);
+    delete lesson.ratings[key];
+    delete lesson.itemResults[key];
     return;
   }
-  state.screen = "lesson";
+  lesson.screen = "lesson";
 }
 
 function gc() {

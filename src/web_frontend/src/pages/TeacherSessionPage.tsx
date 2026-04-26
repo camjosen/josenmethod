@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchLessonDetail, type LessonDetail } from "../session/api";
+import { fetchLessonDetail, fetchLessons, type LessonDetail, type LessonSummary } from "../session/api";
 import { adaptLesson, type SessionLesson } from "../session/lessonAdapter";
 import { SessionStage } from "../session/SessionStage";
 import { Stage } from "../session/Stage";
 import { useSession } from "../session/useSession";
-import type { ClientMsg, SessionState } from "@backend/sessions/types";
+import type { ClientMsg, LessonState } from "@backend/sessions/types";
 
 function cursorKey(a: number, i: number) {
   return `${a}:${i}`;
 }
 
 interface ControlsProps {
-  state: SessionState;
+  lesson: LessonState;
   send: (msg: ClientMsg) => void;
 }
 
-function StarRating({ state, send }: ControlsProps) {
-  const current = state.ratings[cursorKey(state.cursor.activityIdx, state.cursor.itemIdx)];
-  const disabled = state.screen !== "activity";
+function StarRating({ lesson, send }: ControlsProps) {
+  const current = lesson.ratings[cursorKey(lesson.cursor.activityIdx, lesson.cursor.itemIdx)];
+  const disabled = lesson.screen !== "activity";
   return (
     <div className="flex gap-2 justify-center">
       {[1, 2, 3, 4, 5].map((n) => (
@@ -39,14 +39,14 @@ function StarRating({ state, send }: ControlsProps) {
   );
 }
 
-function Controls({ state, send }: ControlsProps) {
-  const doneMessage = state.screen === "done" ? "Lesson complete" : null;
+function Controls({ lesson, send }: ControlsProps) {
+  const doneMessage = lesson.screen === "done" ? "Lesson complete" : null;
   return (
     <div className="flex flex-col gap-4 px-4 py-4 bg-neutral-950 border-t border-neutral-800">
       <div className="text-center text-xs text-neutral-500 uppercase tracking-wider">
-        {doneMessage ?? `Activity ${state.cursor.activityIdx + 1} · Item ${state.cursor.itemIdx + 1}`}
+        {doneMessage ?? `Activity ${lesson.cursor.activityIdx + 1} · Item ${lesson.cursor.itemIdx + 1}`}
       </div>
-      <StarRating state={state} send={send} />
+      <StarRating lesson={lesson} send={send} />
       <div className="flex gap-2">
         <button
           onClick={() => send({ type: "back" })}
@@ -61,30 +61,91 @@ function Controls({ state, send }: ControlsProps) {
           Next →
         </button>
       </div>
-      <button
-        onClick={() => send({ type: "reset" })}
-        className="text-xs text-neutral-500 hover:text-neutral-300"
-      >
-        Reset lesson
-      </button>
+      <div className="flex justify-between text-xs text-neutral-500">
+        <button
+          onClick={() => send({ type: "exitLesson" })}
+          className="hover:text-neutral-300"
+        >
+          ← Lesson list
+        </button>
+        <button
+          onClick={() => send({ type: "reset" })}
+          className="hover:text-neutral-300"
+        >
+          Reset lesson
+        </button>
+      </div>
     </div>
+  );
+}
+
+interface PickerProps {
+  lessons: LessonSummary[] | null;
+  visited: Set<number>;
+  currentIdx: number | null;
+  onPick: (idx: number) => void;
+}
+
+function LessonPicker({ lessons, visited, currentIdx, onPick }: PickerProps) {
+  if (!lessons) return <div className="p-4 text-neutral-400">Loading lessons…</div>;
+  return (
+    <ul className="flex flex-col gap-2 p-4 overflow-y-auto">
+      {lessons.map((l) => {
+        const isCurrent = l.idx === currentIdx;
+        const isVisited = visited.has(l.idx);
+        return (
+          <li key={l.idx}>
+            <button
+              onClick={() => onPick(l.idx)}
+              className={`w-full text-left rounded-md px-4 py-3 flex justify-between items-center ${
+                isCurrent
+                  ? "bg-amber-400 text-neutral-900"
+                  : "bg-neutral-800 hover:bg-neutral-700"
+              }`}
+            >
+              <span className="font-medium">{l.title}</span>
+              <span className={`text-xs ${isCurrent ? "text-neutral-700" : "text-neutral-400"}`}>
+                {isVisited ? "✓ in progress" : `${l.activityCount} activities`}
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
 export default function TeacherSessionPage() {
   const { code } = useParams<{ code: string }>();
   const { state, status, send } = useSession(code, "teacher");
-  const [lesson, setLesson] = useState<SessionLesson | null>(null);
+
+  const [lessonList, setLessonList] = useState<LessonSummary[] | null>(null);
+  const [lessonCache, setLessonCache] = useState<Record<number, SessionLesson>>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!state || lesson) return;
-    fetchLessonDetail(state.lessonIdx)
-      .then((d: LessonDetail) => setLesson(adaptLesson(d)))
+    fetchLessons()
+      .then(setLessonList)
       .catch((e) => setError(String(e)));
-  }, [state, lesson]);
+  }, []);
+
+  const currentIdx = state?.currentLessonIdx ?? null;
+  const currentLesson = currentIdx != null ? state?.lessons[currentIdx] ?? null : null;
+  const currentContent = currentIdx != null ? lessonCache[currentIdx] ?? null : null;
+
+  useEffect(() => {
+    if (currentIdx == null) return;
+    if (lessonCache[currentIdx]) return;
+    fetchLessonDetail(currentIdx)
+      .then((d: LessonDetail) =>
+        setLessonCache((cache) => ({ ...cache, [currentIdx]: adaptLesson(d) }))
+      )
+      .catch((e) => setError(String(e)));
+  }, [currentIdx, lessonCache]);
 
   if (!code) return <div>Missing session code.</div>;
+
+  const visited = new Set(state ? Object.keys(state.lessons).map((k) => Number(k)) : []);
 
   return (
     <div className="h-screen flex flex-col bg-neutral-900 text-neutral-100">
@@ -93,32 +154,61 @@ export default function TeacherSessionPage() {
           Session <span className="font-mono font-bold tracking-widest">{code}</span>
         </div>
         <div className="text-neutral-400">
-          {state?.lessonTitle ?? ""} · {status}
+          {currentLesson?.lessonTitle ?? "No lesson selected"} · {status}
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 bg-black">
-        {status === "connecting" && !state && (
-          <div className="p-4 text-neutral-400">Connecting…</div>
-        )}
-        {error && <div className="p-4 text-red-400">{error}</div>}
-        {state && lesson && (
-          <Stage>
-            <SessionStage
-              session={state}
-              lesson={lesson}
-              role="teacher"
-              onEnterActivity={(idx) => send({ type: "enterActivity", activityIdx: idx })}
-              onResetLesson={() => send({ type: "reset" })}
-              onItemDone={() => send({ type: "rate", stars: 5 })}
-              onItemFailed={() => send({ type: "rate", stars: 1 })}
-              onExitActivity={() => send({ type: "exitActivity" })}
+      <div className="flex-1 min-h-0 flex">
+        {currentLesson ? (
+          <>
+            <div className="w-64 border-r border-neutral-800 flex-shrink-0 min-h-0 overflow-hidden flex flex-col">
+              <LessonPicker
+                lessons={lessonList}
+                visited={visited}
+                currentIdx={currentIdx}
+                onPick={(idx) => send({ type: "selectLesson", lessonIdx: idx })}
+              />
+            </div>
+            <div className="flex-1 min-h-0 bg-black">
+              {error && <div className="p-4 text-red-400">{error}</div>}
+              {currentContent ? (
+                <Stage>
+                  <SessionStage
+                    lessonState={currentLesson}
+                    lesson={currentContent}
+                    role="teacher"
+                    onEnterActivity={(idx) => send({ type: "enterActivity", activityIdx: idx })}
+                    onResetLesson={() => send({ type: "reset" })}
+                    onItemDone={() => send({ type: "rate", stars: 5 })}
+                    onItemFailed={() => send({ type: "rate", stars: 1 })}
+                    onExitActivity={() => send({ type: "exitActivity" })}
+                  />
+                </Stage>
+              ) : (
+                <div className="p-4 text-neutral-400">Loading lesson…</div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+            <div className="px-4 pt-4 text-sm text-neutral-400">
+              Pick a lesson to begin. You can switch between lessons at any time.
+            </div>
+            <LessonPicker
+              lessons={lessonList}
+              visited={visited}
+              currentIdx={null}
+              onPick={(idx) => send({ type: "selectLesson", lessonIdx: idx })}
             />
-          </Stage>
+            {status === "connecting" && !state && (
+              <div className="p-4 text-neutral-400">Connecting…</div>
+            )}
+            {error && <div className="p-4 text-red-400">{error}</div>}
+          </div>
         )}
       </div>
 
-      {state && <Controls state={state} send={send} />}
+      {currentLesson && <Controls lesson={currentLesson} send={send} />}
     </div>
   );
 }

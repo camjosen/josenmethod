@@ -9,15 +9,22 @@ import { useSession } from "../session/useSession";
 export default function StudentSessionPage() {
   const { code } = useParams<{ code: string }>();
   const { state, status } = useSession(code, "student");
-  const [lesson, setLesson] = useState<SessionLesson | null>(null);
+  const [lessonCache, setLessonCache] = useState<Record<number, SessionLesson>>({});
   const [error, setError] = useState<string | null>(null);
 
+  const currentIdx = state?.currentLessonIdx ?? null;
+  const currentLesson = currentIdx != null ? state?.lessons[currentIdx] ?? null : null;
+  const currentContent = currentIdx != null ? lessonCache[currentIdx] ?? null : null;
+
   useEffect(() => {
-    if (!state || lesson) return;
-    fetchLessonDetail(state.lessonIdx)
-      .then((d: LessonDetail) => setLesson(adaptLesson(d)))
+    if (currentIdx == null) return;
+    if (lessonCache[currentIdx]) return;
+    fetchLessonDetail(currentIdx)
+      .then((d: LessonDetail) =>
+        setLessonCache((cache) => ({ ...cache, [currentIdx]: adaptLesson(d) }))
+      )
       .catch((e) => setError(String(e)));
-  }, [state, lesson]);
+  }, [currentIdx, lessonCache]);
 
   if (!code) return <div>Missing session code.</div>;
 
@@ -27,9 +34,17 @@ export default function StudentSessionPage() {
         <div className="text-neutral-100 p-4">Connecting…</div>
       )}
       {error && <div className="text-red-400 p-4">{error}</div>}
-      {state && lesson && (
+      {state && !currentLesson && (
+        <div className="w-full h-full flex items-center justify-center text-neutral-300">
+          <div className="text-center">
+            <div className="text-2xl font-serif mb-2">Waiting for teacher…</div>
+            <div className="text-sm text-neutral-500 font-mono tracking-widest">{code}</div>
+          </div>
+        </div>
+      )}
+      {currentLesson && currentContent && (
         <Stage>
-          <SessionStage session={state} lesson={lesson} role="student" />
+          <SessionStage lessonState={currentLesson} lesson={currentContent} role="student" />
         </Stage>
       )}
     </div>

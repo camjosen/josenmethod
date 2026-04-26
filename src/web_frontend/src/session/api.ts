@@ -28,21 +28,20 @@ export async function fetchLessonDetail(idx: number): Promise<LessonDetail> {
   return data.lesson;
 }
 
-export async function createSession(lessonIdx: number): Promise<string> {
+export async function createSession(): Promise<string> {
   const r = await fetch(`${BASE}/sessions`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ lessonIdx }),
   });
   if (!r.ok) throw new Error("failed to create session");
   const data = (await r.json()) as { code: string };
   return data.code;
 }
 
-export async function lookupSession(code: string): Promise<{ exists: boolean; lessonIdx?: number }> {
+export async function lookupSession(code: string): Promise<{ exists: boolean }> {
   const r = await fetch(`${BASE}/sessions/${code}`);
   if (r.status === 404) return { exists: false };
   if (!r.ok) throw new Error("failed to look up session");
-  const data = (await r.json()) as { exists: boolean; session?: { lessonIdx: number } };
-  return { exists: data.exists, lessonIdx: data.session?.lessonIdx };
+  const data = (await r.json()) as { exists: boolean };
+  return { exists: data.exists };
 }

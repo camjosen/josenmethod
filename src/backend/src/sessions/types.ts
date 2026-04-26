@@ -9,8 +9,7 @@ export interface Cursor {
   itemIdx: number;
 }
 
-export interface SessionState {
-  code: string;
+export interface LessonState {
   lessonIdx: number;
   lessonTitle: string;
   activityCounts: number[];
@@ -19,11 +18,19 @@ export interface SessionState {
   ratings: Record<string, number>;
   itemResults: Record<string, ItemResult>;
   completedActivities: number[];
+}
+
+export interface SessionState {
+  code: string;
+  currentLessonIdx: number | null;
+  lessons: Record<number, LessonState>;
   participantCount: number;
   createdAt: number;
 }
 
 export type ClientMsg =
+  | { type: "selectLesson"; lessonIdx: number }
+  | { type: "exitLesson" }
   | { type: "enterActivity"; activityIdx: number }
   | { type: "exitActivity" }
   | { type: "advance" }
