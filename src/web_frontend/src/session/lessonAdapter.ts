@@ -26,14 +26,19 @@ export interface BackendLessonDetail {
   activities: Array<{ name: string; input: unknown }>;
 }
 
-function itemsLength(input: unknown): number {
+function itemsLength(name: string, input: unknown): number {
+  if (name === "Story") {
+    const i = input as { content: { paragraphs: unknown[] }; secondReading?: unknown };
+    const passes = i.secondReading != null ? 2 : 1;
+    return i.content.paragraphs.length * passes;
+  }
   const items = (input as { items?: unknown }).items;
   return Array.isArray(items) ? items.length : 1;
 }
 
 function toActivity(name: string, input: unknown, i: number): SessionLessonActivity {
   const id = `a${i}`;
-  const itemCount = itemsLength(input);
+  const itemCount = itemsLength(name, input);
   switch (name) {
     case "ReadSounds":
       return { id, toolName: "ReadSounds", input: input as ReadSoundsToolInput, itemCount };

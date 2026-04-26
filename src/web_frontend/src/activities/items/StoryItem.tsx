@@ -1,82 +1,85 @@
+import type { ReactNode } from "react";
 import type { StoryToolInput } from "@reading_app/tools/StoryTool/StoryTool";
-import type { Word as WordData } from "@reading_app/utils/words";
-import { StoryText } from "../StoryText";
+import { StoryParagraph } from "../StoryText";
 import type { ItemRenderCtx } from "../ItemActivity";
 
-type StoryMode = StoryToolInput["items"][number];
+export interface StoryItemRef {
+  paragraphIdx: number;
+  readingIdx: 0 | 1;
+}
 
 interface Props {
-  mode: StoryMode;
-  content: StoryToolInput["content"];
-  markup: StoryToolInput["markup"];
-  focusWords?: StoryToolInput["focusWords"];
+  itemRef: StoryItemRef;
+  input: StoryToolInput;
   ctx: ItemRenderCtx;
 }
 
-function onlyWords(items: StoryToolInput["focusWords"]): WordData[] | undefined {
-  if (!items) return undefined;
-  return items.filter((i): i is WordData => typeof i !== "string");
-}
-
-function questionsFromContent(content: StoryToolInput["content"]): string[] {
-  const qs: string[] = [];
-  for (const p of content.paragraphs) {
-    for (const s of p.sentences) {
-      if (s.questions) qs.push(...s.questions);
+export function buildStoryItems(input: StoryToolInput): StoryItemRef[] {
+  const passes: (0 | 1)[] = input.secondReading != null ? [0, 1] : [0];
+  const refs: StoryItemRef[] = [];
+  for (const readingIdx of passes) {
+    for (let paragraphIdx = 0; paragraphIdx < input.content.paragraphs.length; paragraphIdx++) {
+      refs.push({ paragraphIdx, readingIdx });
     }
   }
-  return qs;
+  return refs;
 }
 
-export function StoryItem({ mode, content, markup, focusWords, ctx }: Props) {
-  const titleOnly = mode === "title_reading";
-  const dimBody = titleOnly;
-  const highlightFocus = mode === "word_finding";
+export function StoryItem({ itemRef, input, ctx }: Props) {
+  const paragraph = input.content.paragraphs[itemRef.paragraphIdx];
+  if (!paragraph) return null;
 
   return (
     <div className="jm-story-item">
-      <div className="jm-story-mode-tag">{modeLabel(mode)}</div>
-      <StoryText
-        content={content}
-        markup={markup}
-        focusWords={onlyWords(focusWords)}
+      <StoryParagraph
+        title={input.content.title}
+        paragraph={paragraph}
+        paragraphIdx={itemRef.paragraphIdx}
+        paragraphCount={input.content.paragraphs.length}
         font={ctx.font}
-        titleOnly={titleOnly}
-        dimBody={dimBody}
-        highlightFocus={highlightFocus}
         fontSize={40}
       />
     </div>
   );
 }
 
-const MODE_LABEL: Record<StoryMode, string> = {
-  title_reading: "Title",
-  guided_sound_it_out: "Guided sound-out",
-  sound_it_out: "Sound it out",
-  sound_it_out_with_questions: "Sound out + Qs",
-  teacher_models_say_it_fast: "Teacher models",
-  guided_say_it_fast: "Guided fluency",
-  say_it_fast: "Fluent",
-  say_it_fast_with_questions: "Fluent + Qs",
-  word_finding: "Word finding",
-};
+export function storyTeacherExtra(itemRef: StoryItemRef, input: StoryToolInput): ReactNode {
+  const paragraph = input.content.paragraphs[itemRef.paragraphIdx];
+  if (!paragraph) return undefined;
 
-function modeLabel(mode: StoryMode): string {
-  return MODE_LABEL[mode] ?? mode;
-}
+  const isFirst = itemRef.readingIdx === 0;
+  const passLabel = isFirst ? "First reading" : "Second reading";
 
-export function storyTeacherExtra(_mode: StoryMode, content: StoryToolInput["content"]) {
-  const qs = questionsFromContent(content);
-  if (qs.length === 0) return undefined;
+  const sentencesWithQs = paragraph.sentences
+    .map((s, idx) => ({
+      idx,
+      questions: isFirst ? s.firstReadingQuestions : s.secondReadingQuestions,
+    }))
+    .filter((s): s is { idx: number; questions: [string, ...string[]] } =>
+      Array.isArray(s.questions) && s.questions.length > 0,
+    );
+
+  if (sentencesWithQs.length === 0) {
+    return (
+      <div className="jm-story-questions">
+        <div className="jm-story-questions-label">{passLabel}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="jm-story-questions">
-      <div className="jm-story-questions-label">Questions</div>
-      <ul>
-        {qs.map((q, i) => (
-          <li key={i}>{q}</li>
-        ))}
-      </ul>
+      <div className="jm-story-questions-label">{passLabel} — questions</div>
+      {sentencesWithQs.map(({ idx, questions }) => (
+        <div key={idx} className="jm-story-questions-sentence">
+          <div className="jm-story-questions-sentence-label">Sentence {idx + 1}</div>
+          <ul>
+            {questions.map((q, i) => (
+              <li key={i}>{q}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
