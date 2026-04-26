@@ -61,6 +61,19 @@ export const LogoMark = () => (
   </svg>
 );
 
+export const Waveform = () => (
+  <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+    <path d="M1 6 L 4 6" />
+    <path d="M 6 2 L 6 10" />
+    <path d="M 9 4 L 9 8" />
+    <path d="M 12 1 L 12 11" />
+    <path d="M 15 3 L 15 9" />
+    <path d="M 18 2 L 18 10" />
+    <path d="M 20 5 L 20 7" />
+    <path d="M 23 6 L 24 6" />
+  </svg>
+);
+
 export const StarBig = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="star">
     <path d="M12 2 L 14.8 9.2 L 22 9.8 L 16.4 14.3 L 18.3 21.5 L 12 17.5 L 5.7 21.5 L 7.6 14.3 L 2 9.8 L 9.2 9.2 Z" />

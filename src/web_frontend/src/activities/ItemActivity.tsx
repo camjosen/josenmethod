@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import type { FontKey } from "@reading_app/utils/fonts";
 import { audio } from "../reading_exercise/audio";
 import { BackArrow } from "../reading_exercise/glyphs";
-import { itemStatus, type ItemResult, type LessonState } from "../reading_exercise/state";
+import { type ItemResult, type LessonState } from "../reading_exercise/state";
 import { FlowIndicator } from "./FlowIndicator";
 import { TeacherScriptBanner } from "./TeacherScriptBanner";
 import type { ToolName } from "./flowCopy";
@@ -19,7 +19,6 @@ export interface ItemRenderCtx {
 
 export interface ItemActivityProps<TItem> {
   toolName: ToolName;
-  activityIdx: number;
   items: TItem[];
   /** Flow steps run _within_ each item. Empty array = one implicit step per item. */
   flow: string[];
@@ -27,6 +26,8 @@ export interface ItemActivityProps<TItem> {
   renderItem: (item: TItem, ctx: ItemRenderCtx) => ReactNode;
   /** Optional teacher-facing hint to show in the script banner. */
   teacherExtraFor?: (item: TItem, ctx: ItemRenderCtx) => ReactNode;
+  /** Top progress strip — typically an `<ActivityPreview size="sm" progress={...} />`. */
+  topStrip?: ReactNode;
   state: LessonState;
   role: Role;
   onItemDone?: () => void;
@@ -34,7 +35,6 @@ export interface ItemActivityProps<TItem> {
   onExit?: () => void;
   showLegend?: boolean;
   font?: FontKey;
-  glyph?: ReactNode;
 }
 
 type Phase = "enter" | "exit";
@@ -42,12 +42,12 @@ type Flash = ItemResult | null;
 
 export function ItemActivity<TItem>({
   toolName,
-  activityIdx,
   items,
   flow,
   modifications,
   renderItem,
   teacherExtraFor,
+  topStrip,
   state,
   role,
   onItemDone,
@@ -55,7 +55,6 @@ export function ItemActivity<TItem>({
   onExit,
   showLegend = true,
   font,
-  glyph,
 }: ItemActivityProps<TItem>) {
   const currentItemIdx = state.currentItem;
 
@@ -153,17 +152,20 @@ export function ItemActivity<TItem>({
 
   return (
     <div className="re-activity-view">
-      <div className="re-activity-stage">
-        <div className="re-rim" />
+      <div className="re-activity-strip">
+        {onExit ? (
+          <button
+            className="re-activity-strip-back"
+            onClick={onExit}
+            aria-label="Back"
+          >
+            <BackArrow />
+          </button>
+        ) : (
+          <span className="re-activity-strip-back-spacer" aria-hidden />
+        )}
+        <div className="re-activity-strip-preview">{topStrip}</div>
       </div>
-
-      {glyph && <div className="re-activity-mark">{glyph}</div>}
-
-      {onExit && (
-        <button className="re-chrome-btn left" onClick={onExit} aria-label="Back">
-          <BackArrow />
-        </button>
-      )}
 
       <div className="re-item-container">
         <div
@@ -174,27 +176,20 @@ export function ItemActivity<TItem>({
         </div>
       </div>
 
-      <FlowIndicator toolName={toolName} flow={flow} flowIdx={flowIdx} />
+      <div className="re-activity-foot">
+        {flow.length > 0 && (
+          <FlowIndicator toolName={toolName} flow={flow} flowIdx={flowIdx} />
+        )}
 
-      <div className="re-progress-row">
-        {items.map((_, i) => {
-          const st = itemStatus(activityIdx, i, state);
-          const pcls = ["re-pdot"];
-          if (st === "done") pcls.push("done");
-          if (st === "failed") pcls.push("failed");
-          if (st === "current") pcls.push("current");
-          return <div key={i} className={pcls.join(" ")} />;
-        })}
+        {role === "teacher" && (
+          <TeacherScriptBanner
+            toolName={toolName}
+            flowStep={flowStep || undefined}
+            modifications={modifications}
+            extra={item !== undefined && teacherExtraFor ? teacherExtraFor(item, ctx) : undefined}
+          />
+        )}
       </div>
-
-      {role === "teacher" && (
-        <TeacherScriptBanner
-          toolName={toolName}
-          flowStep={flowStep || undefined}
-          modifications={modifications}
-          extra={item !== undefined && teacherExtraFor ? teacherExtraFor(item, ctx) : undefined}
-        />
-      )}
 
       {showLegend && role === "teacher" && (
         <div className="re-key-legend">

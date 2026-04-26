@@ -1,0 +1,54 @@
+.jm-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--re-font-display);
+  color: var(--re-ink);
+  line-height: 1.1;
+}
+
+.jm-preview-sm { gap: 10px; }
+
+.jm-preview-item {
+  display: inline-flex;
+  align-items: baseline;
+  transition: opacity 200ms var(--re-ease-quill);
+}
+
+.jm-preview-item.pending { opacity: 0.35; }
+
+.jm-preview-item.current {
+  color: var(--re-ochre);
+  position: relative;
+}
+.jm-preview-item.current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: var(--re-ochre);
+  border-radius: 1px;
+}
+
+.jm-preview-rhyme {
+  letter-spacing: 0.02em;
+}
+
+.jm-preview-waveform svg {
+  width: 100%;
+  height: 100%;
+  color: var(--re-ink);
+}
+
+.jm-preview-writing .jm-preview-item {
+  font-style: italic;
+  color: var(--re-ink-2);
+}
+
+.jm-preview-story .jm-preview-item {
+  font-style: italic;
+  color: var(--re-ink-2);
+}

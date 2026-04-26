@@ -1,12 +1,16 @@
-import type { ReactNode } from "react";
 import type { FontKey } from "@reading_app/utils/fonts";
 import type { LessonState as BackendLessonState } from "@backend/sessions/types";
 import type { SessionLesson, SessionLessonActivity } from "./lessonAdapter";
 import "../reading_exercise/reading-exercise.css";
 import "../activities/activities.css";
-import { Fleuron, FootOrnament, Glyphs, LogoMark, StarBig } from "../reading_exercise/glyphs";
-import { Medallion } from "../reading_exercise/Medallion";
-import { itemStatus, type ItemResult, type LessonState } from "../reading_exercise/state";
+import { FootOrnament, StarBig } from "../reading_exercise/glyphs";
+import {
+  activityStatus,
+  itemStatus,
+  type ItemResult,
+  type LessonState,
+} from "../reading_exercise/state";
+import { ActivityPreview } from "./ActivityPreview";
 import { ItemActivity, type Role } from "../activities/ItemActivity";
 import { ReadSoundsItem } from "../activities/items/ReadSoundsItem";
 import { SoundIntroductionItem } from "../activities/items/SoundIntroductionItem";
@@ -14,7 +18,7 @@ import { ReadWordsItem } from "../activities/items/ReadWordsItem";
 import { RhymingItem, rhymeTeacherExtra } from "../activities/items/RhymingItem";
 import { VerbalBlendingItem, blendingTeacherExtra } from "../activities/items/VerbalBlendingItem";
 import { WritingItem } from "../activities/items/WritingItem";
-import { StoryItem, buildStoryItems, storyTeacherExtra } from "../activities/items/StoryItem";
+import { StoryActivity } from "../activities/StoryActivity";
 
 function toLessonState(l: BackendLessonState): LessonState {
   const itemResults: Record<number, Record<number, ItemResult>> = {};
@@ -33,16 +37,6 @@ function toLessonState(l: BackendLessonState): LessonState {
     completedActivities: new Set(l.completedActivities),
   };
 }
-
-const TOOL_GLYPH: Record<SessionLessonActivity["toolName"], ReactNode> = {
-  ReadSounds: Glyphs.listen,
-  SoundIntroduction: Glyphs.listen,
-  ReadWords: Glyphs.read,
-  Rhyming: Glyphs.speak,
-  VerbalBlending: Glyphs.speak,
-  Writing: Glyphs.star,
-  Story: Glyphs.read,
-};
 
 interface StageProps {
   lessonState: BackendLessonState;
@@ -94,45 +88,40 @@ export function SessionStage({
   return (
     <>
       <div className="re-lesson-header">
-        <div className="re-mark">
-          <LogoMark />
-        </div>
-        <div className="re-lesson-dots">
-          {lesson.activities.map((a, i) => {
-            const isDone = state.completedActivities.has(i);
-            const isCurrent = state.currentActivity === i;
-            const cls = ["re-seg"];
-            if (isDone) cls.push("done");
-            if (isCurrent) cls.push("current");
-            return <div key={a.id} className={cls.join(" ")} />;
-          })}
-        </div>
-        <div style={{ fontFamily: "serif", fontSize: 12, color: "var(--re-ink-soft)" }}>
-          {lessonState.lessonTitle}
-        </div>
+        <div className="re-lesson-title">{lessonState.lessonTitle}</div>
       </div>
-      <div className="re-lesson-view">
-        <div className="re-lesson-safe">
-          <div className="re-connector" />
-          {lesson.activities.map((a, i) => (
-            <div key={a.id} style={{ display: "contents" }}>
-              <Medallion
-                itemCount={a.itemCount}
-                glyph={TOOL_GLYPH[a.toolName]}
-                idx={i}
-                state={state}
-                onEnter={(idx) => onEnterActivity?.(idx)}
-                registerRef={() => {}}
-              />
-              {i < lesson.activities.length - 1 && (
-                <div className="re-ornament">
-                  <Fleuron />
-                </div>
-              )}
+
+      <div className="re-lesson-list">
+        {lesson.activities.map((a, i) => {
+          const status = activityStatus(i, state);
+          const isCurrent = status === "current";
+          const progress = isCurrent
+            ? { currentItem: state.currentItem, itemResults: state.itemResults[i] ?? {} }
+            : undefined;
+          const clickable = role === "teacher" && status !== "locked";
+          const cls = ["re-lesson-row", status];
+          if (clickable) cls.push("clickable");
+          return (
+            <div
+              key={a.id}
+              className={cls.join(" ")}
+              onClick={clickable ? () => onEnterActivity?.(i) : undefined}
+            >
+              <div className="re-lesson-row-meta">
+                <span className="re-lesson-row-num">{i + 1}</span>
+                {status === "done" && (
+                  <span className="re-lesson-row-status" aria-label="done">✓</span>
+                )}
+                {status === "current" && (
+                  <span className="re-lesson-row-status" aria-label="current">●</span>
+                )}
+              </div>
+              <ActivityPreview activity={a} progress={progress} size="lg" />
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
+
       <div className="re-lesson-foot">
         <FootOrnament />
       </div>
@@ -155,15 +144,21 @@ function renderActivity(
   opts: ActivityOpts
 ) {
   const { role, font, onItemDone, onItemFailed, onExitActivity } = opts;
+  const progress = {
+    currentItem: state.currentItem,
+    itemResults: state.itemResults[activityIdx] ?? {},
+  };
+  const topStrip = (
+    <ActivityPreview activity={activity} progress={progress} size="sm" />
+  );
   const common = {
-    activityIdx,
     state,
     role,
     font,
     onItemDone,
     onItemFailed,
     onExit: onExitActivity,
-    glyph: TOOL_GLYPH[activity.toolName],
+    topStrip,
   };
 
   switch (activity.toolName) {
@@ -235,22 +230,16 @@ function renderActivity(
           renderItem={(task, ctx) => <WritingItem task={task} ctx={ctx} />}
         />
       );
-    case "Story": {
-      const storyInput = activity.input;
-      const storyItems = buildStoryItems(storyInput);
+    case "Story":
       return (
-        <ItemActivity
-          {...common}
-          toolName="Story"
-          items={storyItems}
-          flow={[]}
-          renderItem={(itemRef, ctx) => (
-            <StoryItem itemRef={itemRef} input={storyInput} ctx={ctx} />
-          )}
-          teacherExtraFor={(itemRef) => storyTeacherExtra(itemRef, storyInput)}
+        <StoryActivity
+          input={activity.input}
+          role={role}
+          font={font}
+          onComplete={onItemDone}
+          onExit={onExitActivity}
         />
       );
-    }
   }
 }
 
