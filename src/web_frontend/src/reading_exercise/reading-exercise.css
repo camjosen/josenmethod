@@ -40,35 +40,16 @@
 }
 
 /* ====================================================================== */
-/* Stage — letterboxes a 1366×1024 canvas to fit any viewport. */
-
-.re-stage-wrap {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: #1a1613;
-  overflow: hidden;
-}
+/* Stage — full-flow scrollable container. No fixed canvas. */
 
 .re-stage {
-  width: 1366px;
-  height: 1024px;
-  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   background: var(--re-paper);
-  overflow: hidden;
-  transform-origin: center center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 4px 12px rgba(0,0,0,0.2);
-}
-
-/* Vignette */
-.re-stage::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(28,26,23,0.08) 100%);
-  z-index: 101;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* ====================================================================== */
@@ -102,11 +83,12 @@
 /* LESSON SCREEN */
 
 .re-lesson-view {
-  position: absolute;
-  inset: 0;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  min-height: 0;
 }
 
 /* --- SAFE variant --- */
@@ -255,14 +237,69 @@
 
 /* Header */
 .re-lesson-header {
-  position: absolute;
-  top: 36px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 18px;
+  padding: 36px 24px 0;
   opacity: 0.85;
+}
+
+.re-lesson-title {
+  font-family: var(--re-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--re-ink);
+  letter-spacing: 0.01em;
+}
+
+/* Vertical activity list (replaces medallion overview) */
+.re-lesson-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  margin: 32px auto 0;
+  padding: 0 24px;
+}
+
+.re-lesson-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--re-rule);
+  transition: background 200ms var(--re-ease-quill);
+}
+.re-lesson-row:last-child { border-bottom: 0; }
+
+.re-lesson-row.clickable { cursor: pointer; }
+.re-lesson-row.clickable:hover { background: var(--re-paper-raised); }
+
+.re-lesson-row.locked { opacity: 0.55; }
+
+.re-lesson-row-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--re-font-mono);
+  color: var(--re-ink-3);
+}
+.re-lesson-row-num {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+.re-lesson-row-status {
+  font-size: 14px;
+  line-height: 1;
+}
+.re-lesson-row.done .re-lesson-row-status { color: var(--re-ivy); }
+.re-lesson-row.current .re-lesson-row-status { color: var(--re-ochre); }
+.re-lesson-row.current .re-lesson-row-num {
+  color: var(--re-ochre);
+  font-weight: 600;
 }
 .re-lesson-header .re-mark { width: 40px; height: 36px; }
 .re-lesson-header .re-mark svg { width: 100%; height: 100%; }
@@ -281,10 +318,9 @@
 
 /* Footer ornament */
 .re-lesson-foot {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  padding: 24px 24px 40px;
   color: var(--re-ink-4);
 }
 .re-lesson-foot svg { width: 140px; height: 20px; }
@@ -293,29 +329,60 @@
 /* ACTIVITY SCREEN */
 
 .re-activity-view {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
-.re-activity-stage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1700px;
-  height: 1700px;
-  border-radius: 50%;
+.re-activity-stage { display: none; }
+
+/* Top progress strip (back button + small ActivityPreview) */
+.re-activity-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--re-rule);
+  min-height: 56px;
   background: var(--re-paper);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
 }
-.re-activity-stage .re-rim {
-  position: absolute;
-  inset: 0;
+.re-activity-strip-back,
+.re-activity-strip-back-spacer {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+}
+.re-activity-strip-back {
+  display: grid;
+  place-items: center;
   border-radius: 50%;
   border: 1px solid var(--re-rule);
-  opacity: 0.4;
+  background: var(--re-paper-raised);
+  color: var(--re-ink-2);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background var(--re-dur-base) var(--re-ease-quill),
+    color var(--re-dur-base) var(--re-ease-quill);
+}
+.re-activity-strip-back:hover { background: var(--re-paper); color: var(--re-ink); }
+.re-activity-strip-back svg { width: 20px; height: 20px; }
+.re-activity-strip-preview {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Below-item chrome (flow indicator + teacher banner) */
+.re-activity-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px 32px;
 }
 
 /* Activity glyph echo */
@@ -343,9 +410,13 @@
 
 /* Item word */
 .re-item-container {
+  flex: 1;
   position: relative;
-  width: 900px;
-  height: 420px;
+  width: 100%;
+  max-width: 900px;
+  min-height: 320px;
+  margin: 0 auto;
+  padding: 24px;
   display: grid;
   place-items: center;
 }
@@ -353,15 +424,14 @@
 .re-item-word {
   font-family: var(--re-font-display);
   font-weight: 500;
-  font-size: 360px;
+  font-size: clamp(80px, 18vw, 360px);
   line-height: 1;
   color: var(--re-ink);
   letter-spacing: -0.01em;
   user-select: none;
-  position: absolute;
-  inset: 0;
   display: grid;
   place-items: center;
+  width: 100%;
 }
 
 /* Item enter / exit animations */
@@ -520,8 +590,7 @@
 /* Lesson-complete overlay */
 
 .re-lesson-done {
-  position: absolute;
-  inset: 0;
+  flex: 1;
   background: rgba(245, 239, 224, 0.92);
   backdrop-filter: blur(4px);
   display: grid;
@@ -529,6 +598,7 @@
   z-index: 200;
   animation: re-fade-in 500ms var(--re-ease-quill) both;
   cursor: pointer;
+  min-height: 0;
 }
 @keyframes re-fade-in { from { opacity: 0; } to { opacity: 1; } }
 .re-lesson-done .re-ring {

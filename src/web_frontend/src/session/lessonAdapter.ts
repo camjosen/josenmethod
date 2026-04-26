@@ -27,11 +27,8 @@ export interface BackendLessonDetail {
 }
 
 function itemsLength(name: string, input: unknown): number {
-  if (name === "Story") {
-    const i = input as { content: { paragraphs: unknown[] }; secondReading?: unknown };
-    const passes = i.secondReading != null ? 2 : 1;
-    return i.content.paragraphs.length * passes;
-  }
+  // Story renders as a single scrollable article.
+  if (name === "Story") return 1;
   const items = (input as { items?: unknown }).items;
   return Array.isArray(items) ? items.length : 1;
 }

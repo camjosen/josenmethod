@@ -30,16 +30,11 @@
   display: block;
 }
 
-/* Flow indicator (below item, above progress dots) */
+/* Flow indicator (in normal flow under the item) */
 .jm-flow-indicator {
-  position: absolute;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 10px;
-  z-index: 30;
 }
 .jm-flow-seg {
   display: inline-flex;
@@ -70,12 +65,9 @@
   transform: scale(1.04);
 }
 
-/* Teacher script banner (top of the stage, below the activity glyph) */
+/* Teacher script banner (in normal flow under the item) */
 .jm-teacher-banner {
-  position: absolute;
-  top: 132px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   max-width: 900px;
   padding: 12px 22px;
   background: var(--re-vellum);
@@ -86,7 +78,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  z-index: 30;
+  box-sizing: border-box;
 }
 .jm-teacher-script {
   font-family: var(--re-font-text);
@@ -258,6 +250,79 @@
   display: inline-block;
   margin-right: 4px;
   color: var(--re-ink-3);
+}
+
+/* New scrollable Story article (replaces per-paragraph ItemActivity rendering) */
+.jm-story-article {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  overflow-y: auto;
+  font-family: var(--re-font-text);
+  color: var(--re-ink);
+  line-height: 1.45;
+  box-sizing: border-box;
+}
+
+.jm-story-article-title {
+  margin: 0 0 28px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  font-family: var(--re-font-display);
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.jm-story-article-paragraph {
+  margin: 0 0 20px;
+  font-size: 28px;
+  line-height: 1.45;
+}
+
+.jm-story-article-sentence {
+  display: inline;
+}
+
+.jm-story-article-word {
+  display: inline-flex;
+  margin-right: 6px;
+  vertical-align: baseline;
+}
+
+.jm-story-article-punct {
+  display: inline-block;
+  margin-right: 4px;
+  color: var(--re-ink-3);
+}
+
+.jm-story-article-actions {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.jm-story-article-complete {
+  font-family: var(--re-font-text);
+  font-size: 16px;
+  padding: 10px 24px;
+  border-radius: 4px;
+  border: 1px solid var(--re-ink);
+  background: var(--re-ink);
+  color: var(--re-paper);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition:
+    background var(--re-dur-base) var(--re-ease-quill),
+    color var(--re-dur-base) var(--re-ease-quill);
+}
+.jm-story-article-complete:hover {
+  background: var(--re-ink-2);
 }
 
 /* Story teacher extra: questions list */
