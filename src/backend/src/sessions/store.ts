@@ -1,6 +1,12 @@
 import type { ServerWebSocket } from "bun";
 import { generateCode } from "./codes.ts";
 import { getLessonShape } from "./lessonShape.ts";
+import {
+  firstFocus,
+  getStoryGranularity,
+  nextFocus,
+  prevFocus,
+} from "./storyFocus.ts";
 import type { ClientMsg, LessonState, ServerMsg, SessionState } from "./types.ts";
 import { cursorKey } from "./types.ts";
 
@@ -102,6 +108,7 @@ function getOrInitLesson(state: SessionState, lessonIdx: number): LessonState | 
     ratings: {},
     itemResults: {},
     completedActivities: [],
+    storyFocus: null,
   };
   state.lessons[lessonIdx] = lesson;
   return lesson;
@@ -143,18 +150,20 @@ export function applyCommand(code: string, msg: ClientMsg): void {
       if (msg.activityIdx < 0 || msg.activityIdx >= lesson.activityCounts.length) return;
       lesson.screen = "activity";
       lesson.cursor = { activityIdx: msg.activityIdx, itemIdx: 0 };
+      lesson.storyFocus = initialStoryFocus(lesson);
       break;
     }
     case "exitActivity": {
       lesson.screen = "lesson";
+      lesson.storyFocus = null;
       break;
     }
     case "advance": {
-      stepForward(lesson);
+      if (!tryStepStoryFocus(lesson, +1)) stepForward(lesson);
       break;
     }
     case "back": {
-      stepBackward(lesson);
+      if (!tryStepStoryFocus(lesson, -1)) stepBackward(lesson);
       break;
     }
     case "rate": {
@@ -164,16 +173,55 @@ export function applyCommand(code: string, msg: ClientMsg): void {
       stepForward(lesson);
       break;
     }
+    case "setStoryFocus": {
+      lesson.storyFocus = msg.focus;
+      break;
+    }
     case "reset": {
       lesson.screen = "lesson";
       lesson.cursor = { activityIdx: 0, itemIdx: 0 };
       lesson.ratings = {};
       lesson.itemResults = {};
       lesson.completedActivities = [];
+      lesson.storyFocus = null;
       break;
     }
   }
   broadcast(code);
+}
+
+function initialStoryFocus(lesson: LessonState): LessonState["storyFocus"] {
+  const meta = getStoryGranularity(lesson.lessonIdx, lesson.cursor.activityIdx);
+  if (!meta) return null;
+  return firstFocus(meta.input, meta.granularity);
+}
+
+/**
+ * If the current activity is a Story with directStudentAttention, step the
+ * focus by one position and return true. Returns false when the focus is at
+ * an edge (so callers fall through to lesson-level navigation) or when the
+ * activity isn't a story-with-attention.
+ */
+function tryStepStoryFocus(lesson: LessonState, direction: 1 | -1): boolean {
+  if (lesson.screen !== "activity") return false;
+  const meta = getStoryGranularity(lesson.lessonIdx, lesson.cursor.activityIdx);
+  if (!meta) return false;
+  const current = lesson.storyFocus;
+  if (current == null) {
+    // First press initializes the focus rather than completing the activity.
+    if (direction === 1) {
+      lesson.storyFocus = firstFocus(meta.input, meta.granularity);
+      return lesson.storyFocus != null;
+    }
+    return false;
+  }
+  const next =
+    direction === 1
+      ? nextFocus(meta.input, meta.granularity, current)
+      : prevFocus(meta.input, meta.granularity, current);
+  if (next == null) return false;
+  lesson.storyFocus = next;
+  return true;
 }
 
 function stepForward(lesson: LessonState) {

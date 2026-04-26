@@ -17,6 +17,12 @@
   --re-ivy-2:   #3B6139;
   --re-ivy-soft: #B7C4B2;
   --re-ochre:   #B27D2B;
+  /* "Selected" / "current attention" — distinct from ochre (long vowels,
+     digraphs) and ivy/oxblood (item status). Mirrors --indigo / --indigo-2
+     from index.css. */
+  --re-indigo:      #1F2B4A;
+  --re-indigo-2:    #2E3E68;
+  --re-indigo-soft: #B7C0D5;
 
   --re-rule:        #C9BEA8;
   --re-rule-strong: #8A7F6B;

@@ -242,7 +242,7 @@
   vertical-align: baseline;
 }
 .jm-story-word.focus {
-  background: rgba(178, 125, 43, 0.25);
+  background: rgba(31, 43, 74, 0.14);
   border-radius: 2px;
   padding: 0 2px;
 }
@@ -283,22 +283,62 @@
   margin: 0 0 32px;
   font-size: 64px;
   line-height: 1.4;
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin-left: -12px;
+  margin-right: -12px;
+  transition: background var(--re-dur-base) var(--re-ease-quill);
 }
 
 .jm-story-article-sentence {
   display: inline;
+  border-radius: 4px;
+  padding: 0 4px;
+  margin: 0 -4px;
+  transition: background var(--re-dur-base) var(--re-ease-quill);
 }
 
 .jm-story-article-word {
   display: inline-flex;
   margin-right: 18px;
   vertical-align: baseline;
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-left: -4px;
+  transition: background var(--re-dur-base) var(--re-ease-quill);
 }
 
 .jm-story-article-punct {
   display: inline-block;
   margin-right: 10px;
   color: var(--re-ink-3);
+}
+
+/* Direct-attention highlighting. The "directing" wrapper class enables both
+   the dimmed default and the indigo focus accent on the targeted element. */
+.jm-story-article.directing .jm-story-article-paragraph,
+.jm-story-article.directing .jm-story-article-sentence,
+.jm-story-article.directing .jm-story-article-word {
+  cursor: pointer;
+}
+
+.jm-story-article.directing.directing-paragraph .jm-story-article-paragraph,
+.jm-story-article.directing.directing-sentence .jm-story-article-sentence,
+.jm-story-article.directing.directing-word .jm-story-article-word {
+  color: var(--re-ink-4);
+}
+
+.jm-story-article.directing .jm-story-article-paragraph.is-focused,
+.jm-story-article.directing .jm-story-article-sentence.is-focused,
+.jm-story-article.directing .jm-story-article-word.is-focused {
+  background: rgba(31, 43, 74, 0.14);
+  color: var(--re-ink);
+  box-shadow: inset 0 0 0 1px rgba(31, 43, 74, 0.18);
+}
+
+.jm-story-article.directing .jm-story-article-paragraph.is-focused {
+  background: rgba(31, 43, 74, 0.08);
+  box-shadow: inset 3px 0 0 0 var(--re-indigo);
 }
 
 .jm-story-article-actions {

@@ -11,6 +11,17 @@ export interface Cursor {
   itemIdx: number;
 }
 
+/**
+ * Position of "directed attention" within a Story activity. Granularity is
+ * implicit in which fields are set: paragraph only → paragraph; paragraph +
+ * sentence → sentence; all three → word.
+ */
+export interface StoryFocus {
+  paragraphIdx: number;
+  sentenceIdx?: number;
+  wordIdx?: number;
+}
+
 export interface LessonState {
   lessonIdx: number;
   lessonTitle: string;
@@ -20,6 +31,7 @@ export interface LessonState {
   ratings: Record<string, number>;
   itemResults: Record<string, ItemResult>;
   completedActivities: number[];
+  storyFocus: StoryFocus | null;
 }
 
 export interface SessionState {
@@ -40,6 +52,7 @@ export type ClientMsg =
   | { type: "back" }
   | { type: "rate"; stars: 1 | 2 | 3 | 4 | 5 }
   | { type: "setFont"; font: FontKey }
+  | { type: "setStoryFocus"; focus: StoryFocus | null }
   | { type: "reset" };
 
 export type ServerMsg =

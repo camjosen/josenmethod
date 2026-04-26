@@ -195,6 +195,7 @@ export default function TeacherSessionPage() {
                     onItemDone={() => send({ type: "rate", stars: 5 })}
                     onItemFailed={() => send({ type: "rate", stars: 1 })}
                     onExitActivity={() => send({ type: "exitActivity" })}
+                    onSetStoryFocus={(focus) => send({ type: "setStoryFocus", focus })}
                   />
                 </Stage>
               ) : (

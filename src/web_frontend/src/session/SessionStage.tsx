@@ -1,5 +1,5 @@
 import type { FontKey } from "@reading_app/utils/fonts";
-import type { LessonState as BackendLessonState } from "@backend/sessions/types";
+import type { LessonState as BackendLessonState, StoryFocus } from "@backend/sessions/types";
 import type { SessionLesson, SessionLessonActivity } from "./lessonAdapter";
 import "../reading_exercise/reading-exercise.css";
 import "../activities/activities.css";
@@ -48,6 +48,7 @@ interface StageProps {
   onItemDone?: () => void;
   onItemFailed?: () => void;
   onExitActivity?: () => void;
+  onSetStoryFocus?: (focus: StoryFocus | null) => void;
 }
 
 export function SessionStage({
@@ -60,6 +61,7 @@ export function SessionStage({
   onItemDone,
   onItemFailed,
   onExitActivity,
+  onSetStoryFocus,
 }: StageProps) {
   const state = toLessonState(lessonState);
 
@@ -82,6 +84,8 @@ export function SessionStage({
       onItemDone,
       onItemFailed,
       onExitActivity,
+      storyFocus: lessonState.storyFocus,
+      onSetStoryFocus,
     });
   }
 
@@ -135,6 +139,8 @@ interface ActivityOpts {
   onItemDone?: () => void;
   onItemFailed?: () => void;
   onExitActivity?: () => void;
+  storyFocus?: StoryFocus | null;
+  onSetStoryFocus?: (focus: StoryFocus | null) => void;
 }
 
 function renderActivity(
@@ -236,6 +242,8 @@ function renderActivity(
           input={activity.input}
           role={role}
           font={font}
+          storyFocus={opts.storyFocus}
+          onSetStoryFocus={opts.onSetStoryFocus}
           onComplete={onItemDone}
           onExit={onExitActivity}
         />

@@ -10,7 +10,7 @@ import { useCurriculumFonts } from "../curriculumFonts";
 export default function StudentSessionPage() {
   useCurriculumFonts();
   const { code } = useParams<{ code: string }>();
-  const { state, status } = useSession(code, "student");
+  const { state, status, send } = useSession(code, "student");
   const [lessonCache, setLessonCache] = useState<Record<number, SessionLesson>>({});
   const [error, setError] = useState<string | null>(null);
 
@@ -51,6 +51,7 @@ export default function StudentSessionPage() {
             lesson={currentContent}
             role="student"
             font={state?.font}
+            onSetStoryFocus={(focus) => send({ type: "setStoryFocus", focus })}
           />
         </Stage>
       )}
