@@ -4,6 +4,7 @@
     "target": "ESNext",
     "lib": ["ESNext"],
     "types": ["bun"],
+    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true
   },
   "include": ["src/**/*"],

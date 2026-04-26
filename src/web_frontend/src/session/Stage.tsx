@@ -3,12 +3,12 @@ import "../reading_exercise/reading-exercise.css";
 
 interface Props {
   children: React.ReactNode;
-  containerRef?: React.RefObject<HTMLDivElement | null>;
+  containerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export function Stage({ children, containerRef: externalRef }: Props) {
-  const internalWrapRef = useRef<HTMLDivElement | null>(null);
-  const stageRef = useRef<HTMLDivElement | null>(null);
+  const internalWrapRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const wrapRef = externalRef ?? internalWrapRef;
 
   useLayoutEffect(() => {

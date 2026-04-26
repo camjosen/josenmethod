@@ -1,4 +1,5 @@
 import type { ReadSoundsToolInput } from "@reading_app/tools/ReadSoundsTool/ReadSoundsTool";
+import type { SoundIntroductionToolInput } from "@reading_app/tools/SoundIntroductionTool/SoundIntroductionTool";
 import type { ReadWordsToolInput } from "@reading_app/tools/ReadWordsTool/ReadWordsTool";
 import type { RhymingToolInput } from "@reading_app/tools/RhymingTool/RhymingTool";
 import type { VerbalBlendingInput } from "@reading_app/tools/VerbalBleningTool.ts/VerbalBleningTool";
@@ -7,6 +8,7 @@ import type { StoryToolInput } from "@reading_app/tools/StoryTool/StoryTool";
 
 export type SessionLessonActivity =
   | { id: string; toolName: "ReadSounds"; input: ReadSoundsToolInput; itemCount: number }
+  | { id: string; toolName: "SoundIntroduction"; input: SoundIntroductionToolInput; itemCount: number }
   | { id: string; toolName: "ReadWords"; input: ReadWordsToolInput; itemCount: number }
   | { id: string; toolName: "Rhyming"; input: RhymingToolInput; itemCount: number }
   | { id: string; toolName: "VerbalBlending"; input: VerbalBlendingInput; itemCount: number }
@@ -24,17 +26,24 @@ export interface BackendLessonDetail {
   activities: Array<{ name: string; input: unknown }>;
 }
 
-function itemsLength(input: unknown): number {
+function itemsLength(name: string, input: unknown): number {
+  if (name === "Story") {
+    const i = input as { content: { paragraphs: unknown[] }; secondReading?: unknown };
+    const passes = i.secondReading != null ? 2 : 1;
+    return i.content.paragraphs.length * passes;
+  }
   const items = (input as { items?: unknown }).items;
   return Array.isArray(items) ? items.length : 1;
 }
 
 function toActivity(name: string, input: unknown, i: number): SessionLessonActivity {
   const id = `a${i}`;
-  const itemCount = itemsLength(input);
+  const itemCount = itemsLength(name, input);
   switch (name) {
     case "ReadSounds":
       return { id, toolName: "ReadSounds", input: input as ReadSoundsToolInput, itemCount };
+    case "SoundIntroduction":
+      return { id, toolName: "SoundIntroduction", input: input as SoundIntroductionToolInput, itemCount };
     case "ReadWords":
       return { id, toolName: "ReadWords", input: input as ReadWordsToolInput, itemCount };
     case "Rhyming":

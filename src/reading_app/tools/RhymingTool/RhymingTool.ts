@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 import { wordSchema } from "../../utils/words.ts";
 import { soundDefinitionSchema } from "../../utils/sounds.ts";
-import { Tool } from "../../../tools/Tool.ts";
+import type { Tool } from "../../../tools/Tool.ts";
 import {
   RHYMING_TOOL_DESCRIPTION,
   RHYMING_TOOL_NAME,

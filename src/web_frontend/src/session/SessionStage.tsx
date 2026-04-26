@@ -9,11 +9,12 @@ import { Medallion } from "../reading_exercise/Medallion";
 import { itemStatus, type ItemResult, type LessonState } from "../reading_exercise/state";
 import { ItemActivity, type Role } from "../activities/ItemActivity";
 import { ReadSoundsItem } from "../activities/items/ReadSoundsItem";
+import { SoundIntroductionItem } from "../activities/items/SoundIntroductionItem";
 import { ReadWordsItem } from "../activities/items/ReadWordsItem";
 import { RhymingItem, rhymeTeacherExtra } from "../activities/items/RhymingItem";
 import { VerbalBlendingItem, blendingTeacherExtra } from "../activities/items/VerbalBlendingItem";
 import { WritingItem } from "../activities/items/WritingItem";
-import { StoryItem, storyTeacherExtra } from "../activities/items/StoryItem";
+import { StoryItem, buildStoryItems, storyTeacherExtra } from "../activities/items/StoryItem";
 
 function toLessonState(s: SessionState): LessonState {
   const itemResults: Record<number, Record<number, ItemResult>> = {};
@@ -35,6 +36,7 @@ function toLessonState(s: SessionState): LessonState {
 
 const TOOL_GLYPH: Record<SessionLessonActivity["toolName"], ReactNode> = {
   ReadSounds: Glyphs.listen,
+  SoundIntroduction: Glyphs.listen,
   ReadWords: Glyphs.read,
   Rhyming: Glyphs.speak,
   VerbalBlending: Glyphs.speak,
@@ -176,6 +178,16 @@ function renderActivity(
           renderItem={(sound, ctx) => <ReadSoundsItem sound={sound} ctx={ctx} />}
         />
       );
+    case "SoundIntroduction":
+      return (
+        <ItemActivity
+          {...common}
+          toolName="SoundIntroduction"
+          items={[activity.input.sound]}
+          flow={[]}
+          renderItem={(sound, ctx) => <SoundIntroductionItem sound={sound} ctx={ctx} />}
+        />
+      );
     case "ReadWords":
       return (
         <ItemActivity
@@ -223,25 +235,22 @@ function renderActivity(
           renderItem={(task, ctx) => <WritingItem task={task} ctx={ctx} />}
         />
       );
-    case "Story":
+    case "Story": {
+      const storyInput = activity.input;
+      const storyItems = buildStoryItems(storyInput);
       return (
         <ItemActivity
           {...common}
           toolName="Story"
-          items={activity.input.items}
+          items={storyItems}
           flow={[]}
-          renderItem={(mode, ctx) => (
-            <StoryItem
-              mode={mode}
-              content={activity.input.content}
-              markup={activity.input.markup}
-              focusWords={activity.input.focusWords}
-              ctx={ctx}
-            />
+          renderItem={(itemRef, ctx) => (
+            <StoryItem itemRef={itemRef} input={storyInput} ctx={ctx} />
           )}
-          teacherExtraFor={(mode) => storyTeacherExtra(mode, activity.input.content)}
+          teacherExtraFor={(itemRef) => storyTeacherExtra(itemRef, storyInput)}
         />
       );
+    }
   }
 }
 

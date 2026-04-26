@@ -1,5 +1,7 @@
-import { sounds as s, SoundDefinition } from "./sounds.ts";
-import { words as w, Word } from "./words.ts";
+import { sounds as s } from "./sounds.ts";
+import type { SoundDefinition } from "./sounds.ts";
+import { words as w } from "./words.ts";
+import type { Word } from "./words.ts";
 
 type RhymeItem = {
   startingSound: SoundDefinition;

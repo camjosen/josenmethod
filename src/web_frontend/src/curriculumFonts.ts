@@ -9,13 +9,12 @@ const stylesheetHref = `https://fonts.googleapis.com/css2?family=${fontKeySchema
 export function useCurriculumFonts() {
   useEffect(() => {
     if (document.querySelector("link[data-curriculum-fonts]")) return;
-    const links = (
-      [
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-        { rel: "stylesheet", href: stylesheetHref },
-      ] as const
-    ).map(({ rel, href, crossOrigin }) => {
+    const linkSpecs: Array<{ rel: string; href: string; crossOrigin?: string }> = [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: stylesheetHref },
+    ];
+    const links = linkSpecs.map(({ rel, href, crossOrigin }) => {
       const el = document.createElement("link");
       el.rel = rel;
       el.href = href;

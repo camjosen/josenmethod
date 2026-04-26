@@ -1,3 +1,4 @@
 import { ReadSoundsTool } from "./ReadSoundsTool/ReadSoundsTool";
+import { SoundIntroductionTool } from "./SoundIntroductionTool/SoundIntroductionTool";
 
-export const Tools = [ReadSoundsTool];
+export const Tools = [SoundIntroductionTool, ReadSoundsTool];

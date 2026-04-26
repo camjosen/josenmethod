@@ -184,21 +184,34 @@
   line-height: 1.35;
   letter-spacing: normal;
 }
-.jm-story-mode-tag {
-  position: absolute;
-  top: 12px;
-  right: 16px;
+.jm-story-text {
+  font-family: var(--re-font-text);
+  color: var(--re-ink);
+  line-height: 1.35;
+}
+.jm-story-paragraph-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.jm-story-chevron {
+  font-size: 64px;
+  line-height: 1;
+  color: var(--re-ink-3);
+  user-select: none;
+  flex: 0 0 auto;
+}
+.jm-story-chevron.disabled {
+  opacity: 0.15;
+}
+.jm-story-paragraph-progress {
+  margin-top: 16px;
   font-family: var(--re-font-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--re-ink-3);
-  opacity: 0.75;
-}
-.jm-story-text {
-  font-family: var(--re-font-text);
-  color: var(--re-ink);
-  line-height: 1.35;
+  text-align: center;
 }
 .jm-story-title {
   margin: 0 0 24px;
@@ -259,6 +272,17 @@
   text-transform: uppercase;
   color: var(--re-ink-3);
   margin-bottom: 4px;
+}
+.jm-story-questions-sentence {
+  margin-top: 6px;
+}
+.jm-story-questions-sentence-label {
+  font-family: var(--re-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--re-ink-3);
+  opacity: 0.8;
 }
 .jm-story-questions ul {
   margin: 0;

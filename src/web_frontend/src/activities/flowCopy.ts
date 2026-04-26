@@ -1,5 +1,6 @@
 export type ToolName =
   | "ReadSounds"
+  | "SoundIntroduction"
   | "ReadWords"
   | "Rhyming"
   | "VerbalBlending"
@@ -13,10 +14,12 @@ interface FlowCopy {
 
 const FLOW_COPY: Record<ToolName, Record<string, FlowCopy>> = {
   ReadSounds: {
-    introduction: { label: "Introduce", teacher: "Introduce the sound to the student." },
     reintroduction: { label: "Reintroduce", teacher: "Reintroduce the sound without the full intro." },
     say_it_slowly: { label: "Slowly", teacher: "Student says the sound slowly (hold it)." },
     say_it_fast: { label: "Fast", teacher: "Student says the sound the normal way." },
+  },
+  SoundIntroduction: {
+    // No flow steps — the whole activity is a single introduction.
   },
   ReadWords: {
     recall_sounds: { label: "Recall sounds", teacher: "Student recalls each sound in turn." },

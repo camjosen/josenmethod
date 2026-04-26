@@ -24,11 +24,18 @@ export function getLessonShape(idx: number): LessonShape | null {
   if (!lesson) return null;
   return {
     title: lesson.title,
-    activityCounts: lesson.activities.map((a) => {
-      const input = a[1] as { items?: unknown[] };
-      return Array.isArray(input.items) ? input.items.length : 1;
-    }),
+    activityCounts: lesson.activities.map(([name, input]) => activityItemCount(name, input)),
   };
+}
+
+function activityItemCount(name: string, input: unknown): number {
+  if (name === "Story") {
+    const i = input as { content: { paragraphs: unknown[] }; secondReading?: unknown };
+    const passes = i.secondReading != null ? 2 : 1;
+    return i.content.paragraphs.length * passes;
+  }
+  const items = (input as { items?: unknown }).items;
+  return Array.isArray(items) ? items.length : 1;
 }
 
 export function getLessonDetail(idx: number) {

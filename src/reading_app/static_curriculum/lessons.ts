@@ -1,5 +1,6 @@
 import { VerbalBlending } from "../tools/VerbalBleningTool.ts/VerbalBleningTool.ts";
 import { ReadSoundsTool } from "../tools/ReadSoundsTool/ReadSoundsTool.ts";
+import { SoundIntroductionTool } from "../tools/SoundIntroductionTool/SoundIntroductionTool.ts";
 import { ReadWordsTool } from "../tools/ReadWordsTool/ReadWordsTool.ts";
 import { RhymingTool } from "../tools/RhymingTool/RhymingTool.ts";
 import { StoryTool } from "../tools/StoryTool/StoryTool.ts";
@@ -9,7 +10,7 @@ import { words as w, pseudoWords as pw } from "../utils/words.ts";
 import { rhymes as r } from "../utils/rhymes.ts";
 import { z } from "zod/v4";
 
-const tools = [VerbalBlending, ReadSoundsTool, ReadWordsTool, RhymingTool, WritingTool, StoryTool] as const;
+const tools = [VerbalBlending, SoundIntroductionTool, ReadSoundsTool, ReadWordsTool, RhymingTool, WritingTool, StoryTool] as const;
 type AnyTool = (typeof tools)[number];
 type ActivityFor<T> = T extends AnyTool ? [T["name"], z.infer<T["inputSchema"]>] : never;
 type Activity = ActivityFor<AnyTool>;
@@ -18,7 +19,9 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 1",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.m, s.s] }],
+      ["SoundIntroduction", { sound: s.m }],
+      ["SoundIntroduction", { sound: s.s }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.m, s.s] }],
       ["VerbalBlending", { flow: ["guided_blending", "say_it_fast"], items: [["motor", "boat"], ["ice", "cream"], ["sis", "ter"], ["ham", "burger"], w.me, w.if] }],
       ["VerbalBlending", { flow: ["guided_blending", "blend"], items: [w.am, w.if, w.in] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.s] }],
@@ -41,7 +44,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 3",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.a] }],
+      ["SoundIntroduction", { sound: s.a }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.a] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.s] }],
       ["VerbalBlending", { flow: ["blend"], items: [w.run, w.man, w.this, w.we] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.m, s.a, s.s] }],
@@ -64,7 +68,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 5",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.e_long] }],
+      ["SoundIntroduction", { sound: s.e_long }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.e_long] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.a, s.s, s.m, s.e_long] }],
       ["VerbalBlending", { flow: ["blend"], items: [w.me, w.see, w.that, w.we, w.and, w.am, w.eat, w.if] }],
       ["VerbalBlending", { flow: ["blend", "say_it_fast"], items: [w.see, w.that, w.if, w.at, w.am] }],
@@ -91,7 +96,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 7",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.t] }],
+      ["SoundIntroduction", { sound: s.t }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.t] }],
       ["ReadSounds", { flow: ["say_it_slowly", "say_it_fast"], items: [s.e_long, s.s, s.m, s.a] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], modifications: ["teacher_models"], items: [r.s_ee, r.s_at, r.s_eat, r.s_een] }],
       ["VerbalBlending", { flow: ["blend"], items: [w.see, w.feet, w.seat, w.meat, w.sat, w.at, w.seen] }],
@@ -118,7 +124,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 9",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.r] }],
+      ["SoundIntroduction", { sound: s.r }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.r] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.m, s.a, s.s, s.e_long, s.t, s.r] }],
       ["VerbalBlending", { flow: ["say_it_fast"], items: [w.rat, w.road, w.run, w.ram, w.am, w.mean, w.eat, w.seat] }],
       ["ReadWords", { flow: ["recall_sounds", "teacher_blends", "blend", "say_it_fast"], items: [w.mat, w.sat, w.am] }],
@@ -162,7 +169,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 12",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.d] }],
+      ["SoundIntroduction", { sound: s.d }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.d] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.a, s.e_long, s.t, s.r, s.d] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_eed, r.s_eed] }],
       ["VerbalBlending", { flow: ["blend", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.read, w.seed, w.sad, w.seat, w.mad] }],
@@ -185,9 +193,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
           content: { paragraphs: [{ sentences: [{ words: [w.see, w.me, w.eat, "."] }] }] },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+              modelItFirst: "full_story",
+            },
+          },
         },
       ],
       ["Writing", { items: [s.s, s.d] }],
@@ -196,7 +221,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 14",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.i] }],
+      ["SoundIntroduction", { sound: s.i }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.i] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.d, s.t, s.e_long, s.i] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.s_eed, r.r_eed] }],
       ["VerbalBlending", { flow: ["blend", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.seed, w.read, w.sad, w.ear] }],
@@ -205,9 +231,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
           content: { paragraphs: [{ sentences: [{ words: [w.see, w.me, w.read, "."] }] }] },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+              modelItFirst: "full_story",
+            },
+          },
         },
       ],
       ["Writing", { items: [s.i, s.e_long] }],
@@ -224,9 +267,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
           content: { paragraphs: [{ sentences: [{ words: [w.mad, w.at, w.me, "."] }] }] },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+              modelItFirst: "full_story",
+            },
+          },
         },
       ],
       ["Writing", { items: [s.r, s.t] }],
@@ -235,7 +295,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 16",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.th] }],
+      ["SoundIntroduction", { sound: s.th }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.th] }],
       ["ReadSounds", { flow: ["say_it_slowly"], modifications: ["require_touch"], items: [s.i, s.th, s.r, s.t] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.d, s.e_long] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], modifications: ["repeat_until_firm"], items: [w.is, w.it, w.sat, w.ear, w.meet, w.seem, w.read] }],
@@ -244,9 +305,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
           content: { paragraphs: [{ sentences: [{ words: [w.read, w.it, "."] }] }] },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+              modelItFirst: "full_story",
+            },
+          },
         },
       ],
       ["Writing", { items: [s.d, s.i] }],
@@ -263,9 +341,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "teacher_models_say_it_fast"],
           content: { paragraphs: [{ sentences: [{ words: [w.this, w.rat, w.is, w.sad, "."] }] }] },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+              modelItFirst: "full_story",
+            },
+          },
         },
       ],
       ["Writing", { items: [s.s, s.e_long] }],
@@ -281,10 +376,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
           content: { paragraphs: [{ sentences: [{ words: [w.sam, w.is, w.mad, w.at, w.me, "."] }] }] },
-          focusWords: [w.at, w.me],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.at, w.me]
         },
       ],
       ["Writing", { items: [s.m, s.a] }],
@@ -293,7 +404,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 19",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.c] }],
+      ["SoundIntroduction", { sound: s.c }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.c] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.r, s.th, s.t, s.m, s.d, s.c] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.is] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.at, w.that, w.ear, w.the, w.mitt, w.rid] }],
@@ -302,10 +414,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
           content: { paragraphs: [{ sentences: [{ words: [w.see, w.the, w.ram, w.sit, "."] }] }] },
-          focusWords: [w.sit, w.the],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.sit, w.the]
         },
       ],
       ["Writing", { items: [s.d, s.r] }],
@@ -322,10 +450,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "guided_sound_it_out", "guided_say_it_fast", "word_finding"],
           content: { paragraphs: [{ sentences: [{ words: [w.the, w.ram, w.is, w.sad, "."] }] }] },
-          focusWords: [w.ram, w.is],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.ram, w.is]
         },
       ],
       ["Writing", { items: [s.c, s.d] }],
@@ -334,7 +478,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 21",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.o] }],
+      ["SoundIntroduction", { sound: s.o }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.o] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.e_long, s.d, s.i, s.th, s.c] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.sick, w.rack, w.this, w.am, w.mad, w.meet, w.cat, w.that] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.r_un, r.s_un, r.d_one] }],
@@ -342,19 +487,35 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
             paragraphs: [
               {
                 sentences: [
-                  { words: [w.this, w.cat, w.is, w.sick, "."], questions: ["How does the cat feel?"] },
-                  { words: [w.this, w.cat, w.is, w.sad, "."], questions: ["What else do you know about the cat?", "Why is the cat sad?"] },
+                  { words: [w.this, w.cat, w.is, w.sick, "."], secondReadingQuestions: ["How does the cat feel?"] },
+                  { words: [w.this, w.cat, w.is, w.sad, "."], secondReadingQuestions: ["What else do you know about the cat?", "Why is the cat sad?"] },
                 ],
               },
             ],
           },
-          focusWords: [w.sick, w.sad],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.sick, w.sad]
         },
       ],
       ["Writing", { items: [s.i, s.t] }],
@@ -371,25 +532,41 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
             paragraphs: [
               {
                 sentences: [
                   {
                     words: [w.this, w.is, w.a, w.seed, "."],
-                    questions: ["What is that?"],
+                    secondReadingQuestions: ["What is that?"],
                   },
                   {
                     words: [w.see, w.a, w.ram, w.eat, w.it, "."],
-                    questions: ["What is the ram eating?", "Who is eating a seed?"],
+                    secondReadingQuestions: ["What is the ram eating?", "Who is eating a seed?"],
                   },
                 ],
               },
             ],
           },
-          focusWords: [w.a, w.see, w.that, w.a, w.that, w.a, w.see, w.that, w.see],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.a, w.see, w.that, w.a, w.that, w.a, w.see, w.that, w.see]
         },
       ],
       ["Writing", { items: [s.o, s.c] }],
@@ -398,7 +575,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 23",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.n] }],
+      ["SoundIntroduction", { sound: s.n }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.n] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.o, s.c, s.th, s.i, s.d] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.rock, w.rod, w.sack, w.sock, w.sick, w.meet, w.cat, w.that] }],
       ["Rhyming", { flow: ["read_start", "hear_ending", "blend", "say_it_fast"], items: [r.m_oo, r.t_oo, r.d_o] }],
@@ -406,12 +584,28 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows", "dots"],
-          items: ["guided_sound_it_out", "say_it_fast_with_questions", "say_it_fast", "say_it_fast_with_questions"],
           content: {
             paragraphs: [{ sentences: [{ words: [w.this, w.is, w.a, w.rock, "."] }, { words: [w.sam, w.is, w.at, w.the, w.rock, "."] }] }],
           },
-          focusWords: [w.is, w.sam, w.is, w.rock, w.is, w.sam, w.rock, w.rock, w.is, w.sam],
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
+          },
+          // focusWords (for word_finding — preserve for later): [w.is, w.sam, w.is, w.rock, w.is, w.sam, w.rock, w.rock, w.is, w.sam]
         },
       ],
       ["Writing", { items: [s.r, s.o] }],
@@ -421,7 +615,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 52",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.e] }],
+      ["SoundIntroduction", { sound: s.e }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.e] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.e_long, s.ch, s.p, s.v, s.e, s.o_long, s.k] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.shop, w.chop, w.came] }], // dots removed except for under "ar"
       ["ReadWords", { flow: ["say_it_fast"], items: [w.cars, w.park, w.are, w.dog, w.cops, w.fog, w.log, w.to, w.goat] }],
@@ -429,20 +624,18 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows"],
-          items: ["sound_it_out", "say_it_fast_with_questions"],
           content: {
             paragraphs: [
               {
                 sentences: [
                   {
                     words: [w.a, w.dog, w.was, w.in, w.the, w.fog, "."],
-                    questions: ["What's a fog?"],
+                    secondReadingQuestions: ["What's a fog?"],
                   },
                   { words: [w.a, w.cat, w.was, w.in, w.the, w.fog, "."] },
                   {
                     words: [w.a, w.goat, w.was, w.in, w.the, w.fog, "."],
-                    questions: ["Name everybody who was in the fog."],
+                    secondReadingQuestions: ["Name everybody who was in the fog."],
                   },
                 ],
               },
@@ -451,7 +644,7 @@ export const lessons: { title: string; activities: Activity[] }[] = [
                 sentences: [
                   {
                     words: [w.the, w.cat, w.and, w.the, w.dog, w.sat, w.on, w.the, w.log, "."],
-                    questions: ["Who sat on the log?", "Who didn't sit on the log?"],
+                    secondReadingQuestions: ["Who sat on the log?", "Who didn't sit on the log?"],
                   },
                   { words: [w.the, w.dog, w.and, w.the, w.cat, w.said, ",", '"', w.we, w.are, w.on, w.the, w.log, ".", '"'] },
                 ],
@@ -460,11 +653,28 @@ export const lessons: { title: string; activities: Activity[] }[] = [
                 sentences: [
                   {
                     words: [w.the, w.goat, w.said, ",", '"', w.I, w.am, w.not, w.on, w.the, w.log, ".", w.I, w.am, w.in, w.the, w.log, ".", w.he, w.he, ".", '"'],
-                    questions: ['Why is he laughing and saying "he he"?'],
+                    secondReadingQuestions: ['Why is he laughing and saying "he he"?'],
                   },
                 ],
               },
             ],
+          },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+              directStudentAttention: "each_word",
+            },
           },
         },
       ],
@@ -482,22 +692,20 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows"],
-          items: ["title_reading", "sound_it_out", "say_it_fast_with_questions"],
           content: {
-            title: { words: [w.lots, w.of, w.cars] },
+            title: { words: [w.lots, w.of, w.cars], secondReadingQuestions: ["What do you think this story is about?"] },
             paragraphs: [
               {
                 sentences: [
-                  { words: [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."], questions: ["What does he have?"] },
+                  { words: [w.a, w.man, w.on, w.a, w.farm, w.has, w.lots, w.of, w.cars, "."], secondReadingQuestions: ["What does he have?"] },
                   { words: [w.he, w.has, w.old, w.cars, "."] },
-                  { words: [w.he, w.has, w.little, w.cars, "."], questions: ["What kinds of cars does he have?"] },
+                  { words: [w.he, w.has, w.little, w.cars, "."], secondReadingQuestions: ["What kinds of cars does he have?"] },
                 ],
               },
               {
                 sentences: [
-                  { words: [w.are, w.his, w.cars, w.for, w.goats, "?"], questions: ["What do you think?"] },
-                  { words: [w.no, "."], questions: ["Are they for goats?"] },
+                  { words: [w.are, w.his, w.cars, w.for, w.goats, "?"], secondReadingQuestions: ["What do you think?"] },
+                  { words: [w.no, "."], secondReadingQuestions: ["Are they for goats?"] },
                   { words: [w.are, w.his, w.cars, w.for, w.sheep, "?"] },
                   { words: [w.no, "."] },
                   { words: [w.are, w.his, w.cars, w.for, w.cows, "?"] },
@@ -507,10 +715,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
               {
                 sentences: [
                   { words: [w.his, w.cars, w.are, w.for, w.cops, "."] },
-                  { words: [w.he, w.has, w.lots, w.of, w.cop, w.cars, "."], questions: ["What kinds of cars does he have?"] },
+                  { words: [w.he, w.has, w.lots, w.of, w.cop, w.cars, "."], secondReadingQuestions: ["What kinds of cars does he have?"] },
                 ],
               },
             ],
+          },
+          firstReading: {
+            fluencyExpectation: "beginner:sound_out_each_word",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
           },
         },
       ],
@@ -521,7 +745,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 58",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly", "say_it_slowly"], items: [s.i_long] }],
+      ["SoundIntroduction", { sound: s.i_long }],
+      ["ReadSounds", { flow: ["say_it_slowly", "say_it_slowly"], items: [s.i_long] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.i, s.b, s.e, s.i_long, s.ch, s.o_long] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.be, w.big, w.getting, w.bit, w.leaf, w.eating, w.bugs] }],
       ["ReadWords", { flow: ["say_it_fast"], items: [w.did, w.hit, w.then, w.dog, w.log, w.him, w.now, w.how] }],
@@ -529,40 +754,34 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows"],
-          items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            title: { words: [w.a, w.bug, w.and, w.a, w.dog] },
+            title: { words: [w.a, w.bug, w.and, w.a, w.dog], secondReadingQuestions: ["What do you think this story is about?"] },
             paragraphs: [
               {
                 sentences: [
                   { words: [w.a, w.bug, w.and, w.a, w.dog, w.sat, w.on, w.a, w.log, "."] },
                   {
                     words: [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.is, w.so, w.little, w.I, w.can, w.not, w.see, w.him, w.on, w.this, w.log, ".", '"'],
-                    questions: ["Why couldn't the dog see the bug?"],
+                    secondReadingQuestions: ["Why couldn't the dog see the bug?"],
                   },
                 ],
               },
               {
-                sentences: [
-                  { words: [w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"'] },
-                ],
+                sentences: [{ words: [w.the, w.bug, w.said, ",", '"', w.I, w.am, w.big, ".", '"'] }],
               },
               {
-                sentences: [
-                  { words: [w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"'] },
-                ],
+                sentences: [{ words: [w.the, w.dog, w.said, ",", '"', w.he, w.is, w.not, w.big, ".", '"'] }],
               },
               {
                 sentences: [
                   {
                     words: [w.the, w.bug, w.said, ",", '"', w.I, w.will, w.eat, w.this, w.log, ".", '"'],
-                    questions: ["What did the bug say?"],
+                    secondReadingQuestions: ["What did the bug say?"],
                   },
                   { words: [w.and, w.he, w.did, "."] },
                   {
                     words: [w.he, w.bit, w.and, w.bit, w.and, w.bit, w.at, w.the, w.log, "."],
-                    questions: ["What did the bug do?"],
+                    secondReadingQuestions: ["What did the bug do?"],
                   },
                   { words: [w.the, w.bug, w.said, ",", '"', w.now, w.that, w.dog, w.can, w.see, w.how, w.big, w.I, w.am, ".", '"'] },
                 ],
@@ -571,11 +790,27 @@ export const lessons: { title: string; activities: Activity[] }[] = [
                 sentences: [
                   {
                     words: [w.the, w.dog, w.said, ",", '"', w.that, w.bug, w.can, w.eat, w.logs, ".", w.he, w.is, w.a, w.big, ",", w.big, w.bug, ".", '"'],
-                    questions: [`Why did the dog say, "He is a big, big bug?"`],
+                    secondReadingQuestions: [`Why did the dog say, "He is a big, big bug?"`],
                   },
                 ],
               },
             ],
+          },
+          firstReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
           },
         },
       ],
@@ -592,39 +827,48 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows"],
-          items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            title: { words: [w.the, w.bugs] },
+            title: { words: [w.the, w.bugs], secondReadingQuestions: ["What do you think this story is about?"] },
             paragraphs: [
               {
                 sentences: [
                   { words: [w.a, w.big, w.bug, w.met, w.a, w.little, w.bug, "."] },
-                  { words: [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'], questions: ["Did the big bug want to eat?"] },
-                  { words: [w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], questions: ["What did the big bug eat?"] },
+                  { words: [w.the, w.big, w.bug, w.said, ",", '"', w.let_s, w.go, w.eat, ".", '"'], secondReadingQuestions: ["Did the big bug want to eat?"] },
+                  { words: [w.so, w.the, w.big, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], secondReadingQuestions: ["What did the big bug eat?"] },
                   { words: [w.the, w.big, w.bug, w.said, ",", '"', w.that, w.is, w.how, w.big, w.bugs, w.eat, ".", '"'] },
                 ],
               },
               {
                 sentences: [
                   { words: [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.I, w.will, w.eat, ".", '"'] },
-                  { words: [w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], questions: ["What did the little bug eat?"] },
-                  { words: [w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, "."], questions: ["Did she eat the log?"] },
-                  { words: [w.then, w.she, w.ate, w.ten, w.more, w.logs, "."], questions: ["Then what did she eat?"] },
+                  { words: [w.so, w.the, w.little, w.bug, w.ate, w.a, w.leaf, w.and, w.a, w.nut, w.and, w.a, w.rock, "."], secondReadingQuestions: ["What did the little bug eat?"] },
+                  { words: [w.then, w.the, w.little, w.bug, w.went, w.to, w.a, w.log, w.and, w.ate, w.the, w.log, "."], secondReadingQuestions: ["Did she eat the log?"] },
+                  { words: [w.then, w.she, w.ate, w.ten, w.more, w.logs, "."], secondReadingQuestions: ["Then what did she eat?"] },
                 ],
               },
               {
-                sentences: [
-                  { words: ['"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, "."] },
-                  { words: ['"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"'] },
-                ],
+                sentences: [{ words: ['"', w.wow, ",", '"', w.the, w.big, w.bug, w.said, "."] }, { words: ['"', w.that, w.little, w.bug, w.can, w.eat, w.a, w.lot, ".", '"'] }],
               },
               {
-                sentences: [
-                  { words: [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"'], questions: ["What did the little bug say?"] },
-                ],
+                sentences: [{ words: [w.the, w.little, w.bug, w.said, ",", '"', w.now, w.let_s, w.eat, w.more, ".", '"'], secondReadingQuestions: ["What did the little bug say?"] }],
               },
             ],
+          },
+          firstReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
           },
         },
       ],
@@ -634,7 +878,8 @@ export const lessons: { title: string; activities: Activity[] }[] = [
   {
     title: "Lesson 60",
     activities: [
-      ["ReadSounds", { flow: ["introduction", "say_it_slowly"], items: [s.y] }],
+      ["SoundIntroduction", { sound: s.y }],
+      ["ReadSounds", { flow: ["say_it_slowly"], items: [s.y] }],
       ["ReadSounds", { flow: ["say_it_slowly"], items: [s.k, s.i, s.ing, s.b, s.e] }],
       ["ReadWords", { flow: ["sound_it_out", "sound_it_out", "say_it_fast"], modifications: ["teach_funny_words"], items: [w.walk, w.talk] }],
       ["ReadWords", { flow: ["sound_it_out", "say_it_fast"], items: [w.stop, w.big, w.sleep, w.bed, w.bite, w.rub, w.fishing, w.likes, w.five] }],
@@ -643,37 +888,29 @@ export const lessons: { title: string; activities: Activity[] }[] = [
       [
         "Story",
         {
-          markup: ["arrows"],
-          items: ["title_reading", "say_it_fast", "say_it_fast_with_questions"],
           content: {
-            title: { words: [w.the, w.man, w.and, w.his, w.bed] },
+            title: { words: [w.the, w.man, w.and, w.his, w.bed], secondReadingQuestions: ["What do you think this story is about?"] },
             paragraphs: [
               {
                 sentences: [
                   { words: [w.a, w.man, w.had, w.a, w.tub, "."] },
-                  { words: [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'], questions: ["What did the man say?"] },
+                  { words: [w.he, w.said, ",", '"', w.I, w.like, w.to, w.sit, w.in, w.this, w.tub, w.and, w.rub, ",", w.rub, ",", w.rub, ".", '"'], secondReadingQuestions: ["What did the man say?"] },
                 ],
               },
               {
                 sentences: [
-                  { words: [w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"'], questions: ["What did the man say?"] },
-                  { words: [w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, "."], questions: ["What was in his bed?"] },
+                  { words: [w.then, w.the, w.man, w.said, ",", '"', w.now, w.I, w.will, w.sleep, w.in, w.this, w.bed, ".", '"'], secondReadingQuestions: ["What did the man say?"] },
+                  { words: [w.but, w.a, w.dog, w.was, w.in, w.his, w.bed, "."], secondReadingQuestions: ["What was in his bed?"] },
                 ],
               },
               {
-                sentences: [
-                  { words: [w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"'] },
-                ],
+                sentences: [{ words: [w.the, w.dog, w.said, ",", '"', w.can, w.I, w.sleep, w.in, w.this, w.bed, "?", '"'] }],
               },
               {
-                sentences: [
-                  { words: [w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"'] },
-                ],
+                sentences: [{ words: [w.the, w.man, w.said, ",", '"', w.no, ",", w.go, w.sleep, w.in, w.the, w.tub, ".", '"'] }],
               },
               {
-                sentences: [
-                  { words: [w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"'], questions: ["Will the man let the dog sleep in the bed?"] },
-                ],
+                sentences: [{ words: [w.the, w.dog, w.said, ",", '"', w.I, w.like, w.to, w.sleep, w.in, w.beds, ".", '"'], secondReadingQuestions: ["Will the man let the dog sleep in the bed?"] }],
               },
               {
                 sentences: [
@@ -685,10 +922,26 @@ export const lessons: { title: string; activities: Activity[] }[] = [
                 sentences: [
                   { words: [w.the, w.dog, w.said, ",", '"', w.I, w.do, w.not, w.like, w.to, w.bite, ".", '"'] },
                   { words: [w.so, w.the, w.man, w.and, w.the, w.dog, w.went, w.to, w.sleep, "."] },
-                  { words: [w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, "."], questions: ["Does the dog like to bite?", "Did he bite the man?"] },
+                  { words: [w.and, w.the, w.dog, w.did, w.not, w.bite, w.the, w.man, "."], secondReadingQuestions: ["Does the dog like to bite?", "Did he bite the man?"] },
                 ],
               },
             ],
+          },
+          firstReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
+          },
+          secondReading: {
+            fluencyExpectation: "intermediate:say_each_word_the_fast_way",
+            scaffolding: {
+              disambiguateSounds: true,
+              visualizeBlending: true,
+              visualizeReadingDirection: true,
+            },
           },
         },
       ],

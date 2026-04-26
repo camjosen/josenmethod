@@ -10,7 +10,7 @@ export function isWsPath(pathname: string): boolean {
   return WS_PATH_RE.test(pathname);
 }
 
-export function handleUpgrade(req: Request, server: Server): Response | undefined {
+export function handleUpgrade(req: Request, server: Server<WsData>): Response | undefined {
   const url = new URL(req.url);
   const match = WS_PATH_RE.exec(url.pathname);
   if (!match) return new Response("Not found", { status: 404 });
@@ -23,7 +23,7 @@ export function handleUpgrade(req: Request, server: Server): Response | undefine
   const role = url.searchParams.get("role") === "teacher" ? "teacher" : "student";
   const data: WsData = { code, role };
 
-  if (server.upgrade<WsData>(req, { data })) {
+  if (server.upgrade(req, { data })) {
     return undefined;
   }
   return new Response("Upgrade failed", { status: 500 });
