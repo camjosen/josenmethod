@@ -37,7 +37,7 @@ export function StoryItem({ itemRef, input, ctx }: Props) {
         paragraphIdx={itemRef.paragraphIdx}
         paragraphCount={input.content.paragraphs.length}
         font={ctx.font}
-        fontSize={40}
+        fontSize={52}
       />
     </div>
   );

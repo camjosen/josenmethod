@@ -350,6 +350,12 @@
   place-items: center;
 }
 
+/* Story items need more canvas space — expand container for story activities */
+.re-item-container:has(.jm-story-item) {
+  width: 1220px;
+  height: 780px;
+}
+
 .re-item-word {
   font-family: var(--re-font-display);
   font-weight: 500;
