@@ -1,3 +1,5 @@
+import type { FontKey } from "../../../reading_app/utils/fonts.ts";
+
 export type Role = "teacher" | "student";
 
 export type Screen = "lesson" | "activity" | "done";
@@ -26,6 +28,7 @@ export interface SessionState {
   lessons: Record<number, LessonState>;
   participantCount: number;
   createdAt: number;
+  font: FontKey;
 }
 
 export type ClientMsg =
@@ -36,6 +39,7 @@ export type ClientMsg =
   | { type: "advance" }
   | { type: "back" }
   | { type: "rate"; stars: 1 | 2 | 3 | 4 | 5 }
+  | { type: "setFont"; font: FontKey }
   | { type: "reset" };
 
 export type ServerMsg =

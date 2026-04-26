@@ -116,7 +116,7 @@ export function SessionStage({
                   <span className="re-lesson-row-status" aria-label="current">●</span>
                 )}
               </div>
-              <ActivityPreview activity={a} progress={progress} size="lg" />
+              <ActivityPreview activity={a} progress={progress} size="lg" font={font} />
             </div>
           );
         })}
@@ -149,7 +149,7 @@ function renderActivity(
     itemResults: state.itemResults[activityIdx] ?? {},
   };
   const topStrip = (
-    <ActivityPreview activity={activity} progress={progress} size="sm" />
+    <ActivityPreview activity={activity} progress={progress} size="sm" font={opts.font} />
   );
   const common = {
     state,

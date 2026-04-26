@@ -5,8 +5,10 @@ import { adaptLesson, type SessionLesson } from "../session/lessonAdapter";
 import { SessionStage } from "../session/SessionStage";
 import { Stage } from "../session/Stage";
 import { useSession } from "../session/useSession";
+import { useCurriculumFonts } from "../curriculumFonts";
 
 export default function StudentSessionPage() {
+  useCurriculumFonts();
   const { code } = useParams<{ code: string }>();
   const { state, status } = useSession(code, "student");
   const [lessonCache, setLessonCache] = useState<Record<number, SessionLesson>>({});
@@ -44,7 +46,12 @@ export default function StudentSessionPage() {
       )}
       {currentLesson && currentContent && (
         <Stage>
-          <SessionStage lessonState={currentLesson} lesson={currentContent} role="student" />
+          <SessionStage
+            lessonState={currentLesson}
+            lesson={currentContent}
+            role="student"
+            font={state?.font}
+          />
         </Stage>
       )}
     </div>

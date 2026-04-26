@@ -5,6 +5,8 @@ import { adaptLesson, type SessionLesson } from "../session/lessonAdapter";
 import { SessionStage } from "../session/SessionStage";
 import { Stage } from "../session/Stage";
 import { useSession } from "../session/useSession";
+import { useCurriculumFonts } from "../curriculumFonts";
+import { FontPicker } from "../reading_exercise/FontPicker";
 import type { ClientMsg, LessonState } from "@backend/sessions/types";
 
 function cursorKey(a: number, i: number) {
@@ -116,6 +118,7 @@ function LessonPicker({ lessons, visited, currentIdx, onPick }: PickerProps) {
 }
 
 export default function TeacherSessionPage() {
+  useCurriculumFonts();
   const { code } = useParams<{ code: string }>();
   const { state, status, send } = useSession(code, "teacher");
 
@@ -153,8 +156,17 @@ export default function TeacherSessionPage() {
         <div>
           Session <span className="font-mono font-bold tracking-widest">{code}</span>
         </div>
-        <div className="text-neutral-400">
-          {currentLesson?.lessonTitle ?? "No lesson selected"} · {status}
+        <div className="flex items-center gap-4">
+          <div className="re-root tc-fontpicker-host">
+            <FontPicker
+              font={state?.font ?? "serif"}
+              onChange={(font) => send({ type: "setFont", font })}
+              className="re-font-picker-inline"
+            />
+          </div>
+          <div className="text-neutral-400">
+            {currentLesson?.lessonTitle ?? "No lesson selected"} · {status}
+          </div>
         </div>
       </div>
 
@@ -177,6 +189,7 @@ export default function TeacherSessionPage() {
                     lessonState={currentLesson}
                     lesson={currentContent}
                     role="teacher"
+                    font={state?.font}
                     onEnterActivity={(idx) => send({ type: "enterActivity", activityIdx: idx })}
                     onResetLesson={() => send({ type: "reset" })}
                     onItemDone={() => send({ type: "rate", stars: 5 })}

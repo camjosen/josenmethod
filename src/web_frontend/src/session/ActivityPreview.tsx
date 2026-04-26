@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import type { FontKey } from "@reading_app/utils/fonts";
+import { fontMetadata } from "@reading_app/utils/fonts";
 import type { SoundDefinition } from "@reading_app/utils/sounds";
 import type { Word as WordData } from "@reading_app/utils/words";
 import type { StoryToolInput } from "@reading_app/tools/StoryTool/StoryTool";
@@ -19,6 +21,7 @@ export interface ActivityPreviewProps {
   activity: SessionLessonActivity;
   progress?: PreviewProgress;
   size?: PreviewSize;
+  font?: FontKey;
 }
 
 const FONT_SIZE: Record<PreviewSize, number> = { lg: 28, sm: 16 };
@@ -67,9 +70,11 @@ function storyHeadline(input: StoryToolInput): string {
   return `${text(first, 6)}…`;
 }
 
-export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPreviewProps) {
+export function ActivityPreview({ activity, progress, size = "lg", font }: ActivityPreviewProps) {
   const fontSize = FONT_SIZE[size];
   const cls = `jm-preview jm-preview-${size}`;
+  const textFontFamily =
+    font && font !== "custom" ? fontMetadata[font].fontFamily : "var(--re-font-display)";
 
   switch (activity.toolName) {
     case "SoundIntroduction":
@@ -78,6 +83,7 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
           <ItemSlot progress={progress} idx={0}>
             <Word
               word={soundToWord(activity.input.sound)}
+              font={font}
               fontSize={fontSize}
               showLongVowel
               showDigraph
@@ -91,7 +97,13 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
         <div className={cls}>
           {activity.input.items.map((sound, i) => (
             <ItemSlot key={i} progress={progress} idx={i}>
-              <Word word={soundToWord(sound)} fontSize={fontSize} showLongVowel showDigraph />
+              <Word
+                word={soundToWord(sound)}
+                font={font}
+                fontSize={fontSize}
+                showLongVowel
+                showDigraph
+              />
             </ItemSlot>
           ))}
         </div>
@@ -104,6 +116,7 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
             <ItemSlot key={i} progress={progress} idx={i}>
               <Word
                 word={word}
+                font={font}
                 fontSize={fontSize}
                 showLongVowel={false}
                 showDigraph={false}
@@ -123,6 +136,7 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
               <ItemSlot key={i} progress={progress} idx={i}>
                 <Word
                   word={word}
+                  font={font}
                   fontSize={fontSize}
                   showLongVowel={false}
                   showDigraph={false}
@@ -141,7 +155,7 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
             <ItemSlot key={i} progress={progress} idx={i}>
               <span
                 className="jm-preview-rhyme"
-                style={{ fontSize, fontFamily: "var(--re-font-display)" }}
+                style={{ fontSize, fontFamily: textFontFamily }}
               >
                 {rhyme.startingSound.characters}__
               </span>
@@ -172,7 +186,7 @@ export function ActivityPreview({ activity, progress, size = "lg" }: ActivityPre
       return (
         <div className={`${cls} jm-preview-story`}>
           <ItemSlot progress={progress} idx={0}>
-            <span style={{ fontSize, fontFamily: "var(--re-font-display)" }}>
+            <span style={{ fontSize, fontFamily: textFontFamily }}>
               {storyHeadline(activity.input)}
             </span>
           </ItemSlot>
